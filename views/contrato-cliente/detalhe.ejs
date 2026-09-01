@@ -1,0 +1,86 @@
+<%- include("../partials/head", {
+    titulo: "Contrato " + contrato.codigo + " • LYXUS Holding",
+    css: "contrato-cliente"
+}) %>
+
+<%- include("../partials/navbar") %>
+
+<main class="bg-contrato-cliente">
+
+    <section class="inst-secao claro" style="padding-top:130px;">
+
+        <div class="container container-estreito">
+
+            <div class="contrato-cliente-doc">
+
+                <div class="contrato-cliente-topo">
+                    <h2>LYXUS Holding</h2>
+                    <span>Contrato de Prestação de Serviços</span>
+                </div>
+
+                <div class="contrato-ficha">
+                    <div class="contrato-ficha-linha"><span>Código de contrato</span><strong><%= contrato.codigo %></strong></div>
+                    <div class="contrato-ficha-linha"><span>Empresa</span><strong><%= contrato.nomeEmpresa %></strong></div>
+                    <div class="contrato-ficha-linha"><span>Serviço</span><strong><%= contrato.tituloServico || "—" %></strong></div>
+                    <div class="contrato-ficha-linha"><span>Data de contrato</span><strong><%= new Date(contrato.dataContrato).toLocaleDateString("pt-BR") %></strong></div>
+                </div>
+
+                <h1 style="margin-top:30px;font-size:1.4rem;">Contrato</h1>
+
+                <% if(!paragrafos.length){ %>
+
+                    <div class="vazio" style="margin-top:16px;">Este contrato ainda não tem o texto preenchido.</div>
+
+                <% } else { %>
+
+                    <div class="contrato-cliente-paragrafos">
+
+                        <% paragrafos.forEach(function(p, i){ %>
+
+                            <div class="contrato-cliente-paragrafo">
+
+                                <p><%= p.texto %></p>
+
+                                <% if(p.artigo){ %>
+                                    <a href="#glossario-<%= p.slug %>" class="contrato-cliente-artigo"><%= p.artigo %></a>
+                                <% } %>
+
+                            </div>
+
+                        <% }) %>
+
+                    </div>
+
+                <% } %>
+
+                <% if(glossario.length){ %>
+
+                    <h2 id="sumario" style="margin-top:40px;font-size:1.2rem;">Sumário</h2>
+                    <p class="contrato-doc-ajuda">Explicação de cada artigo citado no contrato acima.</p>
+
+                    <div class="contrato-cliente-glossario">
+
+                        <% glossario.forEach(function(g){ %>
+
+                            <div id="glossario-<%= g.slug %>" class="contrato-cliente-glossario-item">
+                                <strong><%= g.artigo %></strong>
+                                <p><%= g.descricao %></p>
+                            </div>
+
+                        <% }) %>
+
+                    </div>
+
+                <% } %>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", { js: "" }) %>

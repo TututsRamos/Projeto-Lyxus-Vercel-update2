@@ -1,0 +1,938 @@
+/* ===== Hero padrão das páginas institucionais ===== */
+
+.inst-hero{
+
+    padding:160px 0 60px;
+
+    text-align:center;
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+
+        radial-gradient(circle at top right,#A678FF1f,transparent 45%),
+
+        var(--background);
+
+}
+
+/* Fundos temáticos das páginas institucionais — antes eram
+   imagens (papel de parede) muito carregadas de detalhe
+   (ícones, linhas, pontos). Trocado por composições de
+   "blobs" suaves em CSS puro, no estilo de referência que o
+   cliente pediu: poucas manchas de cor desfocadas sobre um
+   fundo liso, sem elementos gráficos extras.
+   Vantagens de ser CSS (não mais imagem):
+   - acompanha os temas (claro/escuro/invertido), porque usa
+     var(--background) por baixo;
+   - não tem custo de carregamento de imagem pesada;
+   - cobre qualquer altura de página com background-attachment
+     fixed, sem precisar repetir/ladrilhar. */
+
+main.bg-sobre,
+main.bg-trabalhe-conosco,
+main.bg-termos,
+main.bg-faq,
+main.bg-equipe,
+main.bg-beneficios,
+main.bg-parceiros,
+main.bg-apoiadores{
+
+    background-color:var(--background);
+
+    background-repeat:no-repeat;
+
+    background-attachment:fixed;
+
+    background-size:100% 100%;
+
+}
+
+main.bg-sobre{
+
+    background-image:
+        radial-gradient(650px circle at 8% 8%,rgba(166,120,255,.28),transparent 60%),
+        radial-gradient(600px circle at 92% 85%,rgba(29,23,63,.16),transparent 58%);
+
+}
+
+main.bg-trabalhe-conosco{
+
+    background-image:
+        radial-gradient(600px circle at 92% 10%,rgba(166,120,255,.26),transparent 58%),
+        radial-gradient(650px circle at 6% 88%,rgba(29,23,63,.16),transparent 60%);
+
+}
+
+main.bg-termos{
+
+    background-image:
+        radial-gradient(700px circle at 50% 0%,rgba(166,120,255,.16),transparent 55%);
+
+}
+
+main.bg-faq{
+
+    background-image:
+        radial-gradient(550px circle at 4% 45%,rgba(166,120,255,.24),transparent 58%),
+        radial-gradient(550px circle at 96% 55%,rgba(29,23,63,.15),transparent 58%);
+
+}
+
+main.bg-equipe{
+
+    background-image:
+        radial-gradient(600px circle at 90% 6%,rgba(166,120,255,.24),transparent 58%),
+        radial-gradient(500px circle at 8% 55%,rgba(29,23,63,.14),transparent 56%),
+        radial-gradient(600px circle at 85% 95%,rgba(166,120,255,.18),transparent 58%);
+
+}
+
+main.bg-beneficios{
+
+    background-image:
+        radial-gradient(650px circle at 10% 15%,rgba(166,120,255,.28),transparent 60%),
+        radial-gradient(600px circle at 90% 92%,rgba(29,23,63,.16),transparent 58%);
+
+}
+
+main.bg-parceiros{
+
+    background-image:
+        radial-gradient(600px circle at 95% 12%,rgba(29,23,63,.16),transparent 58%),
+        radial-gradient(650px circle at 5% 92%,rgba(166,120,255,.26),transparent 60%);
+
+}
+
+main.bg-apoiadores{
+
+    background-image:
+        radial-gradient(720px circle at 50% 100%,rgba(166,120,255,.22),transparent 58%);
+
+}
+
+main.bg-sobre .inst-hero,
+main.bg-trabalhe-conosco .inst-hero,
+main.bg-termos .inst-hero,
+main.bg-faq .inst-hero,
+main.bg-equipe .inst-hero,
+main.bg-beneficios .inst-hero,
+main.bg-parceiros .inst-hero,
+main.bg-apoiadores .inst-hero,
+main.bg-sobre .inst-secao.claro,
+main.bg-trabalhe-conosco .inst-secao.claro,
+main.bg-termos .inst-secao.claro,
+main.bg-faq .inst-secao.claro,
+main.bg-equipe .inst-secao.claro,
+main.bg-beneficios .inst-secao.claro,
+main.bg-parceiros .inst-secao.claro,
+main.bg-apoiadores .inst-secao.claro{
+
+    background:transparent;
+
+}
+
+/* Blobs animados decorativos: dão um toque mais dinâmico às
+   páginas institucionais (que hoje usam todas o mesmo hero
+   estático). Puro CSS, sem imagens externas. */
+
+.inst-hero::before,
+.inst-hero::after{
+
+    content:"";
+
+    position:absolute;
+
+    border-radius:50%;
+
+    filter:blur(10px);
+
+    opacity:.35;
+
+    pointer-events:none;
+
+    z-index:0;
+
+}
+
+.inst-hero::before{
+
+    width:260px;
+
+    height:260px;
+
+    top:-90px;
+
+    left:-80px;
+
+    background:radial-gradient(circle,var(--secundaria),transparent 70%);
+
+    animation:inst-blob-float 9s ease-in-out infinite;
+
+}
+
+.inst-hero::after{
+
+    width:200px;
+
+    height:200px;
+
+    bottom:-70px;
+
+    right:6%;
+
+    background:radial-gradient(circle,var(--primaria),transparent 70%);
+
+    animation:inst-blob-float 11s ease-in-out infinite reverse;
+
+}
+
+.inst-hero .container{
+
+    position:relative;
+
+    z-index:1;
+
+}
+
+@keyframes inst-blob-float{
+
+    0%,100%{
+
+        transform:translate(0,0) scale(1);
+
+    }
+
+    50%{
+
+        transform:translate(30px,25px) scale(1.15);
+
+    }
+
+}
+
+@media(prefers-reduced-motion:reduce){
+
+    .inst-hero::before,
+    .inst-hero::after{
+
+        animation:none;
+
+    }
+
+}
+
+.inst-hero h1{
+
+    max-width:700px;
+
+    margin:0 auto 14px;
+
+}
+
+.inst-hero p{
+
+    color:var(--texto-claro);
+
+    max-width:560px;
+
+    margin:0 auto;
+
+}
+
+.inst-secao{
+
+    padding:70px 0;
+
+}
+
+.inst-secao.claro{
+
+    background:var(--background);
+
+}
+
+.inst-secao.escuro{
+
+    background:
+
+        radial-gradient(circle at top right,#A678FF33,transparent 45%),
+
+        radial-gradient(circle at bottom left,#A678FF1a,transparent 40%),
+
+        var(--primaria);
+
+}
+
+.inst-secao.escuro h2,
+.inst-secao.escuro h3{
+
+    color:#FFFFFF;
+
+}
+
+.inst-secao.escuro p{
+
+    color:#C9C3E0;
+
+}
+
+/* Os cards (.inst-card) têm fundo claro mesmo dentro de uma
+   seção escura — sem esta regra, o parágrafo do card herdava
+   a cor clara acima (#C9C3E0) e ficava quase invisível sobre
+   o fundo branco do card. */
+
+.inst-secao.escuro .inst-card p{
+
+    color:var(--texto-claro);
+
+}
+
+/* ===== Blocos de texto simples ===== */
+
+.inst-texto{
+
+    max-width:760px;
+
+    margin:0 auto;
+
+}
+
+.inst-texto p{
+
+    margin-bottom:20px;
+
+    line-height:1.8;
+
+}
+
+/* Bloco "documento": dá um ar mais formal ao texto institucional,
+   como se fosse uma folha/carta assinada pela empresa. */
+
+.inst-texto-documento{
+
+    position:relative;
+
+    background:var(--surface);
+
+    border:2px solid var(--borda);
+
+    border-radius:var(--radius);
+
+    padding:50px 60px;
+
+    box-shadow:var(--shadow);
+
+}
+
+.inst-texto-documento::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:22px;
+
+    left:22px;
+
+    right:22px;
+
+    bottom:22px;
+
+    border:1px solid var(--borda);
+
+    border-radius:calc(var(--radius) - 10px);
+
+    pointer-events:none;
+
+}
+
+.documento-selo{
+
+    position:absolute;
+
+    top:-22px;
+
+    right:40px;
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:50%;
+
+    background:var(--secundaria);
+
+    color:#FFFFFF;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:1.4rem;
+
+    box-shadow:var(--shadow);
+
+}
+
+@media(max-width:700px){
+
+    .documento-selo{
+
+        top:-18px;
+        right:24px;
+        width:42px;
+        height:42px;
+        font-size:1.15rem;
+
+    }
+
+}
+
+.inst-texto-documento p:last-child{
+
+    margin-bottom:0;
+
+}
+
+@media(max-width:700px){
+
+    .inst-texto-documento{
+
+        padding:36px 24px;
+
+    }
+
+    .inst-texto-documento::before{
+
+        top:14px;
+        left:14px;
+        right:14px;
+        bottom:14px;
+
+    }
+
+}
+
+/* ===== Grade genérica (benefícios, valores, etc.) ===== */
+
+.inst-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+
+    gap:26px;
+
+}
+
+.inst-card{
+
+    background:var(--surface);
+
+    border:2px solid var(--borda);
+
+    border-radius:var(--radius);
+
+    padding:32px 28px;
+
+    transition:var(--transition);
+}
+
+.inst-card:hover{
+
+    border-color:var(--secundaria);
+
+    transform:translateY(-6px);
+
+}
+
+.inst-card .icone{
+
+    width:56px;
+
+    height:56px;
+
+    border-radius:14px;
+
+    background:rgba(166,120,255,.12);
+
+    color:var(--secundaria);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:1.5rem;
+
+    margin-bottom:18px;
+
+}
+
+.inst-card h3{
+
+    font-size:1.1rem;
+
+    margin-bottom:10px;
+
+}
+
+.inst-card p{
+
+    color:var(--texto-claro);
+
+    font-size:.92rem;
+
+    margin:0;
+
+}
+
+/* ===== Equipe ===== */
+
+.equipe-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+    gap:30px;
+}
+
+.equipe-card{
+
+    text-align:center;
+
+}
+
+.equipe-foto{
+
+    width:130px;
+
+    height:130px;
+
+    border-radius:50%;
+
+    margin:0 auto 18px;
+
+    background:linear-gradient(135deg,var(--primaria),var(--secundaria));
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:#FFFFFF;
+
+    font-size:2.2rem;
+
+    font-weight:800;
+
+    font-family:var(--titulo);
+
+    box-shadow:var(--shadow);
+
+}
+
+.equipe-card h3{
+
+    font-size:1.05rem;
+
+    margin-bottom:4px;
+
+}
+
+.equipe-card .cargo{
+
+    color:var(--secundaria);
+
+    font-size:.85rem;
+
+    font-weight:600;
+
+    margin-bottom:10px;
+
+}
+
+.equipe-card p{
+
+    color:var(--texto-claro);
+
+    font-size:.88rem;
+
+}
+
+/* ===== Formulários institucionais (apoiador, parceiro, trabalhe conosco, suporte) ===== */
+
+.inst-form-box{
+
+    max-width:600px;
+
+    margin:0 auto;
+
+    background:var(--surface);
+
+    border:2px solid var(--borda);
+
+    border-radius:var(--radius);
+
+    padding:40px;
+
+}
+
+.inst-form{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+.inst-form .campo input,
+.inst-form .campo select,
+.inst-form .campo textarea{
+
+    width:100%;
+
+    padding:14px 18px;
+
+    border:2px solid var(--borda);
+
+    border-radius:var(--radius-small);
+
+    font-family:var(--texto-fonte);
+
+    font-size:.95rem;
+
+    color:var(--texto);
+
+    background:var(--surface);
+
+    transition:var(--transition);
+
+}
+
+.inst-form .campo input::placeholder,
+.inst-form .campo textarea::placeholder{
+
+    color:var(--texto-claro);
+
+    opacity:.75;
+
+}
+
+.inst-form .campo select{
+
+    color-scheme:light dark;
+
+}
+
+.inst-form .campo label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+    font-size:.88rem;
+
+    color:var(--titulo-cor);
+
+}
+
+.inst-form .campo input:focus,
+.inst-form .campo select:focus,
+.inst-form .campo textarea:focus{
+
+    outline:none;
+
+    border-color:var(--secundaria);
+
+}
+
+.inst-form .campo textarea{
+
+    min-height:120px;
+
+    resize:vertical;
+
+}
+
+.inst-form-sucesso{
+
+    text-align:center;
+
+    padding:20px 0;
+
+}
+
+.inst-form-sucesso i{
+
+    font-size:3rem;
+
+    color:var(--sucesso);
+
+    margin-bottom:16px;
+
+    display:block;
+
+}
+
+.inst-form-sucesso h3{
+
+    margin-bottom:10px;
+
+}
+
+.inst-form-sucesso p{
+
+    color:var(--texto-claro);
+
+}
+
+.login-erro{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:#FDECEA;
+
+    color:var(--erro);
+
+    padding:14px 18px;
+
+    border-radius:var(--radius-small);
+
+    font-size:.9rem;
+
+    font-weight:500;
+
+    margin-bottom:20px;
+
+}
+
+/* ===== Termos ===== */
+
+.termos-layout{
+
+    display:grid;
+
+    grid-template-columns:260px 1fr;
+
+    gap:50px;
+
+    align-items:start;
+}
+
+.termos-menu{
+
+    background:var(--surface);
+
+    border:2px solid var(--borda);
+
+    border-radius:var(--radius);
+
+    padding:20px;
+
+    position:sticky;
+
+    top:110px;
+
+}
+
+.termos-menu a{
+
+    display:block;
+
+    padding:12px 14px;
+
+    border-radius:var(--radius-small);
+
+    color:var(--texto-claro);
+
+    font-weight:500;
+
+    font-size:.9rem;
+
+    transition:var(--transition);
+
+}
+
+.termos-menu a:hover{
+
+    background:rgba(166,120,255,.08);
+
+    color:var(--secundaria);
+
+}
+
+.termos-menu a.ativo{
+
+    background:var(--secundaria);
+
+    color:#FFFFFF;
+}
+
+.termos-conteudo .atualizado{
+
+    display:inline-block;
+
+    font-size:.78rem;
+
+    color:var(--texto-claro);
+
+    background:var(--background);
+
+    padding:6px 14px;
+
+    border-radius:30px;
+
+    margin-bottom:24px;
+
+}
+
+/* ===== FAQ (página própria) ===== */
+
+.faq-page-grid{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+    max-width:820px;
+
+    margin:0 auto;
+
+}
+
+/* A página própria de FAQ não tem o painel visual ao lado (isso é
+   só da seção da home), então tira a animação de flutuar e o
+   "rabinho" de balão de chat, que ficam sem sentido aqui — e
+   adiciona um indicador de +/- pra deixar claro que dá pra clicar
+   pra abrir/fechar cada pergunta. */
+
+.faq-page-grid .faq-bubble{
+
+    animation:none;
+
+    transform:none;
+
+    padding-right:54px;
+
+}
+
+.faq-page-grid .faq-bubble::after{
+
+    display:none;
+
+}
+
+.faq-page-grid .faq-pergunta{
+
+    position:relative;
+
+    padding-right:8px;
+
+}
+
+.faq-page-grid .faq-pergunta::after{
+
+    content:"+";
+
+    position:absolute;
+
+    top:50%;
+
+    right:-40px;
+
+    transform:translateY(-50%);
+
+    font-size:1.3rem;
+
+    color:var(--acento);
+
+    transition:transform var(--transition);
+
+}
+
+.faq-page-grid .faq-bubble.aberto .faq-pergunta::after{
+
+    content:"−";
+
+}
+
+/* ===== Responsivo ===== */
+
+@media(max-width:900px){
+
+    .termos-layout{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .termos-menu{
+
+        position:static;
+
+        display:flex;
+
+        flex-wrap:wrap;
+
+        gap:8px;
+
+    }
+
+    .termos-menu a{
+
+        padding:8px 12px;
+    }
+
+    .inst-hero{
+
+        padding:130px 0 50px;
+
+    }
+
+    .inst-form-box{
+
+        padding:28px 22px;
+
+    }
+
+    .faq-page-grid .faq-bubble{
+
+        padding:18px 40px 18px 20px;
+
+        border-radius:16px;
+
+    }
+
+    .faq-page-grid .faq-pergunta{
+
+        font-size:.95rem;
+
+    }
+
+    .faq-page-grid .faq-pergunta::after{
+
+        right:-26px;
+
+        font-size:1.15rem;
+
+    }
+}

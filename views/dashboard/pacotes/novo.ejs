@@ -1,0 +1,87 @@
+<%- include("../../partials/head", {
+    titulo: "Novo pacote • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "pacotes" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Novo pacote</h1>
+                <p>Crie um novo plano para oferecer aos clientes.</p>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <form
+                method="POST"
+                action="/dashboard/pacotes"
+                enctype="multipart/form-data"
+                class="form-dashboard">
+
+                <div class="campo">
+                    <label for="nome">Nome do pacote</label>
+                    <input type="text" id="nome" name="nome" placeholder="Ex: Pacote Essencial" maxlength="60" required>
+                    <small>Máximo de 60 caracteres.</small>
+                </div>
+
+                <div class="campo">
+                    <label for="descricao">Descrição</label>
+                    <textarea id="descricao" name="descricao" placeholder="Uma descrição curta do pacote" style="min-height:90px;" maxlength="200" required></textarea>
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="preco">Preço (R$)</label>
+                        <input type="number" id="preco" name="preco" step="0.01" min="0" placeholder="0,00" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="destaque">Destacar pacote?</label>
+                        <select id="destaque" name="destaque">
+                            <option value="false">Não</option>
+                            <option value="true">Sim</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="campo">
+                    <label for="beneficios">Benefícios (um por linha)</label>
+                    <textarea id="beneficios" name="beneficios" placeholder="Um item por linha. Ex:&#10;Site responsivo&#10;5 páginas&#10;Suporte 30 dias" style="min-height:130px;"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="imagem">Imagem (opcional)</label>
+                    <input type="file" id="imagem" name="imagem" accept="image/*">
+                </div>
+
+                <div class="campo campo-checkbox">
+                    <input type="checkbox" id="ativo" name="ativo" value="true" checked>
+                    <label for="ativo" style="margin:0;">Pacote ativo (visível no site)</label>
+                </div>
+
+                <div class="form-dashboard-acoes">
+                    <button type="submit" class="btn">Salvar pacote</button>
+                    <a href="/dashboard/pacotes" class="btn-secundario-dash">Cancelar</a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", {
+    js: "dashboard"
+}) %>

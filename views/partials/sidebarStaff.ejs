@@ -1,0 +1,70 @@
+<button class="dash-menu-mobile">
+    <i class="ri-menu-3-line"></i>
+</button>
+
+<aside class="sidebar">
+
+    <div class="sidebar-top">
+
+        <img class="logo-tema-padrao" src="/img/logo/logo-escuro.png" alt="LYXUS">
+        <img class="logo-tema-invertido" src="/img/logo/logo-claro.png" alt="LYXUS">
+
+    </div>
+
+    <nav>
+
+        <ul>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'propostas' ? 'ativo' : '' %>">
+
+                <a href="/staff/propostas">
+
+                    <i class="ri-file-list-3-line"></i>
+
+                    Propostas Criadas
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'solicitar' ? 'ativo' : '' %>">
+
+                <a href="/staff/solicitar-usuario">
+
+                    <i class="ri-user-add-line"></i>
+
+                    Solicitar Usuário
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'configuracoes' ? 'ativo' : '' %>">
+
+                <a href="/staff/configuracoes">
+
+                    <i class="ri-settings-3-line"></i>
+
+                    Configurações
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="/logout">
+
+                    <i class="ri-logout-box-line"></i>
+
+                    Sair
+
+                </a>
+
+            </li>
+
+        </ul>
+
+    </nav>
+
+</aside>

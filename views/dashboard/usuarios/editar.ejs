@@ -1,0 +1,143 @@
+<%- include("../../partials/head", {
+    titulo: "Editar usuário • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "usuarios" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Editar usuário</h1>
+                <p><%= usuario.nome %></p>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <form
+                method="POST"
+                action="/dashboard/usuarios/editar/<%= usuario._id %>"
+                enctype="multipart/form-data"
+                class="form-dashboard">
+
+                <div class="campo">
+                    <label for="nome">Nome completo</label>
+                    <input type="text" id="nome" name="nome" value="<%= usuario.nome %>" required>
+                </div>
+
+                <div class="campo">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" value="<%= usuario.email %>" required>
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="senha">Nova senha (opcional)</label>
+                        <input type="password" id="senha" name="senha" placeholder="Deixe em branco para manter a atual" minlength="6" pattern="(?=.*[A-ZÀ-Ý])(?=.*[^A-Za-z0-9À-ÿ]).{6,}" title="Se preenchido: mínimo de 6 caracteres, com pelo menos 1 letra maiúscula e 1 caractere especial.">
+                        <small>Se preenchido: mínimo de 6 caracteres, 1 letra maiúscula e 1 caractere especial.</small>
+                    </div>
+
+                    <%
+                        let papelAtual = usuario.tipo;
+                        if(usuario.tipo === "staff"){
+                            papelAtual = usuario.cargo || "staff";
+                        }
+                    %>
+
+                    <div class="campo">
+                        <label for="papel">Tipo de acesso</label>
+                        <select id="papel" required>
+                            <option value="cliente" <%= papelAtual === "cliente" ? "selected" : "" %>>Cliente</option>
+                            <option value="staff" <%= papelAtual === "staff" ? "selected" : "" %>>Staff — acesso amplo (posts, categorias, pacotes, pagamentos)</option>
+                            <option value="suporte" <%= papelAtual === "suporte" ? "selected" : "" %>>Suporte — só responde o chat (tawk.to)</option>
+                            <option value="marketing" <%= papelAtual === "marketing" ? "selected" : "" %>>Marketing — só o blog (posts e categorias)</option>
+                        </select>
+                        <input type="hidden" id="tipo" name="tipo" value="<%= usuario.tipo %>">
+                        <input type="hidden" id="cargo" name="cargo" value="<%= usuario.cargo || '' %>">
+                    </div>
+
+                </div>
+
+                <div class="campo" id="permissoesOpcoes" style="display:none;">
+
+                    <label>Ajuste fino de permissões (opcional)</label>
+
+                    <div class="campo-checkboxes" style="display:flex;flex-wrap:wrap;gap:12px;">
+                        <% const perm = usuario.permissoes || []; %>
+                        <label style="display:flex;align-items:center;gap:6px;font-weight:400;"><input type="checkbox" name="permissoes" value="posts" <%= perm.includes("posts") ? "checked" : "" %>> Posts</label>
+                        <label style="display:flex;align-items:center;gap:6px;font-weight:400;"><input type="checkbox" name="permissoes" value="categorias" <%= perm.includes("categorias") ? "checked" : "" %>> Categorias</label>
+                        <label style="display:flex;align-items:center;gap:6px;font-weight:400;"><input type="checkbox" name="permissoes" value="pacotes" <%= perm.includes("pacotes") ? "checked" : "" %>> Pacotes</label>
+                        <label style="display:flex;align-items:center;gap:6px;font-weight:400;"><input type="checkbox" name="permissoes" value="pagamentos" <%= perm.includes("pagamentos") ? "checked" : "" %>> Pagamentos</label>
+                        <label style="display:flex;align-items:center;gap:6px;font-weight:400;"><input type="checkbox" name="permissoes" value="suporte" <%= perm.includes("suporte") ? "checked" : "" %>> Suporte (chat)</label>
+                        <label style="display:flex;align-items:center;gap:6px;font-weight:400;"><input type="checkbox" name="permissoes" value="contratos" <%= perm.includes("contratos") ? "checked" : "" %>> Contratos (registro de serviços e logs)</label>
+                        <label style="display:flex;align-items:center;gap:6px;font-weight:400;"><input type="checkbox" name="permissoes" value="avaliacoes" <%= perm.includes("avaliacoes") ? "checked" : "" %>> Pesquisa e Avaliação (Pique Michelan)</label>
+                    </div>
+
+                    <small>Deixe tudo desmarcado pra usar o padrão do cargo escolhido acima.</small>
+
+                </div>
+
+                <div class="campo">
+                    <label for="foto">Foto (opcional)</label>
+                    <input type="file" id="foto" name="foto" accept="image/*" data-preview="#preview-foto">
+                    <img
+                        id="preview-foto"
+                        src="<%= urlImagem(usuario.foto) %>"
+                        alt=""
+                        style="width:64px;height:64px;border-radius:14px;object-fit:cover;margin-top:10px;">
+                </div>
+
+                <div class="campo campo-checkbox">
+                    <input type="checkbox" id="ativo" name="ativo" value="true" <%= usuario.ativo ? "checked" : "" %>>
+                    <label for="ativo" style="margin:0;">Usuário ativo</label>
+                </div>
+
+                <div class="form-dashboard-acoes">
+                    <button type="submit" class="btn">Salvar alterações</button>
+                    <a href="/dashboard/usuarios" class="btn-secundario-dash">Cancelar</a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+    (function(){
+        var papelSel = document.getElementById("papel");
+        var tipoHidden = document.getElementById("tipo");
+        var cargoHidden = document.getElementById("cargo");
+        var permissoesBloco = document.getElementById("permissoesOpcoes");
+
+        var MAPA_PAPEL = {
+            cliente: { tipo:"cliente", cargo:"" },
+            staff: { tipo:"staff", cargo:"staff" },
+            suporte: { tipo:"staff", cargo:"suporte" },
+            marketing: { tipo:"staff", cargo:"marketing" }
+        };
+
+        function atualizar(){
+            var config = MAPA_PAPEL[papelSel.value] || MAPA_PAPEL.cliente;
+            tipoHidden.value = config.tipo;
+            cargoHidden.value = config.cargo;
+            permissoesBloco.style.display = config.tipo === "staff" ? "" : "none";
+        }
+
+        papelSel.addEventListener("change", atualizar);
+        atualizar();
+    })();
+</script>
+
+<%- include("../../partials/scripts", {
+    js: "dashboard"
+}) %>

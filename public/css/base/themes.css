@@ -1,0 +1,96 @@
+/* =====================================================================
+   TEMAS DO SITE
+   [data-theme] fica no <html>, definido pelo theme.js (com fallback
+   inline no <head> pra não piscar). "padrao" usa os valores do :root
+   em variables.css e nem precisa de bloco aqui.
+   ===================================================================== */
+
+/* ============================== ESCURO ==============================
+   A ideia do usuário: continua com a mesma estrutura do tema padrão
+   (chrome roxo no header/footer/sidebar), mas todo fundo que hoje é
+   branco/claro vira escuro, pra melhorar a visibilidade à noite. */
+
+[data-theme="escuro"]{
+
+    --background:#0D0B1A;
+
+    --surface:#171331;
+
+    --surface-2:#1E1940;
+
+    --texto:#EDEDF5;
+
+    --texto-claro:#A8A3C0;
+
+    --borda:#2A2550;
+
+    --titulo-cor:var(--texto);
+
+    --shadow:
+        0 15px 40px rgba(0,0,0,.35);
+
+    /* chrome continua roxo, igual ao padrão */
+}
+
+/* ============================= INVERTIDO =============================
+   A cor primária vira o "main" (fundo geral das páginas) e o chrome
+   (header/footer/sidebar do painel) vira claro — o inverso do padrão.
+   Texto sobre fundo roxo precisa ser claro; texto sobre o chrome
+   claro precisa ser escuro. */
+
+[data-theme="invertido"]{
+
+    --background:#1D173F;
+
+    --surface:#2B2358;
+
+    --surface-2:#332A66;
+
+    --texto:#F5F3FF;
+
+    --texto-claro:#C3B9EA;
+
+    --borda:rgba(255,255,255,.14);
+
+    --titulo-cor:var(--texto);
+
+    --shadow:
+        0 15px 40px rgba(0,0,0,.35);
+
+    --bg-chrome:#FFFFFF;
+
+    --texto-chrome:#1D173F;
+
+    --texto-chrome-claro:#5B5480;
+
+    --link-chrome:#7A4FDB;
+
+    --link-chrome-hover:#1D173F;
+
+    --borda-chrome:#E4E4E7;
+
+    --chrome-hover-bg:rgba(0,0,0,.045);
+
+    --sombra-chrome:0 5px 20px rgba(0,0,0,.1);
+
+}
+
+/* =====================================================================
+   LOGO — troca de arquivo conforme o tema
+   Cada local que mostra a logo (sidebar, navbar, footer) inclui as
+   duas versões no HTML; aqui a gente só decide qual fica visível.
+   Padrão/escuro: logo clara (fundo do chrome é roxo).
+   Invertido: logo escura (fundo do chrome vira branco).
+   ===================================================================== */
+
+.logo-tema-invertido{
+    display:none;
+}
+
+[data-theme="invertido"] .logo-tema-padrao{
+    display:none;
+}
+
+[data-theme="invertido"] .logo-tema-invertido{
+    display:block;
+}

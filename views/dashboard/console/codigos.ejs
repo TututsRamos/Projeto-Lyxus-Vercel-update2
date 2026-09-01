@@ -1,0 +1,123 @@
+<%- include("../../partials/head", {
+    titulo: "Códigos de Acesso • Console Admin",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "codigos" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Códigos de Acesso</h1>
+                <p>Gere, acompanhe ou revogue os códigos de vinculação dos clientes.</p>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <div class="painel-titulo">
+                <h2>Gerar novo código</h2>
+            </div>
+
+            <form method="POST" action="/dashboard/console/codigos" class="campo-linha" style="align-items:end;">
+
+                <div class="campo">
+                    <label for="usuarioId">Cliente</label>
+                    <select id="usuarioId" name="usuarioId" required>
+                        <option value="">Selecione...</option>
+                        <% usuarios.forEach(u => { %>
+                            <option value="<%= u._id %>"><%= u.nome %> (<%= u.email %>)</option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="duracaoHoras">Duração (1 a 24h)</label>
+                    <input type="number" id="duracaoHoras" name="duracaoHoras" min="1" max="24" value="24" required>
+                </div>
+
+                <div class="campo">
+                    <button type="submit" class="btn" style="width:100%;">Gerar código</button>
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="painel">
+
+            <div class="painel-titulo">
+                <h2>Códigos gerados</h2>
+            </div>
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Usuário</th>
+                            <th>Duração</th>
+                            <th>Expira em</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(codigos && codigos.length){ %>
+
+                            <% codigos.forEach(c => { %>
+
+                                <tr>
+                                    <td><%= c.codigo %></td>
+                                    <td><%= c.usuario ? c.usuario.nome : "-" %></td>
+                                    <td><%= c.duracaoHoras %>h</td>
+                                    <td><%= new Date(c.expiraEm).toLocaleString("pt-BR") %></td>
+                                    <td>
+                                        <span class="status <%=
+                                            c.status === 'ativo' ? 'status-ativo' :
+                                            c.status === 'usado' ? 'status-pendente' : 'status-cancelado'
+                                        %>">
+                                            <%= c.status %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <% if(c.status === "ativo"){ %>
+                                            <form method="POST" action="/dashboard/console/codigos/<%= c._id %>/revogar">
+                                                <button type="submit" class="tabela-acoes" style="background:none;border:none;cursor:pointer;">
+                                                    <i class="ri-close-circle-line" style="color:var(--erro);font-size:1.2rem;"></i>
+                                                </button>
+                                            </form>
+                                        <% } %>
+                                    </td>
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="6" class="vazio">Nenhum código gerado ainda.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", { js: "dashboard" }) %>

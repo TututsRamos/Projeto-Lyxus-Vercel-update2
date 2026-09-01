@@ -1,0 +1,70 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+
+    font-family:var(--titulo);
+
+    color:var(--titulo-cor);
+
+    font-weight:700;
+
+    overflow-wrap:break-word;
+
+    word-break:break-word;
+
+}
+
+h1{
+
+    font-size:3.5rem;
+
+}
+
+h2{
+
+    font-size:2.5rem;
+
+}
+
+h3{
+
+    font-size:1.6rem;
+
+}
+
+p{
+
+    line-height:1.7;
+
+    color:var(--texto-claro);
+
+}
+
+.section-title{
+
+    margin-bottom:15px;
+
+}
+
+.section-subtitle{
+
+
+    align-items:center;
+}
+
+.faq-section-subtitle{
+
+    max-width:700px;
+    margin:0 auto;
+
+}
+
+.serv-section-subtitle{
+
+    max-width:200px;
+    margin:0 auto;
+
+}

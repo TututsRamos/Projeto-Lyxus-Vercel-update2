@@ -1,0 +1,162 @@
+<%- include("../../partials/head", {
+    titulo: contrato.nomeEmpresa + " • Contrato",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "contratos" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+            <div>
+                <h1><%= contrato.tituloServico || "Contrato" %> — <%= contrato.nomeEmpresa %></h1>
+                <p>Ficha arquivada do contrato, gerada automaticamente pelo site.</p>
+            </div>
+
+            <div class="dash-header-acoes">
+
+                <a href="/contrato/<%= contrato.codigo %>" target="_blank" class="btn-secundario-dash">
+                    <i class="ri-eye-line"></i> Ver como o cliente vê
+                </a>
+
+                <% if(souAdminOuMaster){ %>
+                    <form method="POST" action="/dashboard/contratos/<%= contrato._id %>/excluir" onsubmit="return confirm('Excluir este contrato inteiro? Isso apaga também todos os logs e não pode ser desfeito.');">
+                        <button type="submit" class="btn-secundario-dash" style="color:var(--erro);border-color:var(--erro);">
+                            <i class="ri-delete-bin-line"></i> Excluir contrato
+                        </button>
+                    </form>
+                <% } %>
+
+            </div>
+        </header>
+
+        <div class="contrato-ficha">
+
+            <div class="contrato-ficha-linha"><span>Código de contrato</span><strong><%= contrato.codigo %></strong></div>
+            <div class="contrato-ficha-linha"><span>Data de contrato</span><strong><%= new Date(contrato.dataContrato).toLocaleDateString("pt-BR") %></strong></div>
+            <div class="contrato-ficha-linha"><span>Empresa</span><strong><%= contrato.cnpj ? contrato.cnpj + " // " : "" %><%= contrato.nomeEmpresa %></strong></div>
+            <div class="contrato-ficha-linha"><span>Equipe Responsável</span><strong><%= contrato.equipeResponsavel %></strong></div>
+            <div class="contrato-ficha-linha"><span>Gerente de projeto</span><strong><%= contrato.gerenteProjeto %></strong></div>
+
+            <div class="contrato-ficha-linha">
+                <span>Status</span>
+                <form method="POST" action="/dashboard/contratos/<%= contrato._id %>/status" class="contrato-status-form">
+                    <select name="status" onchange="this.form.submit()">
+                        <option value="em_andamento" <%= contrato.status === "em_andamento" ? "selected" : "" %>>Em andamento</option>
+                        <option value="concluido" <%= contrato.status === "concluido" ? "selected" : "" %>>Concluído</option>
+                        <option value="arquivado" <%= contrato.status === "arquivado" ? "selected" : "" %>>Arquivado</option>
+                    </select>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="painel">
+
+            <div class="painel-titulo">
+                <h2>Contrato e Sumário</h2>
+                <a href="/dashboard/contratos/<%= contrato._id %>/documento" class="btn-secundario-dash">
+                    <i class="ri-file-edit-line"></i> <%= (contrato.paragrafos && contrato.paragrafos.length) ? "Editar contrato e sumário" : "Preencher contrato e sumário" %>
+                </a>
+            </div>
+
+            <% if(contrato.paragrafos && contrato.paragrafos.length){ %>
+
+                <p class="contrato-sumario-escopo">
+                    <%= contrato.paragrafos.length %> parágrafo<%= contrato.paragrafos.length === 1 ? "" : "s" %> e
+                    <%= (contrato.glossario || []).length %> artigo<%= (contrato.glossario || []).length === 1 ? "" : "s" %> no sumário.
+                    O cliente acessa em <code>/contrato/<%= contrato.codigo %></code>.
+                </p>
+
+            <% } else { %>
+
+                <div class="vazio">Este contrato ainda não tem o contrato e sumário (texto + explicação dos artigos) preenchido.</div>
+
+            <% } %>
+
+        </div>
+
+        <div class="painel">
+
+            <div class="painel-titulo"><h2>Adicionar log de modificação</h2></div>
+
+            <form method="POST" action="/dashboard/contratos/<%= contrato._id %>/logs" class="form-dashboard">
+
+                <div class="campo">
+                    <label for="texto">Descreva a modificação (uma linha por item)</label>
+                    <textarea id="texto" name="texto" rows="4" placeholder="Ex:&#10;Modificação da home&#10;Correção de links" required></textarea>
+                </div>
+
+                <div class="form-dashboard-acoes">
+                    <button type="submit" class="btn">Adicionar log</button>
+                </div>
+
+            </form>
+
+        </div>
+
+        <div class="contrato-logs">
+
+            <% if(logs && logs.length){ %>
+
+                <% logs.forEach(function(log){ %>
+
+                    <div class="contrato-log">
+
+                        <div class="contrato-log-topo">
+
+                            <strong>Log <%= log.numero %>-</strong>
+
+                            <% if(souAdminOuMaster){ %>
+
+                                <form method="POST" action="/dashboard/contratos/<%= contrato._id %>/logs/<%= log._id %>/remover" onsubmit="return confirm('Excluir este log? Essa ação não pode ser desfeita.');">
+                                    <button type="submit" class="contrato-log-remover" title="Excluir log">
+                                        <i class="ri-close-line"></i>
+                                    </button>
+                                </form>
+
+                            <% } %>
+
+                        </div>
+
+                        <div class="contrato-log-texto">
+
+                            <% log.texto.split("\n").forEach(function(linha){ %>
+
+                                <% if(linha.trim()){ %>
+                                    <p><%= linha %></p>
+                                <% } %>
+
+                            <% }) %>
+
+                        </div>
+
+                        <div class="contrato-log-rodape">
+
+                            <span class="contrato-log-data"><%= new Date(log.createdAt).toLocaleDateString("pt-BR") %></span>
+
+                            <% if(log.autor && log.autor.nome){ %>
+                                <span class="contrato-log-autor">por <%= log.autor.nome %></span>
+                            <% } %>
+
+                        </div>
+
+                    </div>
+
+                <% }) %>
+
+            <% } else { %>
+
+                <div class="vazio">Nenhum log registrado ainda.</div>
+
+            <% } %>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", { js: "dashboard" }) %>

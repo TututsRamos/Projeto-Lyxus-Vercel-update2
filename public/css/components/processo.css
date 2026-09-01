@@ -1,0 +1,673 @@
+/* ===== Navbar de abas ===== */
+
+.processo-tabs{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+    gap:12px;
+
+    margin-bottom:50px;
+
+}
+
+.tab-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:14px 26px;
+
+    border-radius:50px;
+
+    border:2px solid var(--borda);
+
+    background:var(--surface);
+
+    color:var(--texto-claro);
+
+    font-family:var(--titulo);
+
+    font-weight:600;
+
+    font-size:.95rem;
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+}
+
+.tab-btn i{
+
+    font-size:1.1rem;
+
+}
+
+.tab-btn:hover{
+
+    border-color:var(--acento);
+
+    color:var(--acento);
+
+}
+
+.tab-btn.ativo{
+
+    background:var(--acento);
+
+    border-color:var(--acento);
+
+    color:#FFFFFF;
+
+    box-shadow:0 10px 25px rgba(var(--acento-rgb),.3);
+
+}
+
+.processo .badge{
+
+    background:rgba(var(--acento-rgb),.15);
+
+    color:var(--acento);
+
+}
+
+/* ===== Info + passo a passo ===== */
+
+.processo-info{
+
+    max-width:760px;
+
+    margin:0 auto;
+
+    text-align:center;
+
+}
+
+#titulo-processo{
+
+    margin-top:45px;
+
+    margin-bottom:22px;
+
+}
+
+.processo-info .section-subtitle{
+
+    margin:0 auto 45px;
+
+}
+
+/* ===== Passo a passo em balões ===== */
+
+.timeline{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+
+    gap:34px 26px;
+
+    text-align:left;
+
+}
+
+.etapa-balao{
+
+    position:relative;
+
+    background:var(--surface);
+
+    border:2px solid var(--borda);
+
+    border-radius:20px;
+
+    padding:24px 22px 22px 26px;
+
+    opacity:0;
+
+    transition:border-color var(--transition), box-shadow var(--transition);
+
+}
+
+.etapa-balao.visivel{
+
+    animation-name:entrarComMouse, flutuarBalao;
+
+    animation-duration:.7s, 5s;
+
+    animation-timing-function:ease, ease-in-out;
+
+    animation-iteration-count:1, infinite;
+
+    animation-fill-mode:forwards, none;
+
+    animation-delay:var(--delay,0s), calc(var(--delay,0s) + .7s);
+
+}
+
+.etapa-balao:hover{
+
+    border-color:var(--acento);
+
+    box-shadow:0 15px 30px rgba(var(--acento-rgb),.15);
+
+}
+
+.etapa-cursor{
+
+    position:absolute;
+
+    left:-60px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    font-size:1.5rem;
+
+    color:var(--acento);
+
+    opacity:0;
+
+    pointer-events:none;
+
+}
+
+.etapa-balao.visivel .etapa-cursor{
+
+    animation:cursorArrastar .7s ease forwards;
+
+    animation-delay:var(--delay,0s);
+
+}
+
+@keyframes entrarComMouse{
+
+    0%{ opacity:0; transform:translateX(-50px); }
+
+    100%{ opacity:1; transform:translateX(0); }
+
+}
+
+@keyframes cursorArrastar{
+
+    0%{ opacity:0; left:-90px; }
+
+    45%{ opacity:1; left:-46px; }
+
+    100%{ opacity:0; left:-10px; }
+
+}
+
+.etapa-numero{
+
+    position:absolute;
+
+    top:-18px;
+
+    left:-14px;
+
+    width:46px;
+
+    height:46px;
+
+    border-radius:50%;
+
+    background:var(--acento);
+
+    color:#FFFFFF;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-family:var(--titulo);
+
+    font-weight:800;
+
+    font-size:1.15rem;
+
+    box-shadow:0 8px 20px rgba(var(--acento-rgb),.4);
+
+    border:3px solid var(--surface);
+
+}
+
+.etapa-titulo{
+
+    margin:0 0 8px;
+
+    font-family:var(--titulo);
+
+    font-weight:700;
+
+    font-size:1.05rem;
+
+    color:var(--titulo-cor);
+
+}
+
+.etapa-descricao{
+
+    margin:0;
+
+    font-size:.9rem;
+
+    line-height:1.6;
+
+    color:var(--texto-claro);
+
+}
+
+@keyframes flutuarBalao{
+
+    0%,100%{ transform:translateY(0) rotate(0deg); }
+
+    50%{ transform:translateY(-10px) rotate(.6deg); }
+
+}
+
+/* ===== Cards da grade "Nossas Áreas" ===== */
+
+.nao-quebra{
+
+    white-space:nowrap;
+
+}
+
+.servico-card{
+
+    background:var(--surface);
+
+    border:2px solid var(--borda);
+
+    border-radius:var(--radius);
+
+    padding:35px 25px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+}
+
+.servico-card:hover{
+
+    border-color:var(--secundaria);
+
+    transform:translateY(-6px);
+
+}
+
+.servico-card.ativo{
+
+    border-color:var(--secundaria);
+
+    background:var(--surface-2);
+
+    box-shadow:var(--shadow);
+
+}
+
+.servico-card .icon{
+
+    width:60px;
+
+    height:60px;
+
+    margin:0 auto 20px;
+
+    border-radius:16px;
+
+    background:var(--secundaria);
+
+    color:#FFFFFF;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:1.6rem;
+
+}
+
+.servico-card h3{
+
+    margin-bottom:8px;
+
+}
+
+.servico-card p{
+
+    font-size:1.0rem;
+
+    margin:0;
+}
+
+
+/* ==========================================================
+   TRANSIÇÃO EM TELA CHEIA (ao trocar de área)
+   ========================================================== */
+
+.transicao{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:9999;
+
+    background:var(--primaria);
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:opacity .35s ease;
+
+}
+
+.transicao.ativa{
+
+    opacity:1;
+
+}
+
+.transicao-cena{
+
+    position:absolute;
+
+    inset:0;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    overflow:hidden;
+
+}
+
+.transicao-cena.ativa{
+
+    display:flex;
+
+}
+
+/* --- Apps --- */
+
+.cena-apps .cena-phone{
+
+    width:130px;
+
+    height:130px;
+
+    border-radius:32px;
+
+    background:var(--acento);
+
+    color:#FFFFFF;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:3rem;
+
+    animation:flutuar 2s ease-in-out infinite;
+
+}
+
+.cena-apps .cena-icon{
+
+    position:absolute;
+
+    width:64px;
+
+    height:64px;
+
+    border-radius:50%;
+
+    background:#FFFFFF;
+
+    color:var(--acento);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:1.6rem;
+
+    animation:flutuar 1.8s ease-in-out infinite;
+
+}
+
+.cena-apps .ci1{ top:22%; left:32%; }
+
+.cena-apps .ci2{ bottom:26%; left:28%; animation-delay:.2s; }
+
+.cena-apps .ci3{ top:26%; right:30%; animation-delay:.4s; }
+
+.cena-apps .ci4{ bottom:24%; right:32%; animation-delay:.6s; }
+
+/* --- Desenvolvimento Web (matrix + pseudocódigo) --- */
+
+.cena-sites canvas{
+
+    width:100%;
+
+    height:100%;
+
+    display:block;
+
+}
+
+/* --- Bloco de pseudocódigo (comum às 4 áreas) --- */
+
+.cena-codigo{
+
+    position:absolute;
+
+    bottom:12%;
+
+    left:50%;
+
+    transform:translate(-50%,10px);
+
+    background:rgba(0,0,0,.35);
+
+    border:1px solid rgba(var(--acento-rgb),.45);
+
+    border-radius:16px;
+
+    padding:20px 30px;
+
+    font-family:monospace;
+
+    font-size:1.3rem;
+
+    color:var(--acento);
+
+    text-align:left;
+
+    opacity:0;
+
+    animation:blocoFade 1.4s ease forwards;
+
+}
+
+.cena-codigo .linha{
+
+    opacity:0;
+
+    animation:linhaFade .4s ease forwards;
+
+}
+
+.cena-codigo .linha:nth-child(1){ animation-delay:.15s; }
+
+.cena-codigo .linha-passo{ animation-delay:.55s; color:#FFFFFF; }
+
+.cena-codigo .linha:nth-child(3){ animation-delay:.95s; }
+
+@keyframes blocoFade{
+
+    0%{ opacity:0; transform:translate(-50%,10px); }
+
+    15%{ opacity:1; transform:translate(-50%,0); }
+
+    85%{ opacity:1; }
+
+    100%{ opacity:0; }
+
+}
+
+@keyframes linhaFade{
+
+    from{ opacity:0; }
+
+    to{ opacity:1; }
+
+}
+
+/* --- Design --- */
+
+.cena-design .cena-shape{
+
+    position:absolute;
+
+    width:90px;
+
+    height:90px;
+
+    border-radius:20px;
+
+    background:var(--acento);
+
+    box-shadow:0 20px 50px rgba(var(--acento-rgb),.5);
+
+    animation:arrastarForma 1.4s ease-in-out infinite;
+
+}
+
+.cena-design .cena-cursor{
+
+    position:absolute;
+
+    font-size:2.4rem;
+
+    color:#FFFFFF;
+
+    animation:arrastarCursor 1.4s ease-in-out infinite;
+
+}
+
+@keyframes arrastarForma{
+
+    0%,10%{ left:35%; top:35%; }
+
+    90%,100%{ left:55%; top:55%; }
+
+}
+
+@keyframes arrastarCursor{
+
+    0%,10%{ left:37%; top:38%; }
+
+    90%,100%{ left:57%; top:58%; }
+
+}
+
+/* --- Marketing --- */
+
+.cena-marketing{
+
+    flex-direction:column;
+
+    gap:30px;
+
+}
+
+.cena-bars{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    gap:18px;
+
+    height:220px;
+
+}
+
+.cena-bars span{
+
+    width:30px;
+
+    border-radius:8px 8px 0 0;
+
+    background:linear-gradient(180deg,var(--acento),var(--primaria));
+
+    transform-origin:bottom;
+
+    animation:crescerBarra 1.2s ease-in-out infinite;
+
+}
+
+.cena-bars span:nth-child(1){ height:35%; animation-delay:0s; }
+
+.cena-bars span:nth-child(2){ height:60%; animation-delay:.1s; }
+
+.cena-bars span:nth-child(3){ height:45%; animation-delay:.2s; }
+
+.cena-bars span:nth-child(4){ height:90%; animation-delay:.3s; }
+
+.cena-bars span:nth-child(5){ height:70%; animation-delay:.4s; }
+
+@keyframes crescerBarra{
+
+    0%,100%{ transform:scaleY(.8); }
+
+    50%{ transform:scaleY(1); }
+
+}
+
+.cena-arrow{
+
+    font-size:3rem;
+
+    color:#FFFFFF;
+
+    animation:flutuar 1.6s ease-in-out infinite;
+
+}
+
+/* ===== Responsivo ===== */
+
+@media(max-width:600px){
+
+    .timeline{
+
+        grid-template-columns:1fr;
+
+    }
+
+}

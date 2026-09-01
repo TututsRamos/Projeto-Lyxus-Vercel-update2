@@ -1,0 +1,292 @@
+<button class="dash-menu-mobile">
+    <i class="ri-menu-3-line"></i>
+</button>
+
+<aside class="sidebar">
+
+    <div class="sidebar-top">
+
+        <img class="logo-tema-padrao" src="/img/logo/logo-escuro.png" alt="LYXUS">
+        <img class="logo-tema-invertido" src="/img/logo/logo-claro.png" alt="LYXUS">
+
+    </div>
+
+    <nav>
+
+        <ul>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'dashboard' ? 'ativo' : '' %>">
+
+                <a href="/dashboard">
+
+                    <i class="ri-dashboard-line"></i>
+
+                    Dashboard
+
+                </a>
+
+            </li>
+
+            <% if(temPermissao('posts')){ %>
+            <li class="<%= typeof atual !== 'undefined' && atual === 'posts' ? 'ativo' : '' %>">
+
+                <a href="/dashboard/posts">
+
+                    <i class="ri-article-line"></i>
+
+                    Posts
+
+                </a>
+
+            </li>
+            <% } %>
+
+            <% if(temPermissao('posts') || temPermissao('categorias')){ %>
+            <li class="<%= typeof atual !== 'undefined' && atual === 'categorias' ? 'ativo' : '' %>">
+
+                <a href="/dashboard/categorias">
+
+                    <i class="ri-folder-line"></i>
+
+                    Categorias
+
+                </a>
+
+            </li>
+            <% } %>
+
+            <% if(temPermissao('posts') || temPermissao('categorias')){ %>
+            <li class="<%= typeof atual !== 'undefined' && atual === 'destaque' ? 'ativo' : '' %>">
+
+                <a href="/dashboard/destaque">
+
+                    <i class="ri-star-line"></i>
+
+                    Destaque da Semana
+
+                </a>
+
+            </li>
+            <% } %>
+
+            <% if(temPermissao('pacotes')){ %>
+            <li class="<%= typeof atual !== 'undefined' && atual === 'pacotes' ? 'ativo' : '' %>">
+
+                <a href="/dashboard/pacotes">
+
+                    <i class="ri-vip-crown-line"></i>
+
+                    Pacotes
+
+                </a>
+
+            </li>
+            <% } %>
+
+            <% if(temPermissao('pagamentos')){ %>
+            <li class="<%= typeof atual !== 'undefined' && atual === 'pagamentos' ? 'ativo' : '' %>">
+
+                <a href="/dashboard/pagamentos">
+
+                    <i class="ri-money-dollar-circle-line"></i>
+
+                    Pagamentos
+
+                </a>
+
+            </li>
+            <% } %>
+
+            <% if(temPermissao('suporte')){ %>
+            <li class="<%= typeof atual !== 'undefined' && atual === 'suporte' ? 'ativo' : '' %>">
+
+                <a href="/dashboard/suporte">
+
+                    <i class="ri-customer-service-2-line"></i>
+
+                    Suporte
+
+                </a>
+
+            </li>
+            <% } %>
+
+            <% if(temPermissao('contratos')){ %>
+            <li class="<%= typeof atual !== 'undefined' && atual === 'contratos' ? 'ativo' : '' %>">
+
+                <a href="/dashboard/contratos">
+
+                    <i class="ri-archive-line"></i>
+
+                    Contratos e Logs
+
+                </a>
+
+            </li>
+            <% } %>
+
+            <% if(temPermissao('contratos')){ %>
+            <li class="<%= typeof atual !== 'undefined' && atual === 'contrato-sumario' ? 'ativo' : '' %>">
+
+                <a href="/dashboard/contrato-sumario">
+
+                    <i class="ri-file-text-line"></i>
+
+                    Contrato e Sumário
+
+                </a>
+
+            </li>
+            <% } %>
+
+            <% if(!souMaster && temPermissao('avaliacoes')){ %>
+            <li class="<%= typeof atual !== 'undefined' && atual === 'console-avaliacoes' ? 'ativo' : '' %>">
+
+                <a href="/dashboard/console/avaliacoes">
+
+                    <i class="ri-medal-line"></i>
+
+                    Pesquisa e Avaliação
+
+                </a>
+
+            </li>
+            <% } %>
+
+            <% if(souMaster){ %>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'usuarios' ? 'ativo' : '' %>">
+
+                <a href="/dashboard/usuarios">
+
+                    <i class="ri-user-3-line"></i>
+
+                    Usuários
+
+                </a>
+
+            </li>
+
+            <li style="margin-top:14px;padding-top:14px;border-top:1px solid var(--borda-chrome);">
+
+                <a href="/dashboard/console/usuarios" style="pointer-events:none;color:var(--texto-chrome-claro);font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;">
+                    Console Admin
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'console-usuarios' ? 'ativo' : '' %>">
+
+                <a href="/dashboard/console/usuarios">
+
+                    <i class="ri-shield-user-line"></i>
+
+                    Painel de Usuários
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'solicitacoes' ? 'ativo' : '' %>">
+
+                <a href="/dashboard/console/solicitacoes">
+
+                    <i class="ri-user-add-line"></i>
+
+                    Solicitações
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'console-propostas' ? 'ativo' : '' %>">
+
+                <a href="/dashboard/console/propostas">
+
+                    <i class="ri-file-list-3-line"></i>
+
+                    Propostas
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'codigos' ? 'ativo' : '' %>">
+
+                <a href="/dashboard/console/codigos">
+
+                    <i class="ri-key-2-line"></i>
+
+                    Códigos de Acesso
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'logs' ? 'ativo' : '' %>">
+
+                <a href="/dashboard/console/logs">
+
+                    <i class="ri-file-history-line"></i>
+
+                    Logs Gerais
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'console-avaliacoes' ? 'ativo' : '' %>">
+
+                <a href="/dashboard/console/avaliacoes">
+
+                    <i class="ri-medal-line"></i>
+
+                    Pesquisa e Avaliação
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'console-comunidade' ? 'ativo' : '' %>">
+
+                <a href="/dashboard/console/comunidade">
+
+                    <i class="ri-hand-heart-line"></i>
+
+                    Propostas à Comunidade
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'configuracoes' ? 'ativo' : '' %>">
+
+                <a href="/dashboard/configuracoes">
+
+                    <i class="ri-settings-3-line"></i>
+
+                    Configurações
+
+                </a>
+
+            </li>
+
+            <% } %>
+
+            <li>
+
+                <a href="/logout">
+
+                    <i class="ri-logout-box-line"></i>
+
+                    Sair
+
+                </a>
+
+            </li>
+
+        </ul>
+
+    </nav>
+
+</aside>

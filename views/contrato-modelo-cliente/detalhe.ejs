@@ -1,0 +1,87 @@
+<%- include("../partials/head", {
+    titulo: "Nosso Contrato • LYXUS Holding",
+    css: "contrato-cliente"
+}) %>
+
+<link rel="stylesheet" href="/css/pages/institucional.css">
+
+<%- include("../partials/navbar") %>
+
+<main class="bg-contrato-cliente">
+
+    <section class="inst-secao claro" style="padding-top:130px;">
+
+        <div class="container container-estreito">
+
+            <div class="contrato-cliente-doc">
+
+                <div class="contrato-cliente-topo">
+                    <h2>LYXUS Holding</h2>
+                    <span>Contrato de Prestação de Serviços — Modelo</span>
+                </div>
+
+                <p class="contrato-doc-ajuda">
+                    Este é o contrato-modelo da LYXUS, com as especificações e cláusulas que valem
+                    para nossos serviços. O contrato assinado com sua empresa pode ter ajustes
+                    específicos combinados com nosso time.
+                </p>
+
+                <h1 style="margin-top:30px;font-size:1.4rem;">Contrato</h1>
+
+                <% if(!paragrafos.length){ %>
+
+                    <div class="vazio" style="margin-top:16px;">Ainda estamos preparando o texto deste contrato.</div>
+
+                <% } else { %>
+
+                    <div class="contrato-cliente-paragrafos">
+
+                        <% paragrafos.forEach(function(p, i){ %>
+
+                            <div class="contrato-cliente-paragrafo">
+
+                                <p><%= p.texto %></p>
+
+                                <% if(p.artigo){ %>
+                                    <a href="#glossario-<%= p.slug %>" class="contrato-cliente-artigo"><%= p.artigo %></a>
+                                <% } %>
+
+                            </div>
+
+                        <% }) %>
+
+                    </div>
+
+                <% } %>
+
+                <% if(glossario.length){ %>
+
+                    <h2 id="sumario" style="margin-top:40px;font-size:1.2rem;">Sumário</h2>
+                    <p class="contrato-doc-ajuda">Explicação de cada artigo citado no contrato acima.</p>
+
+                    <div class="contrato-cliente-glossario">
+
+                        <% glossario.forEach(function(g){ %>
+
+                            <div id="glossario-<%= g.slug %>" class="contrato-cliente-glossario-item">
+                                <strong><%= g.artigo %></strong>
+                                <p><%= g.descricao %></p>
+                            </div>
+
+                        <% }) %>
+
+                    </div>
+
+                <% } %>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", { js: "" }) %>

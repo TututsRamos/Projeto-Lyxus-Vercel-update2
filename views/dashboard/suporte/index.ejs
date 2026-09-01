@@ -1,0 +1,47 @@
+<%- include("../../partials/head", {
+    titulo: "Suporte • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "suporte" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Suporte</h1>
+                <p>Responda as conversas do chat por aqui.</p>
+            </div>
+
+            <a href="<%= tawkDashboardUrl %>" target="_blank" rel="noopener" class="btn">
+                Abrir em nova aba
+            </a>
+
+        </header>
+
+        <div class="painel" style="padding:0;overflow:hidden;">
+
+            <iframe
+                src="<%= tawkDashboardUrl %>"
+                title="Painel de atendimento tawk.to"
+                style="width:100%;height:75vh;border:0;display:block;">
+            </iframe>
+
+            <p style="padding:12px 16px;color:#7A7396;font-size:.8rem;">
+                Se a tela acima aparecer em branco, o tawk.to pode estar bloqueando a exibição
+                dentro do site — use o botão "Abrir em nova aba" acima para responder o chat
+                normalmente.
+            </p>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", {
+    js: "dashboard"
+}) %>

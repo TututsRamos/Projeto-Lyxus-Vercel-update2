@@ -1,0 +1,100 @@
+<%- include("../../partials/head", {
+    titulo: "Categorias • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "categorias" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Categorias</h1>
+                <p>Organize os posts do blog por categoria.</p>
+            </div>
+
+            <div class="dash-header-acoes">
+                <a href="/dashboard/categorias/novo" class="btn">
+                    <i class="ri-add-line"></i> Nova categoria
+                </a>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Categoria</th>
+                            <th>Descrição</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(categorias && categorias.length){ %>
+
+                            <% categorias.forEach(cat => { %>
+
+                                <tr>
+
+                                    <td>
+                                        <div class="tabela-item">
+                                            <span style="width:14px;height:14px;border-radius:50%;background:<%= cat.cor %>;display:inline-block;"></span>
+                                            <%= cat.nome %>
+                                        </div>
+                                    </td>
+
+                                    <td><%= cat.descricao || "-" %></td>
+
+                                    <td>
+                                        <span class="status <%= cat.ativo ? 'status-ativo' : 'status-inativo' %>">
+                                            <%= cat.ativo ? "Ativa" : "Inativa" %>
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <div class="tabela-acoes">
+                                            <a href="/dashboard/categorias/editar/<%= cat._id %>" title="Editar">
+                                                <i class="ri-pencil-line"></i>
+                                            </a>
+                                            <a href="/dashboard/categorias/excluir/<%= cat._id %>" title="Excluir" class="excluir">
+                                                <i class="ri-delete-bin-line"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="4" class="vazio">Nenhuma categoria cadastrada ainda.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", {
+    js: "dashboard"
+}) %>

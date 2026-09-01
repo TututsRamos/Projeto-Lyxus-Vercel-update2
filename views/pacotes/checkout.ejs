@@ -1,0 +1,270 @@
+<%- include("../partials/head", {
+    titulo: "Checkout • " + pacote.nome,
+    css: "pacote"
+}) %>
+
+<%- include("../partials/navbar") %>
+
+<main class="pacotes-page">
+
+    <section class="checkout-section">
+
+        <div class="container checkout-grid">
+
+            <% if(typeof sucesso !== "undefined" && sucesso){ %>
+
+                <div class="checkout-sucesso">
+
+                    <i class="ri-checkbox-circle-fill"></i>
+
+                    <h1>Solicitação enviada!</h1>
+
+                    <p>
+                        Recebemos seu pedido do pacote
+                        <strong><%= pacote.nome %></strong>.
+                        <% if(typeof pix !== "undefined" && pix){ %>
+                            Pague com o Pix abaixo para agilizar a confirmação —
+                            nosso time aprova assim que o pagamento cair.
+                        <% } else { %>
+                            Nosso time vai entrar em contato em breve
+                            para confirmar os próximos passos.
+                        <% } %>
+                    </p>
+
+                    <% if(typeof pix !== "undefined" && pix){ %>
+
+                        <div class="checkout-pix-box">
+
+                            <canvas id="pix-qrcode"></canvas>
+
+                            <span class="checkout-pix-status">
+                                <i class="ri-time-line"></i>
+                                Pagamento pendente de confirmação
+                            </span>
+
+                            <div class="checkout-pix-copia">
+
+                                <input
+                                    type="text"
+                                    id="pix-copia-cola"
+                                    value="<%= pix.copiaCola %>"
+                                    readonly>
+
+                                <button type="button" id="pix-copiar-btn" class="btn">
+                                    Copiar código
+                                </button>
+
+                            </div>
+
+                            <p class="checkout-pix-aviso">
+                                Copie o código acima ou escaneie o QR Code no app
+                                do seu banco. Assim que o pagamento for identificado,
+                                nossa equipe aprova sua solicitação.
+                            </p>
+
+                        </div>
+
+                        <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
+                        <script>
+
+                            QRCode.toCanvas(
+                                document.getElementById("pix-qrcode"),
+                                <%- JSON.stringify(pix.copiaCola) %>,
+                                { width: 220, margin: 1 }
+                            );
+
+                            const botaoCopiar = document.getElementById("pix-copiar-btn");
+
+                            botaoCopiar.addEventListener("click", () => {
+
+                                const campo = document.getElementById("pix-copia-cola");
+
+                                campo.select();
+
+                                navigator.clipboard.writeText(campo.value).then(() => {
+
+                                    botaoCopiar.textContent = "Copiado!";
+
+                                    setTimeout(() => {
+
+                                        botaoCopiar.textContent = "Copiar código";
+
+                                    }, 2000);
+
+                                });
+
+                            });
+
+                        </script>
+
+                    <% } else if(typeof metodo !== "undefined" && metodo && metodo !== "pix"){ %>
+
+                        <p class="checkout-pix-aviso">
+                            Forma de pagamento escolhida: <strong><%= metodo === "cartao" ? "Cartão de crédito" : "Boleto" %></strong>.
+                            Nossa equipe vai enviar as instruções de pagamento
+                            pelo contato informado.
+                        </p>
+
+                    <% } %>
+
+                    <a href="/" class="btn btn-outline">Voltar para o início</a>
+
+                </div>
+
+            <% } else { %>
+
+                <div class="checkout-form-bloco">
+
+                    <a href="/pacotes/<%= pacote._id %>" class="blog-voltar">
+                        <i class="ri-arrow-left-line"></i> Voltar ao pacote
+                    </a>
+
+                    <h1>Finalizar solicitação</h1>
+
+                    <p class="checkout-subtitulo">
+                        Preencha os dados abaixo e nossa equipe
+                        entrará em contato para dar sequência.
+                    </p>
+
+                    <% if(typeof erro !== "undefined" && erro){ %>
+
+                        <div class="login-erro">
+                            <i class="ri-error-warning-line"></i>
+                            <span><%= erro %></span>
+                        </div>
+
+                    <% } %>
+
+                    <form
+                        method="POST"
+                        action="/pacotes/<%= pacote._id %>/checkout"
+                        class="checkout-form">
+
+                        <div class="campo">
+
+                            <label for="nome">Nome completo</label>
+
+                            <input
+                                type="text"
+                                id="nome"
+                                name="nome"
+                                placeholder="Seu nome"
+                                value="<%= typeof usuario !== 'undefined' && usuario ? usuario.nome : '' %>"
+                                required>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="email">E-mail</label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="seu@email.com"
+                                value="<%= typeof usuario !== 'undefined' && usuario ? usuario.email : '' %>"
+                                required>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label for="telefone">Telefone / WhatsApp</label>
+
+                            <input
+                                type="tel"
+                                id="telefone"
+                                name="telefone"
+                                placeholder="(00) 00000-0000"
+                                required>
+
+                        </div>
+
+                        <div class="campo">
+
+                            <label>Forma de pagamento</label>
+
+                            <div class="metodo-pagamento-opcoes">
+
+                                <label class="metodo-opcao">
+                                    <input type="radio" name="metodo" value="pix" checked required>
+                                    <i class="ri-qr-code-line"></i>
+                                    <span>Pix</span>
+                                </label>
+
+                                <label class="metodo-opcao desativada">
+                                    <input type="radio" name="metodo" value="cartao" disabled>
+                                    <i class="ri-bank-card-line"></i>
+                                    <span>Cartão</span>
+                                    <span class="metodo-opcao-tag">Em breve</span>
+                                </label>
+
+                                <label class="metodo-opcao desativada">
+                                    <input type="radio" name="metodo" value="boleto" disabled>
+                                    <i class="ri-file-list-3-line"></i>
+                                    <span>Boleto</span>
+                                    <span class="metodo-opcao-tag">Em breve</span>
+                                </label>
+
+                            </div>
+
+                            <p class="checkout-subtitulo" style="margin:10px 0 0;font-size:.82rem;">
+                                Por enquanto, só aceitamos pagamento via Pix.
+                            </p>
+
+                        </div>
+
+                        <button type="submit" class="btn checkout-btn">
+                            Confirmar solicitação
+                        </button>
+
+                    </form>
+
+                </div>
+
+                <aside class="checkout-resumo">
+
+                    <span class="checkout-resumo-rotulo">Resumo do pedido</span>
+
+                    <h2><%= pacote.nome %></h2>
+
+                    <p><%= pacote.descricao %></p>
+
+                    <ul class="pacote-beneficios">
+
+                        <% (pacote.beneficios || []).forEach(item => { %>
+
+                            <li>
+                                <i class="ri-checkbox-circle-fill"></i>
+                                <%= item %>
+                            </li>
+
+                        <% }) %>
+
+                    </ul>
+
+                    <div class="checkout-resumo-total">
+
+                        <span>Total</span>
+
+                        <strong>R$ <%= Number(pacote.preco).toLocaleString("pt-BR") %></strong>
+
+                    </div>
+
+                </aside>
+
+            <% } %>
+
+        </div>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", {
+    js: "pacote"
+}) %>

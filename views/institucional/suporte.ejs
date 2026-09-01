@@ -1,0 +1,147 @@
+<%- include("../partials/head", {
+    titulo: "Suporte • LYXUS Holding",
+    css: "institucional"
+}) %>
+
+<link rel="stylesheet" href="/css/components/institucional-temas.css">
+
+<%- include("../partials/navbar") %>
+
+<main>
+
+    <section class="inst-hero">
+
+        <div class="container">
+
+            <span class="badge">SUPORTE LYXUS</span>
+
+            <h1>Precisa de ajuda?</h1>
+
+            <p>
+                Fale com a gente por qualquer um dos canais abaixo,
+                ou deixe sua mensagem que retornamos o quanto antes.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="inst-secao claro tema-suporte">
+
+        <div class="container inst-grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:60px;">
+
+            <% if(typeof config !== "undefined" && config && config.email){ %>
+
+                <div class="inst-card">
+                    <div class="icone"><i class="ri-mail-line"></i></div>
+                    <h3>E-mail</h3>
+                    <p><%= config.email %></p>
+                </div>
+
+            <% } %>
+
+            <% if(typeof config !== "undefined" && config && config.whatsapp){ %>
+
+                <div class="inst-card">
+                    <div class="icone"><i class="ri-whatsapp-line"></i></div>
+                    <h3>WhatsApp</h3>
+                    <p><%= config.whatsapp %></p>
+                </div>
+
+            <% } %>
+
+            <% if(typeof config !== "undefined" && config && config.telefone){ %>
+
+                <div class="inst-card">
+                    <div class="icone"><i class="ri-phone-line"></i></div>
+                    <h3>Telefone</h3>
+                    <p><%= config.telefone %></p>
+                </div>
+
+            <% } %>
+
+            <div class="inst-card">
+                <div class="icone"><i class="ri-question-answer-line"></i></div>
+                <h3>FAQ</h3>
+                <p><a href="/faq">Veja as perguntas frequentes</a></p>
+            </div>
+
+        </div>
+
+        <div class="container tema-layout">
+
+            <div class="inst-form-box">
+
+                <% if(typeof enviado !== "undefined" && enviado){ %>
+
+                    <div class="inst-form-sucesso">
+
+                        <i class="ri-checkbox-circle-fill"></i>
+
+                        <h3>Mensagem enviada!</h3>
+
+                        <p>
+                            Nosso time de suporte vai te responder
+                            o quanto antes.
+                        </p>
+
+                    </div>
+
+                <% } else { %>
+
+                    <% if(typeof erro !== "undefined" && erro){ %>
+
+                        <div class="login-erro">
+                            <i class="ri-error-warning-line"></i>
+                            <span><%= erro %></span>
+                        </div>
+
+                    <% } %>
+
+                    <form method="POST" action="/suporte" class="inst-form">
+
+                        <input type="hidden" name="tipo" value="suporte">
+
+                        <div class="campo">
+                            <label for="nome">Nome</label>
+                            <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+                        </div>
+
+                        <div class="campo">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                        </div>
+
+                        <div class="campo">
+                            <label for="mensagem">Como podemos ajudar?</label>
+                            <textarea id="mensagem" name="mensagem" placeholder="Descreva sua dúvida ou problema" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn">Enviar mensagem</button>
+
+                    </form>
+
+                <% } %>
+
+            </div>
+
+            <div class="tema-visual">
+
+                <div class="icone-orbita io1"><i class="ri-user-3-line"></i></div>
+                <div class="icone-orbita io2"><i class="ri-customer-service-2-line"></i></div>
+
+                <div class="bolha-chat">
+                    <span></span><span></span><span></span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", { js: "" }) %>

@@ -1,0 +1,67 @@
+<%- include("../../partials/head", {
+    titulo: "Nova categoria • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "categorias" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Nova categoria</h1>
+                <p>Crie uma categoria para organizar os posts.</p>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <form
+                method="POST"
+                action="/dashboard/categorias"
+                class="form-dashboard">
+
+                <div class="campo">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" name="nome" placeholder="Ex: Marketing Digital" required>
+                </div>
+
+                <div class="campo">
+                    <label for="descricao">Descrição (opcional)</label>
+                    <textarea id="descricao" name="descricao" style="min-height:90px;" placeholder="Uma breve descrição da categoria"></textarea>
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="cor">Cor</label>
+                        <input type="color" id="cor" name="cor" value="#A678FF" style="height:48px;padding:6px;">
+                    </div>
+
+                    <div class="campo">
+                        <label for="icone">Ícone (classe Remix Icon)</label>
+                        <input type="text" id="icone" name="icone" placeholder="ri-line-chart-line">
+                    </div>
+
+                </div>
+
+                <div class="form-dashboard-acoes">
+                    <button type="submit" class="btn">Salvar categoria</button>
+                    <a href="/dashboard/categorias" class="btn-secundario-dash">Cancelar</a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", {
+    js: "dashboard"
+}) %>

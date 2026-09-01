@@ -1,0 +1,142 @@
+<%- include("../partials/head", {
+    titulo: proposta.titulo + " • LYXUS",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../partials/sidebarStaff", { atual: "propostas" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1><%= proposta.titulo %></h1>
+                <p>
+                    Código <%= proposta.codigo %> •
+                    Cliente: <%= proposta.usuario ? proposta.usuario.nome : "-" %>
+                </p>
+            </div>
+
+            <div class="dash-header-acoes">
+                <span class="status <%=
+                    proposta.status === 'aprovada' ? 'status-ativo' :
+                    proposta.status === 'recusada' ? 'status-cancelado' :
+                    proposta.status === 'cancelada' ? 'status-inativo' : 'status-pendente'
+                %>">
+                    <%= proposta.status %>
+                </span>
+            </div>
+
+        </header>
+
+        <div class="stat-grid">
+
+            <div class="stat-card">
+                <div class="icone"><i class="ri-money-dollar-circle-line"></i></div>
+                <div>
+                    <div class="numero">R$ <%= Number(proposta.valorContrato).toLocaleString("pt-BR") %></div>
+                    <div class="rotulo">Valor do contrato</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="icone"><i class="ri-calendar-line"></i></div>
+                <div>
+                    <div class="numero"><%= proposta.prazo || "-" %></div>
+                    <div class="rotulo">Prazo</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="icone"><i class="ri-briefcase-line"></i></div>
+                <div>
+                    <div class="numero"><%= proposta.areaAtuacao %></div>
+                    <div class="rotulo">Área</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="painel">
+
+            <div class="painel-titulo">
+                <h2>Dados do contratante</h2>
+            </div>
+
+            <p><strong>Tipo:</strong> <%= proposta.tipoPessoa === "juridica" ? "Pessoa jurídica" : "Pessoa física" %></p>
+
+            <% if(proposta.tipoPessoa === "juridica"){ %>
+                <p><strong>Empresa:</strong> <%= proposta.nomeEmpresa || "-" %></p>
+                <p><strong>CNPJ:</strong> <%= proposta.cnpj || "-" %></p>
+            <% } else { %>
+                <p><strong>Nome:</strong> <%= proposta.nomePessoa || "-" %></p>
+                <p><strong>CPF:</strong> <%= proposta.cpf || "-" %></p>
+            <% } %>
+
+            <p><strong>Pagamento inicial:</strong> R$ <%= Number(proposta.pagamentoInicial || 0).toLocaleString("pt-BR") %></p>
+            <p><strong>Multa:</strong> <%= proposta.percentualMulta || 0 %>%</p>
+            <p><strong>Correção:</strong> <%= proposta.percentualCorrecao || 0 %>%</p>
+
+            <% if(proposta.objetivo){ %>
+                <p><strong>Objetivo:</strong> <%= proposta.objetivo %></p>
+            <% } %>
+
+            <% if(proposta.detalhes){ %>
+                <p><strong>Detalhes:</strong> <%= proposta.detalhes %></p>
+            <% } %>
+
+        </div>
+
+        <div class="painel">
+
+            <div class="painel-titulo">
+                <h2>Histórico da negociação</h2>
+            </div>
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Evento</th>
+                            <th>Autor</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(proposta.historico && proposta.historico.length){ %>
+
+                            <% proposta.historico.forEach(h => { %>
+
+                                <tr>
+                                    <td><%= h.tipo.replace(/_/g," ") %></td>
+                                    <td><%= h.autor ? h.autor.nome : "-" %></td>
+                                    <td><%= new Date(h.data).toLocaleString("pt-BR") %></td>
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="3" class="vazio">Sem eventos registrados ainda.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../partials/scripts", { js: "dashboard" }) %>

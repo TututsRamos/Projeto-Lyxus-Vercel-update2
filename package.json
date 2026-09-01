@@ -1,0 +1,16 @@
+{
+  "type": "module",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "compression": "^1.7.5",
+    "connect-mongo": "^5.1.0",
+    "dotenv": "^17.4.2",
+    "ejs": "^3.1.10",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.6.2",
+    "express-session": "^1.19.0",
+    "mongoose": "^8.24.2",
+    "multer": "^2.2.0",
+    "slugify": "^1.6.9"
+  }
+}

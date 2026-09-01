@@ -1,0 +1,109 @@
+<%- include("../../partials/head", {
+    titulo: "Propostas à Comunidade • Console Admin",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "console-comunidade" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Propostas à Comunidade</h1>
+                <p>Iniciativas abertas ao público, exibidas em /comunidade.</p>
+            </div>
+
+            <div class="dash-header-acoes">
+                <a href="/dashboard/console/comunidade/novo" class="btn">
+                    <i class="ri-add-line"></i> Nova proposta
+                </a>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <div class="painel-titulo">
+                <h2>Propostas cadastradas</h2>
+            </div>
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Tipo</th>
+                            <th>Categoria</th>
+                            <th>Status</th>
+                            <th>Visibilidade</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(propostas && propostas.length){ %>
+
+                            <% propostas.forEach(function(p){ %>
+
+                                <tr>
+                                    <td><%= p.titulo %></td>
+                                    <td><%= p.tipo === "votacao" ? "Votação" : "Participação" %></td>
+                                    <td><%= p.categoria || "—" %></td>
+                                    <td>
+                                        <span class="status <%= p.status === 'aberta' ? 'status-ativo' : 'status-inativo' %>">
+                                            <%= p.status === "aberta" ? "aberta" : "encerrada" %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="status <%= p.ativo ? 'status-ativo' : 'status-inativo' %>">
+                                            <%= p.ativo ? "visível" : "oculta" %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="tabela-acoes">
+
+                                            <a href="/comunidade/<%= p._id %>" target="_blank" title="Ver na área pública">
+                                                <i class="ri-external-link-line"></i>
+                                            </a>
+
+                                            <a href="/dashboard/console/comunidade/<%= p._id %>/editar" title="Editar">
+                                                <i class="ri-edit-line"></i>
+                                            </a>
+
+                                            <form method="POST" action="/dashboard/console/comunidade/<%= p._id %>/excluir" style="display:inline;" onsubmit="return confirm('Excluir esta proposta à comunidade?');">
+                                                <button type="submit" style="background:none;border:none;cursor:pointer;padding:0;" title="Excluir">
+                                                    <i class="ri-delete-bin-line" style="color:var(--erro);"></i>
+                                                </button>
+                                            </form>
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="6" class="vazio">Nenhuma proposta cadastrada ainda.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", { js: "dashboard" }) %>

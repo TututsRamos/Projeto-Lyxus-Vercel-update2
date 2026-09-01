@@ -1,0 +1,102 @@
+<%- include("../partials/head", {
+    titulo: "Pacotes • LYXUS Holding",
+    css: "pacote"
+}) %>
+
+<%- include("../partials/navbar") %>
+
+<main class="pacotes-page">
+
+    <section class="pacotes-hero">
+
+        <div class="container">
+
+            <span class="badge">PACOTES</span>
+
+            <h1>Escolha o plano ideal para o seu projeto</h1>
+
+            <p>
+                Pacotes pensados para cada etapa do seu negócio,
+                sem taxas escondidas.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="pacotes-grid-section">
+
+        <div class="container">
+
+            <% if(pacotes && pacotes.length){ %>
+
+                <div class="pacotes-grid">
+
+                    <% pacotes.forEach(pacote => { %>
+
+                        <div class="pacote-card <%= pacote.destaque ? 'destaque' : '' %>">
+
+                            <% if(pacote.destaque){ %>
+
+                                <span class="pacote-selo">MAIS ESCOLHIDO</span>
+
+                            <% } %>
+
+                            <h3><%= pacote.nome %></h3>
+
+                            <p class="pacote-descricao"><%= pacote.descricao %></p>
+
+                            <div class="pacote-preco">
+
+                                <span class="pacote-preco-moeda">R$</span>
+                                <span class="pacote-preco-valor"><%= Number(pacote.preco).toLocaleString("pt-BR") %></span>
+
+                            </div>
+
+                            <ul class="pacote-beneficios">
+
+                                <% (pacote.beneficios || []).forEach(item => { %>
+
+                                    <li>
+                                        <i class="ri-checkbox-circle-fill"></i>
+                                        <%= item %>
+                                    </li>
+
+                                <% }) %>
+
+                            </ul>
+
+                            <a
+                                href="/pacotes/<%= pacote._id %>"
+                                class="<%= pacote.destaque ? 'btn' : 'btn-outline' %>">
+
+                                Ver detalhes
+
+                            </a>
+
+                        </div>
+
+                    <% }) %>
+
+                </div>
+
+            <% } else { %>
+
+                <div class="vazio">
+                    <i class="ri-vip-crown-line"></i>
+                    <p>Nenhum pacote disponível no momento.</p>
+                </div>
+
+            <% } %>
+
+        </div>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", {
+    js: "pacote"
+}) %>

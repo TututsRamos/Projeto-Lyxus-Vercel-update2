@@ -1,0 +1,222 @@
+<%- include("../../partials/head", {
+    titulo: "Configurações • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "configuracoes" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Configurações</h1>
+                <p>Dados gerais, contato e identidade visual da LYXUS.</p>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <form
+                method="POST"
+                action="/dashboard/configuracoes"
+                enctype="multipart/form-data"
+                class="form-dashboard">
+
+                <div class="campo">
+                    <label for="nomeEmpresa">Nome da empresa</label>
+                    <input type="text" id="nomeEmpresa" name="nomeEmpresa" value="<%= configuracao.nomeEmpresa || '' %>" placeholder="LYXUS Holding">
+                </div>
+
+                <div class="campo">
+                    <label for="descricao">Descrição</label>
+                    <textarea id="descricao" name="descricao" style="min-height:90px;"><%= configuracao.descricao || '' %></textarea>
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="telefone">Telefone</label>
+                        <input type="text" id="telefone" name="telefone" value="<%= configuracao.telefone || '' %>" placeholder="(00) 0000-0000">
+                    </div>
+
+                    <div class="campo">
+                        <label for="whatsapp">WhatsApp</label>
+                        <input type="text" id="whatsapp" name="whatsapp" value="<%= configuracao.whatsapp || '' %>" placeholder="(00) 00000-0000">
+                    </div>
+
+                </div>
+
+                <div class="campo">
+                    <label for="email">E-mail de contato</label>
+                    <input type="email" id="email" name="email" value="<%= configuracao.email || '' %>" placeholder="contato@lixus.com">
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="instagram">Instagram</label>
+                        <input type="text" id="instagram" name="instagram" value="<%= configuracao.instagram || '' %>" placeholder="https://instagram.com/...">
+                    </div>
+
+                    <div class="campo">
+                        <label for="facebook">Facebook</label>
+                        <input type="text" id="facebook" name="facebook" value="<%= configuracao.facebook || '' %>" placeholder="https://facebook.com/...">
+                    </div>
+
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="linkedin">LinkedIn</label>
+                        <input type="text" id="linkedin" name="linkedin" value="<%= configuracao.linkedin || '' %>" placeholder="https://linkedin.com/...">
+                    </div>
+
+                    <div class="campo">
+                        <label for="versaoApp">Versão do app</label>
+                        <input type="text" id="versaoApp" name="versaoApp" value="<%= configuracao.versaoApp || '' %>" placeholder="1.0.0">
+                    </div>
+
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="playStore">Link Play Store</label>
+                        <input type="text" id="playStore" name="playStore" value="<%= configuracao.playStore || '' %>" placeholder="https://play.google.com/...">
+                    </div>
+
+                    <div class="campo">
+                        <label for="appStore">Link App Store</label>
+                        <input type="text" id="appStore" name="appStore" value="<%= configuracao.appStore || '' %>" placeholder="https://apps.apple.com/...">
+                    </div>
+
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="corPrimaria">Cor principal 1</label>
+                        <input type="color" id="corPrimaria" name="corPrimaria" value="<%= configuracao.corPrimaria || '#1D173F' %>" style="height:48px;padding:6px;">
+                    </div>
+
+                    <div class="campo">
+                        <label for="corSecundaria">Cor principal 2</label>
+                        <input type="color" id="corSecundaria" name="corSecundaria" value="<%= configuracao.corSecundaria || '#A678FF' %>" style="height:48px;padding:6px;">
+                    </div>
+
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="logo">Logo</label>
+                        <input type="file" id="logo" name="logo" accept="image/*" data-preview="#preview-logo">
+
+                        <% if(configuracao.logo){ %>
+
+                            <img
+                                id="preview-logo"
+                                src="<%= urlImagem(configuracao.logo) %>"
+                                alt=""
+                                style="width:64px;border-radius:12px;object-fit:cover;margin-top:10px;">
+
+                        <% } %>
+
+                    </div>
+
+                    <div class="campo">
+                        <label for="banner">Banner</label>
+                        <input type="file" id="banner" name="banner" accept="image/*" data-preview="#preview-banner">
+
+                        <% if(configuracao.banner){ %>
+
+                            <img
+                                id="preview-banner"
+                                src="<%= urlImagem(configuracao.banner) %>"
+                                alt=""
+                                style="width:140px;border-radius:12px;object-fit:cover;margin-top:10px;">
+
+                        <% } %>
+
+                    </div>
+
+                </div>
+
+                <div class="campo-linha">
+                    <p style="margin:10px 0 0;font-weight:600;color:var(--texto);">
+                        Recebimento via Pix
+                    </p>
+                </div>
+
+                <p style="margin:4px 0 0;font-size:.85rem;color:var(--texto-claro);">
+                    Essa chave é usada para gerar o QR Code/código Pix real mostrado
+                    aos clientes no checkout. Pode ser uma chave de teste (ex: sua
+                    conta pessoal) e trocada depois pela chave definitiva da empresa
+                    — o pedido continua ficando "pendente" até você aprovar manualmente.
+                </p>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="pixChave">Chave Pix</label>
+                        <input type="text" id="pixChave" name="pixChave" value="<%= configuracao.pixChave || '' %>" placeholder="CPF, CNPJ, e-mail, telefone ou chave aleatória">
+                    </div>
+
+                    <div class="campo">
+                        <label for="pixNomeRecebedor">Nome do titular da chave</label>
+                        <input type="text" id="pixNomeRecebedor" name="pixNomeRecebedor" value="<%= configuracao.pixNomeRecebedor || '' %>" placeholder="Como está no banco (máx. 25 caracteres)" maxlength="25">
+                    </div>
+
+                    <div class="campo">
+                        <label for="pixCidade">Cidade do titular</label>
+                        <input type="text" id="pixCidade" name="pixCidade" value="<%= configuracao.pixCidade || '' %>" placeholder="Ex: SAO PAULO" maxlength="15">
+                    </div>
+
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="tawkDashboardUrl">Link do dashboard de atendimento (tawk.to)</label>
+                        <input type="text" id="tawkDashboardUrl" name="tawkDashboardUrl" value="<%= configuracao.tawkDashboardUrl || '' %>" placeholder="https://dashboard.tawk.to/">
+                        <small>É esse link que abre pra quem tem acesso só ao Suporte.</small>
+                    </div>
+
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="tawkPropertyId">Property ID do widget (tawk.to)</label>
+                        <input type="text" id="tawkPropertyId" name="tawkPropertyId" value="<%= configuracao.tawkPropertyId || '' %>" placeholder="Ex: 6a8e3d6eb37bbb3447aea39e">
+                        <small>Primeiro trecho da URL do script, antes da última barra.</small>
+                    </div>
+
+                    <div class="campo">
+                        <label for="tawkWidgetId">Widget ID (tawk.to)</label>
+                        <input type="text" id="tawkWidgetId" name="tawkWidgetId" value="<%= configuracao.tawkWidgetId || '' %>" placeholder="Ex: 1k0tpvubj">
+                        <small>Esses dois campos ligam o chat que aparece pros visitantes do site (em todas as páginas). Pra pegar os valores certos, entre no painel do tawk.to em Administration → Chat Widget → código do widget.</small>
+                    </div>
+
+                </div>
+
+                <div class="form-dashboard-acoes">
+                    <button type="submit" class="btn">Salvar configurações</button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", {
+    js: "dashboard"
+}) %>

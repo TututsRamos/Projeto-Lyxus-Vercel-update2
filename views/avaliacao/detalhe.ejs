@@ -1,0 +1,142 @@
+<%- include("../partials/head", {
+    titulo: empresa.nome + " • Avaliação Lyxus",
+    css: "avaliacao"
+}) %>
+
+<%- include("../partials/navbar") %>
+
+<main class="bg-avaliacao">
+
+    <section class="inst-secao claro avaliacao-secao">
+
+        <div class="container">
+
+            <a href="/avaliacao" class="avaliacao-voltar"><i class="ri-arrow-left-line"></i> Voltar para a pesquisa</a>
+
+            <header class="avaliacao-detalhe-header">
+
+                <div>
+
+                    <span class="avaliacao-card-categoria"><%= empresa.categoria %></span>
+
+                    <h1><%= empresa.nome %></h1>
+
+                    <% if(empresa.localizacao){ %>
+                        <p class="avaliacao-card-local"><i class="ri-map-pin-line"></i> <%= empresa.localizacao %></p>
+                    <% } %>
+
+                    <% if(empresa.descricao){ %>
+                        <p class="avaliacao-detalhe-descricao"><%= empresa.descricao %></p>
+                    <% } %>
+
+                    <% if(empresa.googleRating){ %>
+
+                        <p class="avaliacao-card-google">
+                            <i class="ri-google-fill"></i>
+                            <strong><%= Number(empresa.googleRating).toFixed(1) %></strong>
+                            (<%= (empresa.googleReviews || 0).toLocaleString("pt-BR") %> avaliações Google)
+                        </p>
+
+                    <% } %>
+
+                </div>
+
+                <div class="avaliacao-detalhe-nota">
+
+                    <% if(selo){ %>
+                        <span class="avaliacao-selo"><i class="ri-award-fill"></i> Selo de qualidade Lyxus</span>
+                    <% } %>
+
+                    <div class="avaliacao-nota-numero grande"><%= nota %><span>/10</span></div>
+
+                </div>
+
+            </header>
+
+            <% if(badgesEmpresa.merito.length || badgesEmpresa.alerta.length){ %>
+
+                <section class="avaliacao-painel">
+
+                    <h3>Badges</h3>
+                    <p>Reconhecimentos técnicos e pontos de atenção identificados na análise.</p>
+
+                    <% if(badgesEmpresa.merito.length){ %>
+
+                        <span class="avaliacao-badges-rotulo">Mérito técnico</span>
+
+                        <div class="avaliacao-badges">
+
+                            <% badgesEmpresa.merito.forEach(function(b){ %>
+                                <span class="avaliacao-badge merito" title="<%= b.descricao %>"><i class="ri-shield-check-line"></i> <%= b.rotulo %></span>
+                            <% }) %>
+
+                        </div>
+
+                    <% } %>
+
+                    <% if(badgesEmpresa.alerta.length){ %>
+
+                        <span class="avaliacao-badges-rotulo">Alertas</span>
+
+                        <div class="avaliacao-badges">
+
+                            <% badgesEmpresa.alerta.forEach(function(b){ %>
+                                <span class="avaliacao-badge alerta" title="<%= b.descricao %>"><i class="ri-alert-line"></i> <%= b.rotulo %></span>
+                            <% }) %>
+
+                        </div>
+
+                    <% } %>
+
+                </section>
+
+            <% } %>
+
+            <div class="avaliacao-grupos">
+
+                <% grupos.forEach(function(grupo){ %>
+
+                    <article class="avaliacao-painel">
+
+                        <div class="avaliacao-grupo-topo">
+                            <h3><%= grupo.nome %></h3>
+                            <span class="avaliacao-nota-numero"><%= grupo.nota %></span>
+                        </div>
+
+                        <div class="avaliacao-barra">
+                            <div class="avaliacao-barra-preenchida" style="width:<%= grupo.nota * 10 %>%;"></div>
+                        </div>
+
+                        <ul class="avaliacao-criterios">
+
+                            <% grupo.criterios.forEach(function(c){ %>
+
+                                <li>
+                                    <div class="avaliacao-criterio-linha">
+                                        <span><%= c.nome %></span>
+                                        <span class="avaliacao-criterio-nota"><%= c.nota %></span>
+                                    </div>
+                                    <div class="avaliacao-barra pequena">
+                                        <div class="avaliacao-barra-preenchida" style="width:<%= c.nota * 10 %>%;"></div>
+                                    </div>
+                                </li>
+
+                            <% }) %>
+
+                        </ul>
+
+                    </article>
+
+                <% }) %>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", { js: "" }) %>

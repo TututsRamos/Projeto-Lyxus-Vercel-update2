@@ -1,0 +1,146 @@
+<%
+    const msgBloqueioVisitanteFooter = "Essa área ainda não está disponível pra sua conta. Aguarde a aprovação para ter acesso.";
+    const ehVisitanteFooter = !!(typeof usuario !== "undefined" && usuario && usuario.tipo === "visitante");
+    const claseBloqueioVisitanteFooter = ehVisitanteFooter ? "bloqueado-visitante" : "";
+    const dataBloqueioVisitanteFooter = ehVisitanteFooter ? ` data-bloqueado-msg="${msgBloqueioVisitanteFooter}"` : "";
+%>
+
+<footer class="footer">
+
+    <div class="container footer-grid">
+
+        <div class="footer-col footer-col-sobre">
+
+            <img
+                src="/img/logo/logo-escuro.png"
+                alt="LYXUS"
+                class="footer-logo logo-tema-padrao">
+
+            <img
+                src="/img/logo/logo-claro.png"
+                alt="LYXUS"
+                class="footer-logo logo-tema-invertido">
+
+            <p>
+
+                A LYXUS Holding desenvolve soluções digitais
+                para empresas de todos os portes, oferecendo
+                aplicativos, sites, design e marketing digital.
+
+            </p>
+
+            <div class="redes">
+
+           <a href="https://www.instagram.com/lyxus.digital/" title="Instagram" target="_blank" rel="noopener noreferrer">
+    <i class="ri-instagram-line"></i>
+</a>
+
+<a href="https://www.facebook.com/profile.php?id=61590405967387" title="Facebook" target="_blank" rel="noopener noreferrer">
+    <i class="ri-facebook-circle-line"></i>
+</a>
+
+                <a href="#" title="LinkedIn">
+
+                    <i class="ri-linkedin-box-line"></i>
+
+                </a>
+
+                <a href="<%= linkWhatsapp %>" title="WhatsApp" target="_blank" rel="noopener noreferrer">
+
+                    <i class="ri-whatsapp-line"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="footer-col">
+
+            <h3>
+
+                Empresa
+
+            </h3>
+
+            <ul>
+
+                <li><a href="/sobre">Sobre a LYXUS</a></li>
+                <li><a href="/equipe">Equipe</a></li>
+                <li><a href="/blog">Blog</a></li>
+                <li><a href="/trabalhe-conosco">Trabalhe Conosco</a></li>
+
+            </ul>
+
+        </div>
+
+        <div class="footer-col">
+
+            <h3>
+
+                Soluções
+
+            </h3>
+
+            <ul>
+
+                <li><a href="/pacotes" class="<%= claseBloqueioVisitanteFooter %>"<%- dataBloqueioVisitanteFooter %>>Pacotes Disponíveis</a></li>
+                <li><a href="/assinaturas" class="<%= claseBloqueioVisitanteFooter %>"<%- dataBloqueioVisitanteFooter %>>Minhas Assinaturas</a></li>
+                <li><a href="/parceiros">Parceiros LYXUS</a></li>
+                <li><a href="/apoiador" class="<%= claseBloqueioVisitanteFooter %>"<%- dataBloqueioVisitanteFooter %>>Torne-se Apoiador</a></li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <div class="footer-copy">
+
+        <span>
+            © <%= new Date().getFullYear() %> LYXUS Holding.
+            Todos os direitos reservados.
+        </span>
+
+        <nav class="footer-legal">
+
+            <a href="/contrato">Veja nosso contrato</a>
+            <a href="/termos/uso">Termos de Uso</a>
+            <a href="/termos/sigilo">Sigilo</a>
+            <a href="/termos/cookies">Cookies</a>
+            <a href="/termos/lgpd">Política de Privacidade</a>
+            <a href="/termos/reembolso">Reembolso e Cancelamento</a>
+            <a href="/termos/assinatura">Assinatura e Manutenção</a>
+            <a href="/termos/dpa">DPA</a>
+            <a href="/termos/outros">Outras Políticas</a>
+
+        </nav>
+
+    </div>
+
+</footer>
+
+<%- include("contaDrawer") %>
+
+<% if(typeof config !== "undefined" && config && config.tawkPropertyId && config.tawkWidgetId){ %>
+
+    <!-- Chat de suporte (tawk.to) — configurado em dashboard/configuracoes -->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {};
+        var Tawk_LoadStart = new Date();
+        (function(){
+            var s1 = document.createElement("script");
+            var s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = "https://embed.tawk.to/<%= config.tawkPropertyId %>/<%= config.tawkWidgetId %>";
+            s1.charset = "UTF-8";
+            s1.setAttribute("crossorigin", "*");
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+
+<% } %>
+
+</body>
+
+</html>

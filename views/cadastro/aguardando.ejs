@@ -1,0 +1,83 @@
+<%- include("../partials/head", {
+    titulo: "Conta em análise • LYXUS Holding",
+    css: "login"
+}) %>
+
+<main class="login-page">
+
+    <div class="login-brand">
+
+        <div class="login-brand-glow"></div>
+
+        <span class="login-brand-marca">
+
+            <span class="login-brand-marca-logo">
+                <img src="/img/logo/logo.jpeg" alt="LYXUS">
+            </span>
+
+            <span class="login-brand-marca-nome">LYXUS</span>
+
+        </span>
+
+        <div class="login-brand-content">
+
+            <div class="login-brand-topo">
+
+                <h1>Falta pouco</h1>
+
+                <p>
+                    Recebemos seu cadastro. Assim que nosso time
+                    aprovar sua conta, você terá acesso completo
+                    à sua área de cliente.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="login-form-panel">
+
+        <div class="login-box">
+
+            <img src="/img/logo/logo3.jpeg" alt="LYXUS Holding" class="login-box-logo-mobile">
+
+            <span class="badge">CONTA EM ANÁLISE</span>
+
+            <h2>Olá, <%= usuario && usuario.nome ? usuario.nome.split(" ")[0] : "" %> 👋</h2>
+
+            <p class="login-subtitle">
+                Sua conta foi criada como <strong>visitante</strong> e está
+                aguardando a aprovação do nosso time. Enquanto isso,
+                algumas áreas do site ainda não ficam disponíveis
+                pra você — assim que aprovarmos, você já vira cliente
+                e ganha acesso completo, incluindo o seu painel.
+            </p>
+
+            <p class="login-subtitle">
+                Não precisa fazer nada: pode fechar esta página e
+                voltar mais tarde, ou atualizar aqui mesmo pra
+                conferir se já foi aprovado.
+            </p>
+
+            <a href="/cadastro/aguardando" class="btn login-btn">
+                <i class="ri-refresh-line"></i> Atualizar status
+            </a>
+
+            <a href="/" class="login-voltar">
+                <i class="ri-arrow-left-line"></i> Voltar para o site
+            </a>
+
+            <a href="/logout" class="login-voltar">
+                Sair da conta
+            </a>
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>

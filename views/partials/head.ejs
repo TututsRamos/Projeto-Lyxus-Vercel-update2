@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+
+        <%= titulo || "LYXUS Holding" %>
+
+    </title>
+
+    <!-- Tema salvo (evita flash de tema errado ao carregar a página) -->
+
+    <script>
+        (function(){
+            try{
+                var t = localStorage.getItem("lyxus-tema-v2");
+                if(!t){
+                    t = "escuro";
+                }
+                if(t && t !== "padrao"){
+                    document.documentElement.setAttribute("data-theme", t);
+                }
+            }catch(e){}
+        })();
+    </script>
+
+    <!-- Google Fonts -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Remix Icons -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css"
+        rel="stylesheet">
+
+    <!-- Base -->
+
+    <link rel="stylesheet" href="/css/base/reset.css">
+
+    <link rel="stylesheet" href="/css/base/variables.css">
+
+    <link rel="stylesheet" href="/css/base/themes.css">
+
+    <link rel="stylesheet" href="/css/base/typography.css">
+
+    <link rel="stylesheet" href="/css/base/global.css">
+
+    <link rel="stylesheet" href="/css/base/animations.css">
+
+    <link rel="stylesheet" href="/css/base/responsive.css">
+
+    <!-- Componentes -->
+
+    <link rel="stylesheet" href="/css/components/buttons.css">
+
+    <link rel="stylesheet" href="/css/components/navbar.css">
+
+    <link rel="stylesheet" href="/css/components/footer.css">
+
+    <link rel="stylesheet" href="/css/components/theme-switcher.css">
+
+    <link rel="stylesheet" href="/css/components/conta-drawer.css">
+
+    <link rel="stylesheet" href="/css/components/cards.css">
+
+    <link rel="stylesheet" href="/css/components/forms.css">
+
+    <link rel="stylesheet" href="/css/components/faq.css">
+
+    <link rel="stylesheet" href="/css/components/processo.css">
+
+    <link rel="stylesheet" href="/css/components/feedback.css">
+
+    <!-- Página -->
+
+    <% if(css){ %>
+
+        <link rel="stylesheet" href="/css/pages/<%= css %>.css">
+
+    <% } %>
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WSWF7HMYF7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WSWF7HMYF7');
+</script>
+
+    <link rel="icon" type="image/jpeg" href="/img/logo/logo.jpeg">
+</head>
+
+<body class="fade">

@@ -1,0 +1,278 @@
+<%- include("../partials/head", {
+    titulo: "Criar conta • LYXUS Holding",
+    css: "login"
+}) %>
+
+<main class="login-page">
+
+    <div class="login-brand">
+
+        <div class="login-brand-glow"></div>
+
+        <span class="login-brand-marca">
+
+            <span class="login-brand-marca-logo">
+                <img src="/img/logo/logo.jpeg" alt="LYXUS">
+            </span>
+
+            <span class="login-brand-marca-nome">LYXUS</span>
+
+        </span>
+
+        <div class="login-brand-content">
+
+            <div class="login-brand-topo">
+
+                <h1>Junte-se à LYXUS</h1>
+
+                <p>
+                    Crie sua conta para solicitar orçamentos,
+                    acompanhar projetos e falar direto com
+                    nosso time.
+                </p>
+
+                <ul class="login-brand-lista">
+
+                    <li><i class="ri-checkbox-circle-fill"></i> Apps • Sites • Design • Marketing</li>
+
+                    <li><i class="ri-checkbox-circle-fill"></i> Acompanhamento em tempo real</li>
+
+                    <li><i class="ri-checkbox-circle-fill"></i> Suporte dedicado</li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+        <% if(typeof destaquesCadastro !== "undefined" && destaquesCadastro && destaquesCadastro.length){ %>
+
+            <div class="login-destaque-carousel">
+
+                <div class="login-destaque-track">
+
+                    <% destaquesCadastro.slice(0, 4).forEach((destaque, indice) => { %>
+
+                        <div class="login-destaque-slide<%= indice === 0 ? ' is-ativo' : '' %>">
+
+                            <% if(destaque.imagem){ %>
+                                <img class="login-destaque-slide-imagem" src="<%= urlImagem(destaque.imagem) %>" alt="<%= destaque.titulo %>">
+                            <% } else { %>
+                                <span class="login-destaque-slide-icone">
+                                    <i class="<%= destaque.tipo === 'assinatura' ? 'ri-vip-crown-line' : destaque.tipo === 'outro' ? 'ri-sparkling-2-line' : 'ri-quill-pen-line' %>"></i>
+                                </span>
+                            <% } %>
+
+                            <div class="login-destaque-slide-corpo">
+
+                                <span class="login-destaque-slide-badge">
+                                    <i class="ri-fire-fill"></i> Destaque
+                                </span>
+
+                                <h3><%= destaque.titulo %></h3>
+
+                                <% if(destaque.descricao){ %>
+                                    <p><%= destaque.descricao %></p>
+                                <% } %>
+
+                                <% if(destaque.link){ %>
+                                    <a href="<%= destaque.link %>" class="login-destaque-slide-btn">
+                                        <%= destaque.textoBotao || "Ver mais" %> <i class="ri-arrow-right-line"></i>
+                                    </a>
+                                <% } %>
+
+                            </div>
+
+                        </div>
+
+                    <% }) %>
+
+                </div>
+
+                <% if(destaquesCadastro.slice(0, 4).length > 1){ %>
+
+                    <div class="login-destaque-dots">
+
+                        <% destaquesCadastro.slice(0, 4).forEach((_, indice) => { %>
+                            <button type="button" class="login-destaque-dot<%= indice === 0 ? ' is-ativo' : '' %>" aria-label="Ver destaque <%= indice + 1 %>"></button>
+                        <% }) %>
+
+                    </div>
+
+                <% } %>
+
+            </div>
+
+        <% } %>
+
+    </div>
+
+    <div class="login-form-panel">
+
+        <div class="login-box">
+
+        
+
+                <span class="login-box-logo-mobile">
+                    <img src="/img/logo/logo3.jpeg" alt="LYXUS Holding">
+                </span>
+
+            
+
+            <span class="badge">CRIAR CONTA</span>
+
+            <h2>Vamos começar</h2>
+
+            <p class="login-subtitle">
+                Preencha seus dados para criar sua conta.
+            </p>
+
+            <% if (typeof erro !== "undefined" && erro) { %>
+
+                <div class="login-erro">
+
+                    <i class="ri-error-warning-line"></i>
+
+                    <span><%= erro %></span>
+
+                </div>
+
+            <% } %>
+
+            <form method="POST" action="/cadastro" class="login-form">
+
+                <div class="input-group">
+
+                    <label for="nome">Nome completo</label>
+
+                    <div class="input-wrapper">
+
+                        <i class="ri-user-line"></i>
+
+                        <input
+                            type="text"
+                            id="nome"
+                            name="nome"
+                            maxlength="35"
+                            placeholder="Seu nome"
+                            value="<%= typeof nome !== 'undefined' ? nome : '' %>"
+                            autocomplete="name"
+                            required>
+
+                    </div>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label for="email">E-mail</label>
+
+                    <div class="input-wrapper">
+
+                        <i class="ri-mail-line"></i>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            maxlength="35"
+                            placeholder="seu@email.com"
+                            value="<%= typeof email !== 'undefined' ? email : '' %>"
+                            autocomplete="username"
+                            required>
+
+                    </div>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label for="senha">Senha</label>
+
+                    <div class="input-wrapper">
+
+                        <i class="ri-lock-line"></i>
+
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            placeholder="••••••••"
+                            autocomplete="new-password"
+                            minlength="6"
+                            maxlength="25"
+                            pattern="(?=.*[A-ZÀ-Ý])(?=.*[^A-Za-z0-9À-ÿ]).{6,}"
+                            title="Mínimo de 6 caracteres, com pelo menos 1 letra maiúscula e 1 caractere especial."
+                            required>
+
+                        <button
+                            type="button"
+                            class="toggle-senha"
+                            aria-label="Mostrar senha">
+
+                            <i class="ri-eye-line"></i>
+
+                        </button>
+
+                    </div>
+
+                    <small class="login-dica-senha">
+                        Mínimo de 6 caracteres, com pelo menos 1 letra maiúscula e 1 caractere especial.
+                    </small>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label for="confirmarSenha">Confirmar senha</label>
+
+                    <div class="input-wrapper">
+
+                        <i class="ri-lock-line"></i>
+
+                        <input
+                            type="password"
+                            id="confirmarSenha"
+                            name="confirmarSenha"
+                            placeholder="••••••••"
+                            autocomplete="new-password"
+                            minlength="6"
+                            maxlength="25"
+                            pattern="(?=.*[A-ZÀ-Ý])(?=.*[^A-Za-z0-9À-ÿ]).{6,}"
+                            title="Mínimo de 6 caracteres, com pelo menos 1 letra maiúscula e 1 caractere especial."
+                            required>
+
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn login-btn">
+
+                    Criar conta
+
+                </button>
+
+            </form>
+
+            <a href="/login" class="login-voltar">
+
+                Já tem uma conta? <strong>Entrar</strong>
+
+            </a>
+        </br>
+       <a href="/" class="login-voltar">
+
+                <i class="ri-arrow-left-line"></i> Voltar para o site
+
+            </a>
+
+        </div>
+
+    </div>
+
+</main>
+
+<script src="/js/login.js"></script>
+
+</body>
+</html>

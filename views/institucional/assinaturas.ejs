@@ -1,0 +1,174 @@
+<%- include("../partials/head", {
+    titulo: "Assinaturas • LYXUS Holding",
+    css: "institucional"
+}) %>
+
+<link rel="stylesheet" href="/css/pages/pacote.css">
+
+<%- include("../partials/navbar") %>
+
+<main>
+
+    <section class="inst-hero">
+
+        <div class="container">
+
+            <span class="badge">ASSINATURAS</span>
+
+            <h1>Suas assinaturas com a LYXUS</h1>
+
+            <p>
+                Acompanhe os pacotes que você já assina e conheça
+                os demais pacotes disponíveis para contratar.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="inst-secao claro">
+
+        <div class="container">
+
+            <h2 class="assinaturas-secao-titulo">Minhas Assinaturas</h2>
+
+            <% if(minhasAssinaturas && minhasAssinaturas.length){ %>
+
+                <div class="pacotes-grid">
+
+                    <% minhasAssinaturas.forEach(item => { %>
+
+                        <div class="pacote-card">
+
+                            <span class="assinatura-status">
+                                <i class="ri-checkbox-circle-fill"></i> Ativa
+                            </span>
+
+                            <h3><%= item.pacote.nome %></h3>
+
+                            <p class="pacote-descricao"><%= item.pacote.descricao %></p>
+
+                            <div class="pacote-preco">
+                                <span class="pacote-preco-moeda">R$</span>
+                                <span class="pacote-preco-valor"><%= Number(item.pacote.preco).toLocaleString("pt-BR") %></span>
+                            </div>
+
+                            <ul class="pacote-beneficios">
+
+                                <% (item.pacote.beneficios || []).forEach(beneficio => { %>
+
+                                    <li><i class="ri-checkbox-circle-fill"></i> <%= beneficio %></li>
+
+                                <% }) %>
+
+                            </ul>
+
+                            <p class="assinatura-desde">
+                                Assinando desde <%= new Date(item.desde).toLocaleDateString("pt-BR") %>
+                            </p>
+
+                            <a href="/painel/pedidos" class="btn-outline">Ver meus pedidos</a>
+
+                        </div>
+
+                    <% }) %>
+
+                </div>
+
+            <% } else { %>
+
+                <div class="assinaturas-vazio">
+
+                    <i class="ri-refresh-line"></i>
+
+                    <p>
+                        <% if(usuario){ %>
+                            Você ainda não possui nenhuma assinatura.
+                        <% } else { %>
+                            Faça login para ver suas assinaturas.
+                        <% } %>
+                    </p>
+
+                    <a href="/pacotes" class="btn" style="margin-top:16px;">
+                        Ver pacotes
+                    </a>
+
+                </div>
+
+            <% } %>
+
+        </div>
+
+    </section>
+
+    <section class="inst-secao">
+
+        <div class="container">
+
+            <h2 class="assinaturas-secao-titulo">Pacotes Disponíveis</h2>
+
+            <% if(pacotesDisponiveis && pacotesDisponiveis.length){ %>
+
+                <div class="pacotes-grid">
+
+                    <% pacotesDisponiveis.forEach(pacote => { %>
+
+                        <div class="pacote-card <%= pacote.destaque ? 'destaque' : '' %>">
+
+                            <% if(pacote.destaque){ %>
+
+                                <span class="pacote-selo">MAIS ESCOLHIDO</span>
+
+                            <% } %>
+
+                            <h3><%= pacote.nome %></h3>
+
+                            <p class="pacote-descricao"><%= pacote.descricao %></p>
+
+                            <div class="pacote-preco">
+                                <span class="pacote-preco-moeda">R$</span>
+                                <span class="pacote-preco-valor"><%= Number(pacote.preco).toLocaleString("pt-BR") %></span>
+                            </div>
+
+                            <ul class="pacote-beneficios">
+
+                                <% (pacote.beneficios || []).forEach(item => { %>
+
+                                    <li><i class="ri-checkbox-circle-fill"></i> <%= item %></li>
+
+                                <% }) %>
+
+                            </ul>
+
+                            <a
+                                href="/pacotes/<%= pacote._id %>"
+                                class="<%= pacote.destaque ? 'btn' : 'btn-outline' %>">
+
+                                Ver detalhes
+
+                            </a>
+
+                        </div>
+
+                    <% }) %>
+
+                </div>
+
+            <% } else { %>
+
+                <div class="assinaturas-vazio">
+                    <i class="ri-vip-crown-line"></i>
+                    <p>Nenhum pacote disponível no momento.</p>
+                </div>
+
+            <% } %>
+
+        </div>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", { js: "pacote" }) %>

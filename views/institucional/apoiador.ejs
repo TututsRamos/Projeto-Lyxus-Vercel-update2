@@ -1,0 +1,119 @@
+<%- include("../partials/head", {
+    titulo: "Torne-se Apoiador • LYXUS Holding",
+    css: "institucional"
+}) %>
+
+<link rel="stylesheet" href="/css/components/institucional-temas.css">
+
+<%- include("../partials/navbar") %>
+
+<main class="bg-apoiadores">
+
+    <section class="inst-hero">
+
+        <div class="container">
+
+            <span class="badge">APOIADOR LYXUS</span>
+
+            <h1>Torne-se um apoiador da LYXUS</h1>
+
+            <p>
+                Apoiadores ajudam a impulsionar projetos e iniciativas
+                da LYXUS, recebendo em troca reconhecimento e benefícios
+                exclusivos. Conte pra gente seu interesse.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="inst-secao claro tema-apoio">
+
+        <div class="container tema-layout">
+
+            <div class="inst-form-box">
+
+                <% if(typeof enviado !== "undefined" && enviado){ %>
+
+                    <div class="inst-form-sucesso">
+
+                        <i class="ri-checkbox-circle-fill"></i>
+
+                        <h3>Recebemos seu interesse!</h3>
+
+                        <p>
+                            Nosso time vai entrar em contato para
+                            conversar sobre as formas de apoio disponíveis.
+                        </p>
+
+                    </div>
+
+                <% } else { %>
+
+                    <% if(typeof erro !== "undefined" && erro){ %>
+
+                        <div class="login-erro">
+                            <i class="ri-error-warning-line"></i>
+                            <span><%= erro %></span>
+                        </div>
+
+                    <% } %>
+
+                    <form method="POST" action="/apoiador" class="inst-form">
+
+                        <input type="hidden" name="tipo" value="apoiador">
+
+                        <div class="campo">
+                            <label for="nome">Nome completo</label>
+                            <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+                        </div>
+
+                        <div class="campo">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                        </div>
+
+                        <div class="campo">
+                            <label for="telefone">Telefone</label>
+                            <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000">
+                        </div>
+
+                        <div class="campo">
+                            <label for="mensagem">Como gostaria de apoiar?</label>
+                            <textarea id="mensagem" name="mensagem" placeholder="Conte um pouco sobre a forma de apoio que você tem em mente"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn">Quero apoiar</button>
+
+                    </form>
+
+                <% } %>
+
+            </div>
+
+            <div class="tema-visual">
+
+                <div class="icone-flutuante if1"><i class="ri-hand-coin-line"></i></div>
+                <div class="icone-flutuante if2"><i class="ri-gift-2-line"></i></div>
+                <div class="icone-flutuante if3"><i class="ri-star-smile-line"></i></div>
+
+                <div class="barras-impacto">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <div class="selo-coracao">
+                    <i class="ri-heart-3-fill"></i>
+                    Seu apoio gera impacto real
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", { js: "" }) %>

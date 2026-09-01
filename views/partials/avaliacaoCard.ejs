@@ -1,0 +1,65 @@
+<%
+    // Espera: empresa, nota (0-10)
+    const estrelasCheias = Math.floor(nota / 2);
+    const meiaEstrela = nota % 2 === 1;
+%>
+
+<a href="/avaliacao/<%= empresa._id %>" class="avaliacao-card">
+
+    <div class="avaliacao-card-topo">
+
+        <div class="avaliacao-card-info">
+
+            <span class="avaliacao-card-categoria"><%= empresa.categoria %></span>
+
+            <% if(temSeloQualidade && temSeloQualidade(empresa)){ %>
+                <span class="avaliacao-selo"><i class="ri-award-fill"></i> Selo de qualidade Lyxus</span>
+            <% } %>
+
+            <h3><%= empresa.nome %></h3>
+
+            <% if(empresa.localizacao){ %>
+                <p class="avaliacao-card-local"><i class="ri-map-pin-line"></i> <%= empresa.localizacao %></p>
+            <% } %>
+
+        </div>
+
+        <div class="avaliacao-card-nota">
+
+            <div class="avaliacao-nota-numero"><%= nota %><span>/10</span></div>
+
+            <div class="avaliacao-estrelas">
+
+                <% for(let i = 0; i < 5; i++){ %>
+
+                    <% if(i < estrelasCheias){ %>
+                        <i class="ri-star-fill"></i>
+                    <% } else if(i === estrelasCheias && meiaEstrela){ %>
+                        <i class="ri-star-half-line"></i>
+                    <% } else { %>
+                        <i class="ri-star-line"></i>
+                    <% } %>
+
+                <% } %>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="avaliacao-barra">
+        <div class="avaliacao-barra-preenchida" style="width:<%= nota * 10 %>%;"></div>
+    </div>
+
+    <% if(empresa.googleRating){ %>
+
+        <p class="avaliacao-card-google">
+            <i class="ri-google-fill"></i>
+            <strong><%= Number(empresa.googleRating).toFixed(1) %></strong>
+            (<%= (empresa.googleReviews || 0).toLocaleString("pt-BR") %> avaliações Google)
+        </p>
+
+    <% } %>
+
+</a>

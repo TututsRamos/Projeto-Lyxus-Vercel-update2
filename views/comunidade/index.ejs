@@ -1,0 +1,122 @@
+<%- include("../partials/head", {
+    titulo: "Propostas à Comunidade • LYXUS Holding",
+    css: "comunidade"
+}) %>
+
+<%- include("../partials/navbar") %>
+
+<main class="bg-comunidade">
+
+    <section class="inst-hero">
+
+        <div class="container">
+
+            <span class="badge">PROPOSTAS ABERTAS</span>
+
+            <h1>Propostas à Comunidade</h1>
+
+            <p>
+                Iniciativas, parcerias e condições especiais que a LYXUS abre para a comunidade.
+                Confira o que está disponível agora e participe.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="inst-secao claro">
+
+        <div class="container">
+
+            <% if(!propostas.length){ %>
+
+                <div class="avaliacao-vazio">
+                    <i class="ri-hand-heart-line"></i>
+                    <p>Nenhuma proposta aberta no momento — volte em breve.</p>
+                </div>
+
+            <% } else { %>
+
+                <div class="comunidade-grid">
+
+                    <% propostas.forEach(function(p){ %>
+
+                        <a href="/comunidade/<%= p._id %>" class="comunidade-card">
+
+                            <% if(p.imagem){ %>
+                                <img src="<%= p.imagem %>" alt="" class="comunidade-card-imagem">
+                            <% } %>
+
+                            <div class="comunidade-card-topo">
+
+                                <span class="avaliacao-card-categoria">
+                                    <%= p.tipo === "votacao" ? "Votação" : "Participação" %><%= p.categoria ? " • " + p.categoria : "" %>
+                                </span>
+
+                                <span class="comunidade-status <%= p.status === 'aberta' ? 'aberta' : 'encerrada' %>">
+                                    <%= p.status === "aberta" ? "Aberta" : "Encerrada" %>
+                                </span>
+
+                            </div>
+
+                            <h3><%= p.titulo %></h3>
+
+                            <% if(p.resumo){ %>
+                                <p><%= p.resumo %></p>
+                            <% } %>
+
+                            <% if(p.dataLimite){ %>
+                                <span class="comunidade-prazo"><i class="ri-time-line"></i> Até <%= new Date(p.dataLimite).toLocaleDateString("pt-BR") %></span>
+                            <% } %>
+
+                        </a>
+
+                    <% }) %>
+
+                </div>
+
+            <% } %>
+
+            <% if(resultados.length){ %>
+
+                <div class="comunidade-resultados">
+
+                    <h2>Vencedores das votações</h2>
+
+                    <div class="comunidade-grid">
+
+                        <% resultados.forEach(function(p){ %>
+
+                            <a href="/comunidade/<%= p._id %>" class="comunidade-card comunidade-card-resultado">
+
+                                <% if(p.resultado.imagem || p.imagem){ %>
+                                    <img src="<%= p.resultado.imagem || p.imagem %>" alt="" class="comunidade-card-imagem">
+                                <% } %>
+
+                                <div class="comunidade-card-topo">
+                                    <span class="avaliacao-card-categoria"><i class="ri-trophy-line"></i> Resultado</span>
+                                </div>
+
+                                <h3><%= p.resultado.titulo || p.titulo %></h3>
+
+                                <p><%= p.resultado.texto %></p>
+
+                            </a>
+
+                        <% }) %>
+
+                    </div>
+
+                </div>
+
+            <% } %>
+
+        </div>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", { js: "" }) %>

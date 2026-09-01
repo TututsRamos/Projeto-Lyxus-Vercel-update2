@@ -1,0 +1,47 @@
+<%- include("../partials/head", {
+    titulo: "Erro interno • LYXUS Holding",
+    css: "erro"
+}) %>
+
+<main class="erro-page">
+
+    <div class="erro-conteudo">
+
+        <img
+            src="/img/logo/logo.jpeg"
+            alt="LIXUS"
+            class="erro-logo">
+
+        <span class="erro-codigo">500</span>
+
+        <h1>Algo deu errado</h1>
+
+        <p>
+            <%= typeof mensagem !== "undefined" && mensagem
+                ? mensagem
+                : "Ocorreu um erro inesperado no servidor. Já estamos cientes e vamos resolver o quanto antes." %>
+        </p>
+
+        <div class="erro-acoes">
+
+            <a href="/" class="btn">
+                Voltar para o início
+            </a>
+
+            <% if(typeof usuario !== "undefined" && usuario){ %>
+
+                <a href="/logout" class="btn-outline">
+                    <i class="ri-logout-box-line"></i>
+                    Sair da conta
+                </a>
+
+            <% } %>
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,213 @@
+.footer{
+
+    background:var(--bg-chrome);
+
+    color:var(--texto-chrome);
+
+    padding-top:80px;
+
+}
+
+.footer-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+
+    gap:40px;
+
+}
+
+.footer-logo{
+
+    width:150px;
+
+    height:auto;
+
+    object-fit:contain;
+
+    margin-bottom:20px;
+
+}
+
+.footer h3{
+
+    margin-bottom:20px;
+
+    font-family:var(--titulo);
+
+    color:var(--texto-chrome);
+
+}
+
+.footer li{
+
+    margin-bottom:12px;
+
+}
+
+.footer-col-sobre .redes{
+
+    flex-direction:row;
+
+    margin-top:24px;
+
+}
+
+.footer-col-sobre .redes a{
+
+    width:38px;
+
+    height:38px;
+
+    min-width:38px;
+
+    min-height:38px;
+
+}
+
+.footer-col-sobre .redes i{
+
+    font-size:18px;
+
+}
+
+.footer li a{
+
+    transition:var(--transition);
+
+    color:var(--link-chrome);
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+.footer li a:hover{
+
+    color:var(--link-chrome-hover);
+
+}
+
+.redes{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+    margin-top:20px;
+
+    color:#A678FF;
+
+}
+
+.redes a{
+
+    width:45px;
+
+    height:45px;
+
+    min-width:45px;
+
+    min-height:45px;
+
+    flex-shrink:0;
+
+    border-radius:50%;
+
+    background:#A678FF;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    transition:var(--transition);
+
+}
+
+.redes a:hover{
+
+    background: linear-gradient(135deg, #A678FF 0%, #4a3a8f 100%);
+
+}
+
+.redes i{
+
+    font-size:22px;
+
+    color:white;
+
+}
+
+.footer-copy{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:12px 24px;
+
+    padding:30px;
+
+    margin-top:60px;
+
+    border-top:1px solid var(--borda-chrome);
+
+    font-size:.85rem;
+
+    color:var(--texto-chrome-claro);
+
+}
+
+.footer-legal{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:8px 20px;
+
+}
+
+.footer-legal a{
+
+    color:var(--texto-chrome-claro);
+
+    transition:var(--transition);
+
+}
+
+.footer-legal a:hover{
+
+    color:var(--secundaria);
+
+}
+
+@media(max-width:640px){
+
+    .footer-copy{
+
+        justify-content:center;
+
+        text-align:center;
+
+    }
+
+}
+
+.footer-col{
+
+    text-align:left;
+
+}

@@ -1,0 +1,107 @@
+<%- include("../../partials/head", {
+    titulo: (destaque ? "Editar" : "Novo") + " Destaque • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "destaque" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1><%= destaque ? "Editar destaque" : "Novo destaque" %></h1>
+                <p>O que aparece no lugar/junto do texto padrão nas telas de login e cadastro.</p>
+            </div>
+
+            <div class="dash-header-acoes">
+                <a href="/dashboard/destaque" class="btn-outline">
+                    <i class="ri-arrow-left-line"></i> Voltar
+                </a>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <form
+                method="POST"
+                action="<%= destaque ? ('/dashboard/destaque/editar/' + destaque._id) : '/dashboard/destaque' %>"
+                enctype="multipart/form-data"
+                class="form-dashboard">
+
+                <div class="campo campo-checkbox">
+                    <input type="checkbox" id="ativo" name="ativo" value="true" <%= (!destaque || destaque.ativo) ? "checked" : "" %>>
+                    <label for="ativo" style="margin:0;">Mostrar este destaque</label>
+                </div>
+
+                <div class="campo">
+                    <label for="exibirEm">Exibir em</label>
+                    <select id="exibirEm" name="exibirEm">
+                        <option value="ambos" <%= (!destaque || destaque.exibirEm === "ambos") ? "selected" : "" %>>Login + Cadastro</option>
+                        <option value="login" <%= (destaque && destaque.exibirEm === "login") ? "selected" : "" %>>Só no login</option>
+                        <option value="cadastro" <%= (destaque && destaque.exibirEm === "cadastro") ? "selected" : "" %>>Só no cadastro</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="tipo">Tipo</label>
+                    <select id="tipo" name="tipo">
+                        <option value="post" <%= (!destaque || destaque.tipo === "post") ? "selected" : "" %>>Post do blog</option>
+                        <option value="assinatura" <%= (destaque && destaque.tipo === "assinatura") ? "selected" : "" %>>Assinatura / Pacote</option>
+                        <option value="outro" <%= (destaque && destaque.tipo === "outro") ? "selected" : "" %>>Outro</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="titulo">Título</label>
+                    <input type="text" id="titulo" name="titulo" value="<%= destaque ? destaque.titulo : '' %>" placeholder="Ex: Novo post no ar: Como escolher..." required>
+                </div>
+
+                <div class="campo">
+                    <label for="descricao">Descrição curta</label>
+                    <textarea id="descricao" name="descricao" style="min-height:90px;" placeholder="1 ou 2 frases sobre o destaque"><%= destaque ? destaque.descricao : '' %></textarea>
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="link">Link (pra onde o botão leva)</label>
+                        <input type="text" id="link" name="link" value="<%= destaque ? destaque.link : '' %>" placeholder="/blog/nome-do-post ou /assinaturas">
+                    </div>
+
+                    <div class="campo">
+                        <label for="textoBotao">Texto do botão</label>
+                        <input type="text" id="textoBotao" name="textoBotao" value="<%= destaque ? destaque.textoBotao : 'Ver mais' %>" placeholder="Ver mais">
+                    </div>
+
+                </div>
+
+                <div class="campo">
+                    <label for="imagem">Imagem (opcional)</label>
+                    <input type="file" id="imagem" name="imagem" accept="image/*">
+                    <% if(destaque && destaque.imagem){ %>
+                        <img
+                            src="<%= urlImagem(destaque.imagem) %>"
+                            alt=""
+                            style="width:100%;max-width:280px;max-height:140px;object-fit:cover;border-radius:14px;margin-top:10px;display:block;">
+                    <% } %>
+                </div>
+
+                <div class="form-dashboard-acoes">
+                    <button type="submit" class="btn"><%= destaque ? "Salvar alterações" : "Criar destaque" %></button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", {
+    js: "dashboard"
+}) %>

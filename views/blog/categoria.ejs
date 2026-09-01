@@ -1,0 +1,122 @@
+<%- include("../partials/head", {
+    titulo: (categoriaAtual ? categoriaAtual.nome : "Categoria") + " • Blog LYXUS",
+    css: "blog"
+}) %>
+
+<%- include("../partials/navbar") %>
+
+<main class="blog-page">
+
+    <section class="blog-hero blog-hero-categoria">
+
+        <div class="container">
+
+            <a href="/blog" class="blog-voltar">
+                <i class="ri-arrow-left-line"></i> Todos os artigos
+            </a>
+
+            <span
+                class="badge"
+                style="background:<%= categoriaAtual.cor %>22; color:<%= categoriaAtual.cor %>">
+
+                CATEGORIA
+
+            </span>
+
+            <h1><%= categoriaAtual.nome %></h1>
+
+            <% if(categoriaAtual.descricao){ %>
+
+                <p><%= categoriaAtual.descricao %></p>
+
+            <% } %>
+
+        </div>
+
+    </section>
+
+    <section class="blog-conteudo">
+
+        <div class="container blog-layout">
+
+            <div class="blog-grid">
+
+                <% if(posts && posts.length){ %>
+
+                    <% posts.forEach(post => { %>
+
+                        <a href="/blog/<%= post.slug %>" class="post-card">
+
+                            <div class="post-card-img">
+
+                                <img
+                                    src="<%= urlImagem(post.imagem) %>"
+                                    alt="<%= post.titulo %>">
+
+                            </div>
+
+                            <div class="post-card-corpo">
+
+                                <h3><%= post.titulo %></h3>
+
+                                <p><%= post.resumo %></p>
+
+                                <span class="post-card-data">
+                                    <i class="ri-calendar-line"></i>
+                                    <%= new Date(post.createdAt).toLocaleDateString("pt-BR") %>
+                                </span>
+
+                            </div>
+
+                        </a>
+
+                    <% }) %>
+
+                <% } else { %>
+
+                    <div class="vazio">
+                        <i class="ri-folder-open-line"></i>
+                        <p>Ainda não há artigos nessa categoria.</p>
+                    </div>
+
+                <% } %>
+
+            </div>
+
+            <aside class="blog-sidebar">
+
+                <div class="blog-sidebar-bloco">
+
+                    <h4>Categorias</h4>
+
+                    <ul>
+
+                        <% categorias.forEach(cat => { %>
+
+                            <li>
+                                <a
+                                    href="/blog/categoria/<%= cat.slug %>"
+                                    class="<%= cat.slug === categoriaAtual.slug ? 'ativo' : '' %>">
+                                    <%= cat.nome %>
+                                </a>
+                            </li>
+
+                        <% }) %>
+
+                    </ul>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", {
+    js: "blog"
+}) %>

@@ -1,0 +1,200 @@
+<%- include("../../partials/head", {
+    titulo: (modo === "novo" ? "Nova Proposta" : "Editar Proposta") + " • Comunidade",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "console-comunidade" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+            <div>
+                <h1><%= modo === "novo" ? "Nova proposta à comunidade" : "Editar proposta à comunidade" %></h1>
+                <p>Aparece publicamente em /comunidade quando estiver "aberta" e "visível".</p>
+            </div>
+        </header>
+
+        <% if(erro){ %>
+            <div class="login-erro" style="margin-bottom:20px;"><%= erro %></div>
+        <% } %>
+
+        <%
+            // yyyy-mm-dd pronto pro <input type="date">
+            let dataLimiteInput = "";
+            if(dados.dataLimite){
+                dataLimiteInput = new Date(dados.dataLimite).toISOString().slice(0, 10);
+            }
+
+            const opcoesAtuais = (dados.opcoes && dados.opcoes.length) ? dados.opcoes : [{ texto:"" }, { texto:"" }];
+            const resultado = dados.resultado || {};
+        %>
+
+        <form
+            method="POST"
+            action="<%= modo === 'novo' ? '/dashboard/console/comunidade' : '/dashboard/console/comunidade/' + dados._id %>"
+            enctype="multipart/form-data"
+            class="form-dashboard">
+
+            <div class="painel">
+
+                <div class="painel-titulo"><h2>Dados da proposta</h2></div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="titulo">Título</label>
+                        <input type="text" id="titulo" name="titulo" value="<%= dados.titulo || '' %>" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="categoria">Categoria</label>
+                        <input type="text" id="categoria" name="categoria" value="<%= dados.categoria || '' %>" placeholder="Ex: Parceria, Projeto social...">
+                    </div>
+
+                </div>
+
+                <div class="campo">
+                    <label for="tipo">Tipo do post</label>
+                    <select id="tipo" name="tipo">
+                        <option value="participacao" <%= dados.tipo !== "votacao" ? "selected" : "" %>>Participação (formulário de interesse, fixo no topo)</option>
+                        <option value="votacao" <%= dados.tipo === "votacao" ? "selected" : "" %>>Votação (comunidade escolhe entre opções)</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="resumo">Resumo (aparece no card da listagem)</label>
+                    <input type="text" id="resumo" name="resumo" value="<%= dados.resumo || '' %>" maxlength="160">
+                </div>
+
+                <div class="campo">
+                    <label for="descricao">Descrição completa</label>
+                    <textarea id="descricao" name="descricao" rows="5" required><%= dados.descricao || '' %></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="imagem">Imagem do post (opcional)</label>
+                    <input type="file" id="imagem" name="imagem" accept="image/*">
+                    <% if(dados.imagem){ %>
+                        <img src="<%= dados.imagem %>" alt="" style="width:120px;height:80px;object-fit:cover;border-radius:10px;margin-top:10px;">
+                    <% } %>
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="dataLimite">Disponível até (opcional)</label>
+                        <input type="date" id="dataLimite" name="dataLimite" value="<%= dataLimiteInput %>">
+                    </div>
+
+                    <div class="campo" id="campoTextoBotao">
+                        <label for="textoBotao">Texto do botão</label>
+                        <input type="text" id="textoBotao" name="textoBotao" value="<%= dados.textoBotao || 'Quero participar' %>">
+                    </div>
+
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="status">Status</label>
+                        <select id="status" name="status">
+                            <option value="aberta" <%= dados.status !== "encerrada" ? "selected" : "" %>>Aberta</option>
+                            <option value="encerrada" <%= dados.status === "encerrada" ? "selected" : "" %>>Encerrada</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label style="display:flex;align-items:center;gap:8px;">
+                            <input type="checkbox" name="ativo" <%= (dados.ativo === undefined || dados.ativo) ? "checked" : "" %>>
+                            Visível na área pública
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="painel" id="painelOpcoesVotacao">
+
+                <div class="painel-titulo"><h2>Opções da votação</h2></div>
+
+                <p style="font-size:.85rem;color:var(--texto-claro);margin-bottom:12px;">Preencha pelo menos 2 opções. Linhas em branco são ignoradas.</p>
+
+                <div id="listaOpcoes">
+
+                    <% opcoesAtuais.forEach(function(op){ %>
+                        <div class="campo">
+                            <input type="text" name="opcoes[]" value="<%= op.texto || '' %>" placeholder="Texto da opção">
+                        </div>
+                    <% }) %>
+
+                </div>
+
+                <button type="button" id="btnAddOpcao" class="btn-secundario-dash">
+                    <i class="ri-add-line"></i> Adicionar opção
+                </button>
+
+            </div>
+
+            <div class="painel" id="painelResultado">
+
+                <div class="painel-titulo"><h2>Resultado / vencedor</h2></div>
+
+                <p style="font-size:.85rem;color:var(--texto-claro);margin-bottom:12px;">
+                    Preencha ao encerrar a votação — vira o post exibido na seção de resultados, logo abaixo das votações ativas em /comunidade.
+                </p>
+
+                <div class="campo">
+                    <label for="resultadoTitulo">Título do resultado</label>
+                    <input type="text" id="resultadoTitulo" name="resultadoTitulo" value="<%= resultado.titulo || '' %>" placeholder="Ex: E o vencedor é...">
+                </div>
+
+                <div class="campo">
+                    <label for="resultadoTexto">Texto do resultado</label>
+                    <textarea id="resultadoTexto" name="resultadoTexto" rows="3"><%= resultado.texto || '' %></textarea>
+                </div>
+
+            </div>
+
+            <div class="form-dashboard-acoes">
+                <a href="/dashboard/console/comunidade" class="btn-secundario-dash">Cancelar</a>
+                <button type="submit" class="btn"><%= modo === "novo" ? "Cadastrar" : "Salvar alterações" %></button>
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+<script>
+    (function(){
+        var tipoSel = document.getElementById("tipo");
+        var painelOpcoes = document.getElementById("painelOpcoesVotacao");
+        var painelResultado = document.getElementById("painelResultado");
+        var campoTextoBotao = document.getElementById("campoTextoBotao");
+        var listaOpcoes = document.getElementById("listaOpcoes");
+        var btnAddOpcao = document.getElementById("btnAddOpcao");
+
+        function atualizar(){
+            var votacao = tipoSel.value === "votacao";
+            painelOpcoes.style.display = votacao ? "" : "none";
+            painelResultado.style.display = votacao ? "" : "none";
+            campoTextoBotao.style.display = votacao ? "none" : "";
+        }
+
+        btnAddOpcao.addEventListener("click", function(){
+            var campo = document.createElement("div");
+            campo.className = "campo";
+            campo.innerHTML = '<input type="text" name="opcoes[]" placeholder="Texto da opção">';
+            listaOpcoes.appendChild(campo);
+        });
+
+        tipoSel.addEventListener("change", atualizar);
+        atualizar();
+    })();
+</script>
+
+<%- include("../../partials/scripts", { js: "dashboard" }) %>

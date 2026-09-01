@@ -1,0 +1,89 @@
+<%- include("../partials/head", {
+    titulo: "Meus Pedidos • LYXUS",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../partials/sidebarPainel", { atual: "pedidos" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Meus Pedidos</h1>
+                <p>Pacotes que você solicitou e o status de cada um.</p>
+            </div>
+
+            <div class="dash-header-acoes">
+                <a href="/pacotes" class="btn">
+                    <i class="ri-add-line"></i> Comprar novo pacote
+                </a>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <% if(pedidos && pedidos.length){ %>
+
+                <div class="tabela-wrap">
+
+                    <table class="tabela">
+
+                        <thead>
+                            <tr>
+                                <th>Pacote</th>
+                                <th>Valor</th>
+                                <th>Método</th>
+                                <th>Data</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <% pedidos.forEach(p => { %>
+
+                                <tr>
+                                    <td><%= p.pacote ? p.pacote.nome : "Pacote removido" %></td>
+                                    <td>R$ <%= Number(p.valor || 0).toLocaleString("pt-BR") %></td>
+                                    <td style="text-transform:capitalize;"><%= p.metodo %></td>
+                                    <td><%= new Date(p.createdAt).toLocaleDateString("pt-BR") %></td>
+                                    <td>
+                                        <span class="status <%=
+                                            p.status === 'aprovado' ? 'status-ativo' :
+                                            p.status === 'cancelado' ? 'status-cancelado' : 'status-pendente'
+                                        %>">
+                                            <%= p.status === "aprovado" ? "Pago / Confirmado" :
+                                                p.status === "cancelado" ? "Cancelado" : "Aguardando confirmação" %>
+                                        </span>
+                                    </td>
+                                </tr>
+
+                            <% }) %>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            <% } else { %>
+
+                <div class="vazio">
+                    <i class="ri-shopping-bag-3-line"></i>
+                    <p>Você ainda não fez nenhum pedido.</p>
+                    <a href="/pacotes" class="btn" style="margin-top:16px;">Ver pacotes disponíveis</a>
+                </div>
+
+            <% } %>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../partials/scripts", { js: "dashboard" }) %>

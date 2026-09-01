@@ -1,0 +1,86 @@
+.tema-switcher{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:4px;
+
+    padding:4px;
+
+    border-radius:30px;
+
+    background:rgba(255,255,255,.08);
+
+    border:1px solid var(--borda-chrome);
+
+    flex-shrink:0;
+
+}
+
+[data-theme="invertido"] .tema-switcher{
+
+    background:rgba(0,0,0,.04);
+
+}
+
+.tema-opcao{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:32px;
+
+    height:32px;
+
+    border-radius:50%;
+
+    color:var(--texto-chrome-claro);
+
+    font-size:1rem;
+
+    transition:var(--transition);
+
+    flex-shrink:0;
+
+}
+
+.tema-opcao:hover{
+
+    color:var(--texto-chrome);
+
+    background:rgba(255,255,255,.1);
+
+}
+
+[data-theme="invertido"] .tema-opcao:hover{
+
+    background:rgba(0,0,0,.06);
+
+}
+
+.tema-opcao.ativo{
+
+    background:var(--secundaria);
+
+    color:#FFFFFF;
+
+}
+
+/* Versão compacta usada dentro da sidebar do painel/staff e
+   do drawer de "Minha Conta" — ali o layout é sempre em
+   coluna, então faz sentido ocupar a largura toda. */
+.sidebar .tema-switcher--bloco,
+.sidebar-painel .tema-switcher--bloco,
+.conta-drawer .tema-switcher--bloco{
+
+    width:calc(100% - 48px);
+
+    justify-content:center;
+
+    margin:16px 24px;
+
+}

@@ -1,0 +1,46 @@
+<%- include("../partials/head", {
+    titulo: "Página não encontrada • LYXUS Holding",
+    css: "erro"
+}) %>
+
+<main class="erro-page">
+
+    <div class="erro-conteudo">
+
+        <img
+            src="/img/logo/logo.jpeg"
+            alt="LIXUS"
+            class="erro-logo">
+
+        <span class="erro-codigo">404</span>
+
+        <h1>Página não encontrada</h1>
+
+        <p>
+            O endereço que você tentou acessar não existe
+            ou foi movido para outro lugar.
+        </p>
+
+        <div class="erro-acoes">
+
+            <a href="/" class="btn">
+                Voltar para o início
+            </a>
+
+            <% if(typeof usuario !== "undefined" && usuario){ %>
+
+                <a href="/logout" class="btn-outline">
+                    <i class="ri-logout-box-line"></i>
+                    Sair da conta
+                </a>
+
+            <% } %>
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>

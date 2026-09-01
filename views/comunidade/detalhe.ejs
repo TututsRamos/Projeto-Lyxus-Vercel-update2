@@ -1,0 +1,193 @@
+<%- include("../partials/head", {
+    titulo: proposta.titulo + " • Propostas à Comunidade",
+    css: "comunidade"
+}) %>
+
+<link rel="stylesheet" href="/css/components/institucional-temas.css">
+<link rel="stylesheet" href="/css/pages/institucional.css">
+<link rel="stylesheet" href="/css/pages/avaliacao.css">
+
+<%- include("../partials/navbar") %>
+
+<main class="bg-comunidade">
+
+    <section class="inst-secao claro" style="padding-top:130px;">
+
+        <div class="container">
+
+            <a href="/comunidade" class="avaliacao-voltar"><i class="ri-arrow-left-line"></i> Voltar para propostas à comunidade</a>
+
+            <%
+                // "Se for Participação, fixar o formulário no topo do post":
+                // o box de formulário/votação vem antes do conteúdo (e fica
+                // "sticky" ao rolar) só quando é do tipo "participacao".
+                var formNoTopo = proposta.tipo !== "votacao";
+
+                var totalVotos = (proposta.opcoes || []).reduce(function(soma, o){ return soma + (o.votos || 0); }, 0);
+            %>
+
+            <div class="tema-layout <%= formNoTopo ? 'comunidade-form-topo' : '' %>">
+
+                <div class="<%= formNoTopo ? '' : 'inst-form-box' %>" <%= formNoTopo ? '' : '' %>>
+
+                    <% if(formNoTopo){ %>
+
+                        <div class="inst-form-box comunidade-form-fixo">
+
+                            <% if(proposta.status !== "aberta"){ %>
+
+                                <div class="inst-form-sucesso">
+                                    <i class="ri-time-line"></i>
+                                    <h3>Proposta encerrada</h3>
+                                    <p>Essa proposta não está mais recebendo interessados no momento.</p>
+                                </div>
+
+                            <% } else if(enviado){ %>
+
+                                <div class="inst-form-sucesso">
+                                    <i class="ri-checkbox-circle-fill"></i>
+                                    <h3>Recebemos seu interesse!</h3>
+                                    <p>Nosso time vai entrar em contato com mais detalhes sobre essa proposta.</p>
+                                </div>
+
+                            <% } else { %>
+
+                                <% if(erro){ %>
+                                    <div class="login-erro">
+                                        <i class="ri-error-warning-line"></i>
+                                        <span><%= erro %></span>
+                                    </div>
+                                <% } %>
+
+                                <form method="POST" action="/comunidade/<%= proposta._id %>/participar" class="inst-form">
+
+                                    <div class="campo">
+                                        <label for="nome">Nome completo</label>
+                                        <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+                                    </div>
+
+                                    <div class="campo">
+                                        <label for="email">E-mail</label>
+                                        <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                                    </div>
+
+                                    <div class="campo">
+                                        <label for="telefone">Telefone</label>
+                                        <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000">
+                                    </div>
+
+                                    <div class="campo">
+                                        <label for="mensagem">Mensagem (opcional)</label>
+                                        <textarea id="mensagem" name="mensagem" placeholder="Conte um pouco mais sobre seu interesse"></textarea>
+                                    </div>
+
+                                    <button type="submit" class="btn"><%= proposta.textoBotao || "Quero participar" %></button>
+
+                                </form>
+
+                            <% } %>
+
+                        </div>
+
+                    <% } %>
+
+                    <% if(proposta.imagem){ %>
+                        <img src="<%= proposta.imagem %>" alt="" class="comunidade-detalhe-imagem">
+                    <% } %>
+
+                    <% if(proposta.categoria){ %>
+                        <span class="avaliacao-card-categoria"><%= proposta.categoria %></span>
+                    <% } %>
+
+                    <span class="comunidade-status <%= proposta.status === 'aberta' ? 'aberta' : 'encerrada' %>" style="margin-left:8px;">
+                        <%= proposta.status === "aberta" ? "Aberta" : "Encerrada" %>
+                    </span>
+
+                    <h1 style="margin-top:14px;"><%= proposta.titulo %></h1>
+
+                    <% if(proposta.dataLimite){ %>
+                        <span class="comunidade-prazo"><i class="ri-time-line"></i> Disponível até <%= new Date(proposta.dataLimite).toLocaleDateString("pt-BR") %></span>
+                    <% } %>
+
+                    <p style="margin-top:18px;white-space:pre-line;"><%= proposta.descricao %></p>
+
+                    <% if(proposta.status === "encerrada" && proposta.resultado && proposta.resultado.texto){ %>
+
+                        <div class="painel comunidade-resultado-post" style="margin-top:24px;">
+                            <h3><i class="ri-trophy-line"></i> <%= proposta.resultado.titulo || "Resultado" %></h3>
+                            <p style="white-space:pre-line;"><%= proposta.resultado.texto %></p>
+                        </div>
+
+                    <% } %>
+
+                </div>
+
+                <% if(proposta.tipo === "votacao"){ %>
+
+                    <div class="inst-form-box">
+
+                        <h3 style="margin-bottom:14px;">Vote em uma opção</h3>
+
+                        <% if(proposta.status !== "aberta"){ %>
+                            <p style="font-size:.85rem;color:var(--texto-claro);margin-bottom:14px;">Essa votação já foi encerrada.</p>
+                        <% } else if(!opcaoVotada){ %>
+                            <p style="font-size:.85rem;color:var(--texto-claro);margin-bottom:14px;">Escolha uma opção — seu voto é único.</p>
+                        <% } else { %>
+                            <p style="font-size:.85rem;color:var(--texto-claro);margin-bottom:14px;">Você já votou nessa enquete. Obrigado por participar!</p>
+                        <% } %>
+
+                        <div class="comunidade-opcoes">
+
+                            <% (proposta.opcoes || []).forEach(function(op){ %>
+
+                                <% var pct = totalVotos ? Math.round((op.votos / totalVotos) * 100) : 0; %>
+                                <% var isEscolhida = opcaoVotada && String(op._id) === String(opcaoVotada); %>
+
+                                <div class="comunidade-opcao">
+
+                                    <div class="comunidade-opcao-topo">
+                                        <span><%= op.texto %><%= isEscolhida ? " ✓" : "" %></span>
+                                        <% if(opcaoVotada || proposta.status !== "aberta"){ %>
+                                            <span><%= pct %>%</span>
+                                        <% } %>
+                                    </div>
+
+                                    <% if(opcaoVotada || proposta.status !== "aberta"){ %>
+
+                                        <div class="comunidade-opcao-barra">
+                                            <div class="comunidade-opcao-barra-fill" style="width:<%= pct %>%;"></div>
+                                        </div>
+
+                                    <% } else { %>
+
+                                        <form method="POST" action="/comunidade/<%= proposta._id %>/votar/<%= op._id %>">
+                                            <button type="submit" class="btn-secundario-dash" style="width:100%;">Votar</button>
+                                        </form>
+
+                                    <% } %>
+
+                                </div>
+
+                            <% }) %>
+
+                        </div>
+
+                        <% if(opcaoVotada || proposta.status !== "aberta"){ %>
+                            <p style="font-size:.78rem;color:var(--texto-claro);margin-top:14px;"><%= totalVotos %> voto(s) no total.</p>
+                        <% } %>
+
+                    </div>
+
+                <% } %>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", { js: "" }) %>

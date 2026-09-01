@@ -1,0 +1,75 @@
+<%- include("../partials/head", {
+    titulo: "Minha Conta • LYXUS",
+    css: "dashboard"
+}) %>
+
+<link rel="stylesheet" href="/css/pages/institucional.css">
+
+<div class="dash-layout">
+
+    <%- include("../partials/sidebarPainel", {}) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Olá, <%= dono.nome.split(" ")[0] %> </h1>
+                <p>Bem-vindo à sua área LYXUS. Veja o que você pode fazer por aqui.</p>
+            </div>
+
+        </header>
+
+        <div class="stat-grid">
+
+            <div class="stat-card">
+                <div class="icone"><i class="ri-file-list-3-line"></i></div>
+                <div>
+                    <div class="numero"><%= totalPropostas %></div>
+                    <div class="rotulo">Propostas</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="icone"><i class="ri-shopping-bag-3-line"></i></div>
+                <div>
+                    <div class="numero"><%= totalPedidos %></div>
+                    <div class="rotulo">Pedidos</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="inst-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+
+            <a href="/" class="inst-card" style="text-decoration:none;">
+                <div class="icone"><i class="ri-home-4-line"></i></div>
+                <h3>Ir para o site</h3>
+                <p>Conheça mais sobre a LYXUS, serviços e novidades.</p>
+            </a>
+
+            <a href="/pacotes" class="inst-card" style="text-decoration:none;">
+                <div class="icone"><i class="ri-vip-crown-line"></i></div>
+                <h3>Comprar Pacotes</h3>
+                <p>Veja os planos disponíveis e faça um novo pedido.</p>
+            </a>
+
+            <a href="/painel/propostas" class="inst-card" style="text-decoration:none;">
+                <div class="icone"><i class="ri-file-list-3-line"></i></div>
+                <h3>Minhas Propostas</h3>
+                <p>Acompanhe propostas liberadas pela nossa equipe.</p>
+            </a>
+
+            <a href="/painel/pedidos" class="inst-card" style="text-decoration:none;">
+                <div class="icone"><i class="ri-shopping-bag-3-line"></i></div>
+                <h3>Meus Pedidos</h3>
+                <p>Veja o status dos pacotes que você solicitou.</p>
+            </a>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../partials/scripts", { js: "dashboard" }) %>

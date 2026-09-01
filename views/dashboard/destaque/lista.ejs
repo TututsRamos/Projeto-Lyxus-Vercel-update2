@@ -1,0 +1,109 @@
+<%- include("../../partials/head", {
+    titulo: "Destaque da Semana • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "destaque" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Destaque da Semana</h1>
+                <p>Cards que aparecem nas telas de login e cadastro. Pode ter vários ao mesmo tempo.</p>
+            </div>
+
+            <div class="dash-header-acoes">
+                <a href="/dashboard/destaque/novo" class="btn">
+                    <i class="ri-add-line"></i> Novo destaque
+                </a>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <% if(destaques && destaques.length){ %>
+
+                <div class="tabela-wrap">
+
+                    <table class="tabela">
+
+                        <thead>
+                            <tr>
+                                <th>Destaque</th>
+                                <th>Exibir em</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <% destaques.forEach(d => { %>
+
+                                <tr>
+
+                                    <td>
+                                        <div class="tabela-item">
+                                            <% if(d.imagem){ %>
+                                                <img src="<%= urlImagem(d.imagem) %>" alt="">
+                                            <% } %>
+                                            <%= d.titulo || "(sem título)" %>
+                                        </div>
+                                    </td>
+
+                                    <td style="text-transform:capitalize;">
+                                        <%= d.exibirEm === "ambos" ? "Login + Cadastro" :
+                                            d.exibirEm === "login" ? "Só login" : "Só cadastro" %>
+                                    </td>
+
+                                    <td>
+                                        <span class="status <%= d.ativo ? 'status-ativo' : 'status-inativo' %>">
+                                            <%= d.ativo ? "Ativo" : "Inativo" %>
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <div class="tabela-acoes">
+                                            <a href="/dashboard/destaque/editar/<%= d._id %>" title="Editar">
+                                                <i class="ri-pencil-line"></i>
+                                            </a>
+                                            <a href="/dashboard/destaque/excluir/<%= d._id %>" title="Excluir" class="excluir">
+                                                <i class="ri-delete-bin-line"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                            <% }) %>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            <% } else { %>
+
+                <div class="vazio">
+                    <i class="ri-star-line"></i>
+                    <p>Nenhum destaque cadastrado ainda.</p>
+                    <a href="/dashboard/destaque/novo" class="btn" style="margin-top:16px;">Criar destaque</a>
+                </div>
+
+            <% } %>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", {
+    js: "dashboard"
+}) %>

@@ -1,0 +1,129 @@
+<%- include("../partials/head", {
+    titulo: "Parceiros LYXUS • LYXUS Holding",
+    css: "institucional"
+}) %>
+
+<link rel="stylesheet" href="/css/components/institucional-temas.css">
+
+<%- include("../partials/navbar") %>
+
+<main class="bg-parceiros">
+
+    <section class="inst-hero">
+
+        <div class="container">
+
+            <span class="badge">PARCEIROS LYXUS</span>
+
+            <h1>Torne-se um parceiro LYXUS</h1>
+
+            <p>
+                Buscamos empresas e profissionais complementares ao
+                nosso trabalho para construir parcerias que gerem
+                valor pros dois lados.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="inst-secao claro tema-parceria">
+
+        <div class="container tema-layout">
+
+            <div class="inst-form-box">
+
+                <% if(typeof enviado !== "undefined" && enviado){ %>
+
+                    <div class="inst-form-sucesso">
+
+                        <i class="ri-checkbox-circle-fill"></i>
+
+                        <h3>Proposta de parceria recebida!</h3>
+
+                        <p>
+                            Vamos analisar e retornar em breve pelo
+                            e-mail informado.
+                        </p>
+
+                    </div>
+
+                <% } else { %>
+
+                    <% if(typeof erro !== "undefined" && erro){ %>
+
+                        <div class="login-erro">
+                            <i class="ri-error-warning-line"></i>
+                            <span><%= erro %></span>
+                        </div>
+
+                    <% } %>
+
+                    <form method="POST" action="/parceiros" class="inst-form">
+
+                        <input type="hidden" name="tipo" value="parceiro">
+
+                        <div class="campo">
+                            <label for="nome">Nome do responsável</label>
+                            <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+                        </div>
+
+                        <div class="campo">
+                            <label for="empresa">Empresa</label>
+                            <input type="text" id="empresa" name="empresa" placeholder="Nome da empresa (se houver)">
+                        </div>
+
+                        <div class="campo">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                        </div>
+
+                        <div class="campo">
+                            <label for="telefone">Telefone</label>
+                            <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000">
+                        </div>
+
+                        <div class="campo">
+                            <label for="mensagem">Sobre a parceria</label>
+                            <textarea id="mensagem" name="mensagem" placeholder="Conte como imagina essa parceria funcionando"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn">Enviar proposta</button>
+
+                    </form>
+
+                <% } %>
+
+            </div>
+
+            <div class="tema-visual">
+
+                <svg class="rede-svg" viewBox="0 0 400 400">
+
+                    <line x1="200" y1="90" x2="110" y2="180"></line>
+                    <line x1="200" y1="90" x2="290" y2="180"></line>
+                    <line x1="110" y1="180" x2="290" y2="180"></line>
+                    <line x1="110" y1="180" x2="150" y2="300"></line>
+                    <line x1="290" y1="180" x2="250" y2="300"></line>
+                    <line x1="150" y1="300" x2="250" y2="300"></line>
+                    <line x1="110" y1="180" x2="250" y2="300"></line>
+
+                    <circle class="no n1" cx="200" cy="90" r="8"></circle>
+                    <circle class="no n2" cx="110" cy="180" r="8"></circle>
+                    <circle class="no n3" cx="290" cy="180" r="8"></circle>
+                    <circle class="no n4" cx="150" cy="300" r="8"></circle>
+                    <circle class="no n5" cx="250" cy="300" r="8"></circle>
+
+                </svg>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", { js: "" }) %>

@@ -1,0 +1,58 @@
+<%- include("../partials/head", {
+    titulo: conteudo.titulo + " • LYXUS Holding",
+    css: "institucional"
+}) %>
+
+<%- include("../partials/navbar") %>
+
+<main class="bg-termos">
+
+    <section class="inst-hero">
+
+        <div class="container">
+
+            <span class="badge">TERMOS LYXUS</span>
+
+            <h1><%= conteudo.titulo %></h1>
+
+        </div>
+
+    </section>
+
+    <section class="inst-secao claro">
+
+        <div class="container termos-layout">
+
+            <nav class="termos-menu">
+
+                <a href="/termos/uso" class="<%= tipoAtual === 'uso' ? 'ativo' : '' %>">Termos de Uso</a>
+                <a href="/termos/sigilo" class="<%= tipoAtual === 'sigilo' ? 'ativo' : '' %>">Sigilo e Confidencialidade</a>
+                <a href="/termos/cookies" class="<%= tipoAtual === 'cookies' ? 'ativo' : '' %>">Armazenamento de Cookies</a>
+                <a href="/termos/lgpd" class="<%= tipoAtual === 'lgpd' ? 'ativo' : '' %>">Política de Privacidade</a>
+                <a href="/termos/outros" class="<%= tipoAtual === 'outros' ? 'ativo' : '' %>">Outras Políticas</a>
+
+            </nav>
+
+            <div class="termos-conteudo inst-texto" style="margin:0;">
+
+                <span class="atualizado">
+                    Atualizado em <%= conteudo.atualizado %>
+                </span>
+
+                <% conteudo.paragrafos.forEach(paragrafo => { %>
+
+                    <p><%= paragrafo %></p>
+
+                <% }) %>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", { js: "" }) %>

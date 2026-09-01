@@ -1,0 +1,121 @@
+<%- include("../partials/head", {
+    titulo: "Configurações • LYXUS",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../partials/sidebarStaff", { atual: "configuracoes" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Configurações</h1>
+                <p>Seus dados como membro da equipe LIXUS.</p>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <div class="painel-titulo">
+                <h2>Perfil</h2>
+            </div>
+
+            <div class="campo-linha" style="margin-bottom:20px;">
+                <p><strong>Nome de usuário:</strong> <%= staff.nome %></p>
+                <p><strong>Nome completo:</strong> <%= staff.nomeCompleto || "-" %></p>
+            </div>
+
+            <div class="campo-linha" style="margin-bottom:20px;">
+                <p><strong>E-mail:</strong> <%= staff.email %></p>
+                <p><strong>Número de contato:</strong> <%= staff.numeroContato || "-" %></p>
+            </div>
+
+            <div class="campo-linha" style="margin-bottom:20px;">
+                <p><strong>CPF:</strong> <%= staff.cpf || "-" %></p>
+                <p><strong>Data de nascimento:</strong> <%= staff.dataNascimento ? new Date(staff.dataNascimento).toLocaleDateString("pt-BR") : "-" %></p>
+            </div>
+
+            <div class="campo-linha" style="margin-bottom:20px;">
+                <p><strong>Área de atuação:</strong> <%= staff.areaAtuacao || "-" %></p>
+                <p><strong>Nível de permissão:</strong> <%= staff.nivelPermissao %></p>
+            </div>
+
+            <div class="campo-linha">
+                <p><strong>ID Staff:</strong> <%= staff.idStaff || staff._id %></p>
+                <p><strong>Membro desde:</strong> <%= new Date(staff.createdAt).toLocaleDateString("pt-BR") %></p>
+            </div>
+
+        </div>
+
+        <div class="painel">
+
+            <div class="painel-titulo">
+                <h2>Propostas em que estive envolvido</h2>
+            </div>
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Cliente</th>
+                            <th>Duração</th>
+                            <th>Status final</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(propostas && propostas.length){ %>
+
+                            <% propostas.forEach(p => { %>
+
+                                <tr>
+                                    <td><%= p.codigo %></td>
+                                    <td><%= p.usuario ? p.usuario.nome : "-" %></td>
+                                    <td>
+                                        <%
+                                            const inicio = new Date(p.createdAt);
+                                            const fim = p.status === "aberta" ? new Date() : new Date(p.updatedAt);
+                                            const dias = Math.max(1, Math.round((fim - inicio) / 86400000));
+                                        %>
+                                        <%= dias %> dia(s)
+                                    </td>
+                                    <td>
+                                        <span class="status <%=
+                                            p.status === 'aprovada' ? 'status-ativo' :
+                                            p.status === 'recusada' ? 'status-cancelado' :
+                                            p.status === 'cancelada' ? 'status-inativo' : 'status-pendente'
+                                        %>">
+                                            <%= p.status %>
+                                        </span>
+                                    </td>
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="4" class="vazio">Nenhuma proposta envolvida ainda.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../partials/scripts", { js: "dashboard" }) %>

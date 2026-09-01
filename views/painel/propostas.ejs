@@ -1,0 +1,87 @@
+<%- include("../partials/head", {
+    titulo: "Minhas Propostas • LYXUS",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../partials/sidebarPainel", { atual: "propostas" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Minhas Propostas</h1>
+                <p>Propostas liberadas para você pela equipe LIXUS.</p>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Título</th>
+                            <th>Responsável</th>
+                            <th>Valor</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(propostas && propostas.length){ %>
+
+                            <% propostas.forEach(p => { %>
+
+                                <tr>
+                                    <td><%= p.codigo %></td>
+                                    <td><%= p.titulo %></td>
+                                    <td><%= p.staff ? p.staff.nome : "-" %></td>
+                                    <td>R$ <%= Number(p.valorContrato).toLocaleString("pt-BR") %></td>
+                                    <td>
+                                        <span class="status <%=
+                                            p.status === 'aprovada' ? 'status-ativo' :
+                                            p.status === 'recusada' ? 'status-cancelado' :
+                                            p.status === 'cancelada' ? 'status-inativo' : 'status-pendente'
+                                        %>">
+                                            <%= p.status %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="tabela-acoes">
+                                            <a href="/painel/propostas/<%= p._id %>" title="Ver">
+                                                <i class="ri-eye-line"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="6" class="vazio">Nenhuma proposta liberada pra você ainda.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../partials/scripts", { js: "dashboard" }) %>

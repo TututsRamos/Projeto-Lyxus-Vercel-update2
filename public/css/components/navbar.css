@@ -1,0 +1,685 @@
+.navbar{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:80px;
+
+    display:flex;
+
+    align-items:center;
+
+    z-index:1000;
+
+    transition:.4s;
+
+    background: var(--bg-chrome);
+
+}
+
+.navbar.scrolled{
+
+    background: var(--bg-chrome);
+
+    backdrop-filter:blur(14px);
+
+    box-shadow:var(--sombra-chrome);
+
+}
+
+.navbar-container{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    width:100%;
+
+    padding:0 clamp(12px,2vw,40px);
+
+}
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    font-size:1.5rem;
+
+    font-weight:700;
+
+    color:var(--texto-chrome);
+
+    flex-shrink:0;
+
+}
+
+.logo img{
+
+    width:80px;
+    height:auto;
+    object-fit:contain;
+    flex-shrink:0;
+
+}
+
+.nav-menu{
+
+    display:flex;
+
+    flex-wrap:nowrap;
+
+    gap:clamp(14px,1.8vw,35px);
+
+}
+
+.nav-menu a{
+
+    color: var(--link-chrome);
+
+    font-weight:500;
+
+    font-size:clamp(.85rem,.95vw,1rem);
+
+    white-space:nowrap;
+
+    transition:.3s;
+
+}
+
+.nav-menu a:hover{
+
+        color:var(--link-chrome-hover);
+
+
+}
+
+.navbar-buttons{
+    display:flex;
+    gap:clamp(8px,1vw,15px);
+    align-items:center;
+    flex-shrink:0;
+    margin-right: 8px;
+}
+
+.btn-outline{
+    color: var(--link-chrome);
+    font-weight:500;
+    padding:14px clamp(12px,1.4vw,20px);
+    border:2px solid var(--link-chrome);
+    border-radius:10px;
+    white-space:nowrap;
+    transition:.3s;
+}
+
+.btn-outline:hover{
+    background-color: var(--link-chrome);
+    color:var(--bg-chrome);
+}
+
+.navbar-logout{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:14px;
+    font-size:1.1rem;
+    line-height:1;
+}
+
+.btn{
+    color:#FFFFFF;
+    background-color: var(--secundaria);
+    font-weight:500;
+    padding:14px clamp(16px,2vw,26px);
+    border-radius:10px;
+    white-space:nowrap;
+    transition:.3s;
+    display:inline-block;
+}
+
+.cta-texto-curto{
+
+    display:none;
+
+}
+
+.btn:hover{
+    background-color: var(--secundaria-hover);
+}
+
+.nav-menu-account{
+
+    display:none;
+
+}
+
+/* ===== Submenu hambúrguer do "Home" (Serviços/Como Trabalhamos/Feedbacks/FAQ) ===== */
+
+.nav-item-dropdown{
+
+    position:relative;
+
+}
+
+/* Ponte invisível cobrindo o espaço entre o botão e o submenu,
+   pra o hover não se perder no caminho quando o mouse desce
+   até o menu (sem isso, o menu fechava antes do usuário chegar
+   nele). Só faz sentido em telas com mouse de verdade. */
+
+@media(hover:hover) and (pointer:fine){
+
+    .nav-item-dropdown::after{
+
+        content:"";
+
+        position:absolute;
+
+        top:100%;
+
+        left:50%;
+
+        transform:translateX(-50%);
+
+        width:240px;
+
+        height:18px;
+
+    }
+
+}
+
+.nav-dropdown-toggle{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+}
+
+.nav-dropdown-caret{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:var(--link-chrome);
+
+    font-size:1.05rem;
+
+    line-height:1;
+
+    padding:2px;
+
+    transition:.3s;
+
+}
+
+.nav-dropdown-caret i{
+
+    display:flex;
+
+    transition:transform .3s ease;
+
+}
+
+@media(hover:hover) and (pointer:fine){
+
+    .nav-dropdown-caret:hover{
+
+        color:var(--link-chrome-hover);
+
+    }
+
+}
+
+.nav-item-dropdown.aberto .nav-dropdown-caret{
+
+    color:var(--link-chrome-hover);
+
+}
+
+.nav-item-dropdown.aberto .nav-dropdown-caret i{
+
+    transform:rotate(-90deg);
+
+}
+
+/* O :hover só controla abrir/fechar em telas com mouse de
+   verdade. Em touch (celular/tablet) o toque "gruda" no :hover
+   do navegador e o menu nunca soltava — quem manda lá é só o
+   clique (classe "aberto" via JS). */
+
+@media(hover:hover) and (pointer:fine){
+
+    .nav-item-dropdown:hover .nav-dropdown-caret{
+
+        color:var(--link-chrome-hover);
+
+    }
+
+    .nav-item-dropdown:hover .nav-dropdown-caret i{
+
+        transform:rotate(-90deg);
+
+    }
+
+}
+
+.nav-dropdown-menu{
+
+    position:absolute;
+
+    top:calc(100% + 18px);
+
+    left:50%;
+
+    transform:translateX(-50%) translateY(-8px);
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:4px;
+
+    min-width:190px;
+
+    background:var(--bg-chrome);
+
+    border:1px solid var(--borda-chrome);
+
+    border-radius:14px;
+
+    padding:10px;
+
+    box-shadow:var(--sombra-chrome);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    pointer-events:none;
+
+    transition:.25s;
+
+    z-index:1100;
+
+}
+
+/* Setinha em "V" no topo do menu, apontando pro botão de
+   hambúrguer que abre — deixa mais claro de onde o menu "nasce"
+   já que agora ele abre pra baixo, e não mais pro lado */
+
+.nav-dropdown-menu::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:-6px;
+
+    left:50%;
+
+    transform:translateX(-50%) rotate(45deg);
+
+    width:12px;
+
+    height:12px;
+
+    background:var(--bg-chrome);
+
+    border-left:1px solid var(--borda-chrome);
+
+    border-top:1px solid var(--borda-chrome);
+
+    border-radius:3px 0 0 0;
+
+}
+
+.nav-dropdown-menu a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:8px 10px;
+
+    border-radius:8px;
+
+    white-space:nowrap;
+
+}
+
+.nav-dropdown-menu a:hover{
+
+    background:var(--chrome-hover-bg);
+
+}
+
+.nav-item-dropdown.aberto .nav-dropdown-menu{
+
+    opacity:1;
+
+    visibility:visible;
+
+    pointer-events:auto;
+
+    transform:translateX(-50%) translateY(0);
+
+}
+
+@media(hover:hover) and (pointer:fine){
+
+    .nav-item-dropdown:hover .nav-dropdown-menu{
+
+        opacity:1;
+
+        visibility:visible;
+
+        pointer-events:auto;
+
+        transform:translateX(-50%) translateY(0);
+
+    }
+
+}
+
+/* ===== Links bloqueados pra contas "visitante" (aguardando aprovação) ===== */
+
+.bloqueado-visitante{
+
+    opacity:.4;
+
+    cursor:not-allowed;
+
+    filter:grayscale(.4);
+
+}
+
+.aviso-visitante-toast{
+
+    position:fixed;
+
+    left:50%;
+
+    bottom:24px;
+
+    transform:translate(-50%,20px);
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    max-width:min(90vw,420px);
+
+    background:var(--bg-chrome);
+
+    color:var(--texto-chrome);
+
+    border:1px solid var(--borda-chrome);
+
+    border-radius:12px;
+
+    padding:14px 18px;
+
+    font-size:.9rem;
+
+    box-shadow:0 15px 30px rgba(0,0,0,.3);
+
+    opacity:0;
+
+    z-index:2000;
+
+    transition:.3s;
+
+}
+
+.aviso-visitante-toast i{
+
+    color:#F79009;
+
+    font-size:1.2rem;
+
+    flex-shrink:0;
+
+}
+
+.aviso-visitante-toast.visivel{
+
+    opacity:1;
+
+    transform:translate(-50%,0);
+
+}
+
+@media(max-width:1200px){
+
+    /* O menu de links (Home/Sobre/Score Lyxus/Pacotes/FAQ/Contato)
+       continua visível aqui, numa linha só — nessa faixa (561px a
+       1200px) os links já cabem sem precisar rolar. (Antes tinha
+       um "overflow-x:auto" de segurança pra rolar na horizontal,
+       mas isso cortava — via overflow-y:hidden — o submenu do
+       Home, que abre pra baixo por cima do menu: a classe "aberto"
+       era aplicada certinho, só que o conteúdo ficava invisível,
+       cortado pelo próprio contêiner. Removido por não ser
+       necessário nessa faixa.) Só os botões de texto (Registre-se/
+       Minha Área e Solicitar Orçamento) somem daqui — eles já
+       ficam acessíveis por dentro do painel "Menu" aberto pelo
+       hambúrguer. */
+
+    .navbar-container{
+
+        gap:14px;
+
+    }
+
+    .nav-menu{
+
+        flex:1;
+
+        min-width:0;
+
+        gap:20px;
+
+    }
+
+    .nav-menu a{
+
+        font-size:.85rem;
+
+    }
+
+    .navbar-buttons{
+
+        flex-shrink:0;
+
+        margin-right:0;
+
+    }
+
+    /* Só o botão que abre o painel "Menu" continua visível — o
+       "Solicitar Orçamento" e o "Minha Área/Registre-se" de texto
+       já estão acessíveis por dentro do painel, então somem daqui
+       pra deixar a barra mobile limpa (só logo + hambúrguer). Como
+       agora ele fica sozinho (antes dividia espaço com mais 2
+       botões), reduzido um pouco pra não ficar destoando. */
+
+    .navbar-buttons > *:not(.navbar-logout){
+
+        display:none;
+
+    }
+
+    .navbar-logout{
+
+        padding:10px;
+
+        font-size:1rem;
+
+    }
+
+}
+
+
+@media(max-width:560px){
+
+    /* Abaixo de 560px o menu de links (Home/Sobre/Score
+       Lyxus/Pacotes/FAQ/Contato) não cabe mais numa linha só,
+       nem com fonte reduzida. Em vez de ficar numa faixa que
+       rola na horizontal (sem indicação visual de que dá pra
+       rolar, o que fazia os links parecerem "sumidos"), a navbar
+       passa a crescer em altura e o menu quebra pra uma segunda
+       linha, deixando todos os links sempre visíveis. */
+
+    .navbar{
+
+        height:auto;
+
+        min-height:80px;
+
+    }
+
+    .navbar-container{
+
+        flex-wrap:wrap;
+
+        row-gap:10px;
+
+        padding-top:14px;
+
+        padding-bottom:14px;
+
+        position:relative;
+
+    }
+
+    /* Nessa largura o submenu fica ancorado exatamente na borda
+       esquerda do "Home" (sem centralizar), e o texto quebra
+       linha em vez de ficar numa linha só — assim dá pra deixar
+       a caixa bem mais estreita e coladinha no "Home", sem
+       estourar a lateral da tela. */
+
+    .nav-dropdown-menu{
+
+        left:0;
+
+        transform:translateY(-8px);
+
+        width:min(150px,calc(100vw - 56px));
+
+        min-width:0;
+
+    }
+
+    .nav-item-dropdown.aberto .nav-dropdown-menu{
+
+        transform:translateY(0);
+
+    }
+
+    .nav-dropdown-menu a{
+
+        white-space:normal;
+
+        line-height:1.25;
+
+    }
+
+    .nav-dropdown-menu::before{
+
+        display:none;
+
+    }
+
+    .logo{
+
+        order:1;
+
+    }
+
+    .logo img{
+
+        width:50px;
+
+    }
+
+    .navbar-buttons{
+
+        order:2;
+
+        gap:6px;
+
+        margin-right:0;
+
+    }
+
+    .nav-menu{
+
+        order:3;
+
+        flex:0 0 100%;
+
+        width:100%;
+
+        min-width:0;
+
+        overflow:visible;
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+        gap:10px 16px;
+
+    }
+
+    .nav-menu a{
+
+        font-size:.8rem;
+
+    }
+
+    .btn-outline:not(.navbar-logout){
+
+        display:none;
+
+    }
+
+    .btn{
+
+        padding:11px 14px;
+
+        font-size:.85rem;
+
+    }
+
+    .cta-texto-completo{
+
+        display:none;
+
+    }
+
+    .cta-texto-curto{
+
+        display:inline;
+
+    }
+
+}

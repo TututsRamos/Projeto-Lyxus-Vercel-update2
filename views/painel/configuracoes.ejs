@@ -1,0 +1,42 @@
+<%- include("../partials/head", {
+    titulo: "Configurações • LYXUS",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../partials/sidebarPainel", { atual: "configuracoes" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Configurações</h1>
+                <p>Detalhes da sua conta.</p>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <p><strong>Nome de usuário:</strong> <%= dono.nome %></p>
+
+            <p><strong>Criado por:</strong> <%= dono.staffCriador ? dono.staffCriador.nome : "-" %></p>
+
+            <p><strong>Código de vinculação:</strong> <%= dono.codigoVinculacao || "-" %></p>
+
+            <p>
+                <strong>Validade do código:</strong>
+                <%= dono.codigoValidoAte ? new Date(dono.codigoValidoAte).toLocaleString("pt-BR") : "-" %>
+            </p>
+
+            <p><strong>Conta criada em:</strong> <%= new Date(dono.createdAt).toLocaleDateString("pt-BR") %></p>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../partials/scripts", { js: "dashboard" }) %>

@@ -1,0 +1,121 @@
+<%- include("../partials/head", {
+    titulo: post.titulo + " • Blog LYXUS",
+    css: "blog"
+}) %>
+
+<%- include("../partials/navbar") %>
+
+<main class="blog-page">
+
+    <article class="post-artigo">
+
+        <div class="container post-artigo-container">
+
+            <a href="/blog" class="blog-voltar">
+                <i class="ri-arrow-left-line"></i> Todos os artigos
+            </a>
+
+            <% if(post.categoria){ %>
+
+                <span
+                    class="badge"
+                    style="background:<%= post.categoria.cor %>22; color:<%= post.categoria.cor %>">
+
+                    <%= post.categoria.nome %>
+
+                </span>
+
+            <% } %>
+
+            <h1><%= post.titulo %></h1>
+
+            <div class="post-artigo-meta">
+
+                <span>
+                    <i class="ri-calendar-line"></i>
+                    <%= new Date(post.createdAt).toLocaleDateString("pt-BR") %>
+                </span>
+
+                <% if(post.autor){ %>
+
+                    <span>
+                        <i class="ri-user-line"></i>
+                        <%= post.autor.nome %>
+                    </span>
+
+                <% } %>
+
+                <span>
+                    <i class="ri-eye-line"></i>
+                    <%= post.visualizacoes %> visualizações
+                </span>
+
+            </div>
+
+            <div class="post-artigo-img">
+
+                <img
+                    src="<%= urlImagem(post.imagem) %>"
+                    alt="<%= post.titulo %>">
+
+            </div>
+
+            <div class="post-artigo-corpo">
+
+                <%- post.conteudo %>
+
+            </div>
+
+        </div>
+
+    </article>
+
+    <% if(relacionados && relacionados.length){ %>
+
+        <section class="post-relacionados">
+
+            <div class="container">
+
+                <h2>Artigos relacionados</h2>
+
+                <div class="blog-grid">
+
+                    <% relacionados.forEach(rel => { %>
+
+                        <a href="/blog/<%= rel.slug %>" class="post-card">
+
+                            <div class="post-card-img">
+
+                                <img
+                                    src="<%= urlImagem(rel.imagem) %>"
+                                    alt="<%= rel.titulo %>">
+
+                            </div>
+
+                            <div class="post-card-corpo">
+
+                                <h3><%= rel.titulo %></h3>
+
+                                <p><%= rel.resumo %></p>
+
+                            </div>
+
+                        </a>
+
+                    <% }) %>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    <% } %>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", {
+    js: "blog"
+}) %>

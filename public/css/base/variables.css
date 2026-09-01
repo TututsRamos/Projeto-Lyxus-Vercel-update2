@@ -1,0 +1,89 @@
+:root{
+
+    /* ===== Cores de marca (fixas, nao mudam com o tema) ===== */
+
+    --primaria:#1D173F;
+    --secundaria:#A678FF;
+
+    --primaria-hover:#2A2256;
+    --secundaria-hover:#915DFF;
+
+    --sucesso:#23C16B;
+
+    --erro:#F04438;
+
+    --aviso:#F79009;
+
+    /* ===== Superficies e texto (mudam conforme o tema, ver theme.css) =====
+       Tema padrao (claro) definido aqui no :root.
+       Temas "escuro" e "invertido" sobrescrevem estes mesmos
+       nomes em [data-theme="escuro"] / [data-theme="invertido"]. */
+
+    --background:#F6F7FB;
+
+    --surface:#FFFFFF;
+
+    --surface-2:#F6F3FF;
+
+    --texto:#222222;
+
+    --texto-claro:#666666;
+
+    --borda:#E4E4E7;
+
+    /* Cor dos títulos (h1-h6) e de números/labels de destaque em cima
+       de um --surface. No padrão é a marca (roxo escuro); nos temas
+       escuros vira a mesma cor do texto (clara), senão fica ilegível. */
+
+    --titulo-cor:var(--primaria);
+
+    --shadow:
+        0 15px 40px rgba(0,0,0,.08);
+
+    /* ===== "Chrome" - navbar, footer e sidebar do painel =====
+       No tema padrao e no escuro o chrome continua roxo com texto claro.
+       No tema invertido o chrome vira claro com texto escuro. */
+
+    --bg-chrome:#1D173F;
+
+    --texto-chrome:#FFFFFF;
+
+    --texto-chrome-claro:#C9C3E0;
+
+    --link-chrome:#A678FF;
+
+    --link-chrome-hover:#5b2eb6;
+
+    --borda-chrome:rgba(255,255,255,.08);
+
+    --chrome-hover-bg:rgba(255,255,255,.06);
+
+    --sombra-chrome:0 5px 20px rgba(0,0,0,.08);
+
+    /* Cor de destaque dinamica: muda conforme a area
+       selecionada em "Como Trabalhamos" (ver servicos.js).
+       Vale para o passo a passo, transicao, feedbacks e FAQ.
+       O padrao abaixo e o roxo da marca (area "Apps"). */
+
+    --acento:#A678FF;
+    --acento-rgb:166,120,255;
+
+    /* Fontes */
+
+    --titulo:'Poppins',sans-serif;
+
+    --texto-fonte:'Inter',sans-serif;
+
+    /* Espacamentos */
+
+    --radius:18px;
+
+    --radius-small:10px;
+
+    --transition:.35s ease;
+
+    /* Navbar */
+
+    --navbar-height:80px;
+
+}

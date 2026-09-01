@@ -1,0 +1,201 @@
+<%- include("../partials/head", {
+    titulo: "Dashboard • LYXUS Holding",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../partials/sidebar", { atual: "dashboard" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Olá, <%= usuario ? usuario.nome.split(" ")[0] : "" %> 👋</h1>
+                <p>Aqui está um resumo geral da LYXUS Holding.</p>
+            </div>
+
+        </header>
+
+        <% if(!souMaster && !temPermissao('posts') && !temPermissao('categorias') && !temPermissao('pacotes') && !temPermissao('pagamentos')){ %>
+
+            <div class="painel">
+                <p>Seu acesso é restrito ao <a href="/dashboard/suporte">Suporte</a>.</p>
+            </div>
+
+        <% } else { %>
+
+        <div class="stat-grid">
+
+            <% if(temPermissao('posts')){ %>
+            <div class="stat-card">
+                <div class="icone"><i class="ri-article-line"></i></div>
+                <div>
+                    <div class="numero"><%= totalPosts %></div>
+                    <div class="rotulo">Posts</div>
+                </div>
+            </div>
+            <% } %>
+
+            <% if(temPermissao('posts') || temPermissao('categorias')){ %>
+            <div class="stat-card">
+                <div class="icone"><i class="ri-folder-line"></i></div>
+                <div>
+                    <div class="numero"><%= totalCategorias %></div>
+                    <div class="rotulo">Categorias</div>
+                </div>
+            </div>
+            <% } %>
+
+            <% if(temPermissao('pacotes')){ %>
+            <div class="stat-card">
+                <div class="icone"><i class="ri-vip-crown-line"></i></div>
+                <div>
+                    <div class="numero"><%= totalPacotes %></div>
+                    <div class="rotulo">Pacotes</div>
+                </div>
+            </div>
+            <% } %>
+
+            <% if(souMaster){ %>
+            <div class="stat-card">
+                <div class="icone"><i class="ri-user-3-line"></i></div>
+                <div>
+                    <div class="numero"><%= totalUsuarios %></div>
+                    <div class="rotulo">Usuários</div>
+                </div>
+            </div>
+            <% } %>
+
+            <% if(temPermissao('pagamentos')){ %>
+            <div class="stat-card">
+                <div class="icone"><i class="ri-money-dollar-circle-line"></i></div>
+                <div>
+                    <div class="numero"><%= totalPagamentos %></div>
+                    <div class="rotulo">Pagamentos</div>
+                </div>
+            </div>
+            <% } %>
+
+        </div>
+
+        <% if(temPermissao('posts')){ %>
+        <div class="painel">
+
+            <div class="painel-titulo">
+                <h2>Últimos posts</h2>
+                <a href="/dashboard/posts">Ver todos</a>
+            </div>
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Categoria</th>
+                            <th>Autor</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(ultimosPosts && ultimosPosts.length){ %>
+
+                            <% ultimosPosts.forEach(post => { %>
+
+                                <tr>
+                                    <td><%= post.titulo %></td>
+                                    <td><%= post.categoria ? post.categoria.nome : "-" %></td>
+                                    <td><%= post.autor ? post.autor.nome : "-" %></td>
+                                    <td>
+                                        <span class="status <%= post.publicado ? 'status-ativo' : 'status-inativo' %>">
+                                            <%= post.publicado ? "Publicado" : "Rascunho" %>
+                                        </span>
+                                    </td>
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="4" class="vazio">Nenhum post ainda.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+        <% } %>
+
+        <% if(temPermissao('pagamentos')){ %>
+        <div class="painel">
+
+            <div class="painel-titulo">
+                <h2>Últimos pagamentos</h2>
+                <a href="/dashboard/pacotes">Ver pacotes</a>
+            </div>
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Pacote</th>
+                            <th>Valor</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(ultimosPagamentos && ultimosPagamentos.length){ %>
+
+                            <% ultimosPagamentos.forEach(pg => { %>
+
+                                <tr>
+                                    <td><%= pg.usuario ? pg.usuario.nome : "-" %></td>
+                                    <td><%= pg.pacote ? pg.pacote.nome : "-" %></td>
+                                    <td>R$ <%= Number(pg.valor || 0).toLocaleString("pt-BR") %></td>
+                                    <td>
+                                        <span class="status status-<%= pg.status %>">
+                                            <%= pg.status %>
+                                        </span>
+                                    </td>
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="4" class="vazio">Nenhum pagamento ainda.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+        <% } %>
+
+        <% } %>
+
+    </main>
+
+</div>
+
+<%- include("../partials/scripts", {
+    js: "dashboard"
+}) %>

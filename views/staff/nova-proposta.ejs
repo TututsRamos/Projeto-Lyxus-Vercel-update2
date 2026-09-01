@@ -1,0 +1,211 @@
+<%- include("../partials/head", {
+    titulo: "Criar Proposta • LYXUS",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../partials/sidebarStaff", { atual: "propostas" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Criar Proposta</h1>
+                <p>Preencha os dados do contrato para o cliente.</p>
+            </div>
+
+        </header>
+
+        <% if(typeof erro !== "undefined" && erro){ %>
+
+            <div class="login-erro">
+                <i class="ri-error-warning-line"></i>
+                <span><%= erro %></span>
+            </div>
+
+        <% } %>
+
+        <div class="painel">
+
+            <form method="POST" action="/staff/propostas" class="form-dashboard">
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="usuario">Cliente</label>
+                        <select id="usuario" name="usuario" required>
+                            <option value="">Selecione...</option>
+                            <% usuarios.forEach(u => { %>
+                                <option value="<%= u._id %>"><%= u.nome %> (<%= u.email %>)</option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="areaAtuacao">Tipo de proposta</label>
+                        <select id="areaAtuacao" name="areaAtuacao" required>
+                            <option value="marketing">Marketing</option>
+                            <option value="design">Design</option>
+                            <option value="moderacao">Moderação</option>
+                            <option value="coordenacao">Coordenação</option>
+                            <option value="administracao">Administração</option>
+                            <option value="suporte">Suporte</option>
+                            <option value="programacao">Programação</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="campo">
+                    <label for="titulo">Título / nome do contrato</label>
+                    <input type="text" id="titulo" name="titulo" placeholder="Ex: Desenvolvimento de site institucional" required>
+                </div>
+
+                <div class="campo">
+                    <label>Tipo de pessoa</label>
+                    <div style="display:flex;gap:24px;padding:6px 0;">
+                        <label style="display:flex;align-items:center;gap:8px;font-weight:500;">
+                            <input type="radio" name="tipoPessoa" value="fisica" id="pessoa-fisica" checked>
+                            Pessoa física
+                        </label>
+                        <label style="display:flex;align-items:center;gap:8px;font-weight:500;">
+                            <input type="radio" name="tipoPessoa" value="juridica" id="pessoa-juridica">
+                            Pessoa jurídica
+                        </label>
+                    </div>
+                </div>
+
+                <div class="campo-linha" id="bloco-fisica">
+
+                    <div class="campo">
+                        <label for="nomePessoa">Nome da pessoa</label>
+                        <input type="text" id="nomePessoa" name="nomePessoa" placeholder="Nome completo">
+                    </div>
+
+                    <div class="campo">
+                        <label for="cpf">CPF</label>
+                        <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00">
+                    </div>
+
+                </div>
+
+                <div class="campo-linha" id="bloco-juridica" style="display:none;">
+
+                    <div class="campo">
+                        <label for="nomeEmpresa">Nome da empresa</label>
+                        <input type="text" id="nomeEmpresa" name="nomeEmpresa" placeholder="Razão social">
+                    </div>
+
+                    <div class="campo">
+                        <label for="cnpj">CNPJ</label>
+                        <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0000-00">
+                    </div>
+
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="valorContrato">Valor do contrato (R$)</label>
+                        <input type="number" id="valorContrato" name="valorContrato" step="0.01" min="0" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="prazo">Prazo</label>
+                        <input type="text" id="prazo" name="prazo" placeholder="Ex: 45 dias">
+                    </div>
+
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="percentualMulta">Multa por descumprimento (%)</label>
+                        <input type="number" id="percentualMulta" name="percentualMulta" step="0.01" min="0">
+                    </div>
+
+                    <div class="campo">
+                        <label for="percentualCorrecao">Correção (%)</label>
+                        <input type="number" id="percentualCorrecao" name="percentualCorrecao" step="0.01" min="0">
+                    </div>
+
+                </div>
+
+                <div class="campo">
+                    <label for="pagamentoInicial">Pagamento inicial (R$)</label>
+                    <input type="number" id="pagamentoInicial" name="pagamentoInicial" step="0.01" min="0">
+                </div>
+
+                <div class="campo">
+                    <label for="objetivo">Objetivo</label>
+                    <textarea id="objetivo" name="objetivo" placeholder="Qual o objetivo deste contrato"></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="detalhes">Detalhes</label>
+                    <textarea id="detalhes" name="detalhes" placeholder="Detalhes adicionais do escopo"></textarea>
+                </div>
+
+                <div class="campo">
+
+                    <label>Campos que o cliente pode editar</label>
+
+                    <p style="font-size:.82rem;color:var(--texto-claro);margin:-4px 0 10px;">
+                        O que não for marcado só o STAFF consegue alterar depois.
+                    </p>
+
+                    <div style="display:flex;flex-wrap:wrap;gap:14px;">
+
+                        <% ["prazo","valorContrato","pagamentoInicial","objetivo","detalhes"].forEach(campo => { %>
+
+                            <label style="display:flex;align-items:center;gap:8px;font-weight:500;font-size:.9rem;">
+                                <input type="checkbox" name="camposEditaveis" value="<%= campo %>">
+                                <%= campo %>
+                            </label>
+
+                        <% }) %>
+
+                    </div>
+
+                </div>
+
+                <div class="form-dashboard-acoes">
+                    <button type="submit" class="btn">Enviar proposta</button>
+                    <a href="/staff/propostas" class="btn-secundario-dash">Cancelar</a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+
+    // Alterna os campos de pessoa física / jurídica
+
+    const radioFisica = document.getElementById("pessoa-fisica");
+    const radioJuridica = document.getElementById("pessoa-juridica");
+    const blocoFisica = document.getElementById("bloco-fisica");
+    const blocoJuridica = document.getElementById("bloco-juridica");
+
+    function alternarTipoPessoa(){
+
+        const juridica = radioJuridica.checked;
+
+        blocoFisica.style.display = juridica ? "none" : "grid";
+        blocoJuridica.style.display = juridica ? "grid" : "none";
+
+    }
+
+    radioFisica.addEventListener("change", alternarTipoPessoa);
+    radioJuridica.addEventListener("change", alternarTipoPessoa);
+
+</script>
+
+<%- include("../partials/scripts", { js: "dashboard" }) %>

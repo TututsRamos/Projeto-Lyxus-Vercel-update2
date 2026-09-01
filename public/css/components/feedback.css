@@ -1,0 +1,259 @@
+.feedback-layout{
+
+    display:grid;
+
+    grid-template-columns:.85fr 1.15fr;
+
+    gap:60px;
+
+    align-items:center;
+
+}
+
+.feedback-info .section-title{
+
+    color:#FFFFFF;
+
+}
+
+.feedback-info .section-subtitle{
+
+    color:#B9B4CE;
+
+    margin:0;
+
+}
+
+.feedback-info .badge{
+
+    background:rgba(var(--acento-rgb),.15);
+
+    color:var(--acento);
+
+}
+
+/* ===== Filtro de feedbacks (Todos / Mais estrelas / Mais completos) ===== */
+
+.feedback-filtros{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin-top:24px;
+
+}
+
+.feedback-filtro{
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.14);
+
+    color:#B9B4CE;
+
+    padding:9px 18px;
+
+    border-radius:30px;
+
+    font-size:.85rem;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+}
+
+.feedback-filtro:hover{
+
+    border-color:var(--acento);
+
+    color:#FFFFFF;
+
+}
+
+.feedback-filtro.ativo{
+
+    background:var(--acento);
+
+    border-color:var(--acento);
+
+    color:#FFFFFF;
+
+}
+
+.feedback-filtros-area{
+
+    margin-top:24px;
+
+    margin-bottom:2px;
+
+}
+
+.feedback-filtros:not(.feedback-filtros-area){
+
+    margin-top:12px;
+
+}
+
+/* ===== Tag de área dentro do card (mostra de qual área é o
+   depoimento agora que os feedbacks não ficam mais separados) ===== */
+
+.feedback-card-topo{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+    margin-bottom:18px;
+
+}
+
+#feedback-grid .card .feedback-card-topo .stars{
+
+    margin-bottom:0;
+
+}
+
+.feedback-tag{
+
+    flex-shrink:0;
+
+    background:rgba(var(--acento-rgb),.12);
+
+    color:var(--tag-cor, var(--acento));
+
+    border:1px solid var(--tag-cor, var(--acento));
+
+    padding:3px 12px;
+
+    border-radius:20px;
+
+    font-size:.72rem;
+
+    font-weight:600;
+
+    white-space:nowrap;
+
+}
+
+.feedback-vazio{
+
+    color:#B9B4CE;
+
+    padding:20px 0;
+
+}
+
+/* ===== Trilho do carrossel ===== */
+
+.feedback-info{
+
+    min-width:0;
+
+}
+
+.feedback-carousel{
+
+    width:100%;
+    min-width:0;
+
+}
+
+.feedback-track{
+
+    display:flex;
+
+    gap:22px;
+
+    overflow-x:auto;
+
+    scrollbar-width:none;
+
+    padding-bottom:6px;
+
+}
+
+.feedback-track::-webkit-scrollbar{
+
+    display:none;
+
+}
+
+.feedback-track .card{
+
+    flex:0 0 62%;
+
+}
+
+@media(max-width:768px){
+
+    .feedback-track .card{
+
+        flex:0 0 80%;
+
+    }
+
+}
+
+/* ===== Barra de arrastar (scrub) ===== */
+
+.feedback-scrub{
+
+    position:relative;
+
+    height:3px;
+
+    border-radius:3px;
+
+    background:rgba(255,255,255,.12);
+
+    margin-top:22px;
+
+    cursor:pointer;
+
+    user-select:none;
+
+}
+
+.feedback-scrub-fill{
+
+    position:absolute;
+
+    top:0;
+
+    left:0;
+
+    height:100%;
+
+    width:40%;
+
+    border-radius:3px;
+
+    background:var(--acento);
+
+    transition:width .1s linear;
+
+}
+
+/* ===== Layout responsivo ===== */
+
+@media(max-width:992px){
+
+    .feedback-layout{
+
+        grid-template-columns:1fr;
+
+        gap:35px;
+
+    }
+
+}

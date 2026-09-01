@@ -1,0 +1,123 @@
+<%- include("../partials/head", {
+    titulo: "Pesquisa • Blog LYXUS",
+    css: "blog"
+}) %>
+
+<%- include("../partials/navbar") %>
+
+<main class="blog-page">
+
+    <section class="blog-hero">
+
+        <div class="container">
+
+            <span class="badge">PESQUISA</span>
+
+            <h1>
+                <% if(termo){ %>
+                    Resultados para "<%= termo %>"
+                <% } else { %>
+                    Pesquisar no blog
+                <% } %>
+            </h1>
+
+            <form action="/blog/pesquisa" method="GET" class="blog-busca">
+
+                <i class="ri-search-line"></i>
+
+                <input
+                    type="text"
+                    name="q"
+                    value="<%= termo %>"
+                    placeholder="Pesquisar artigos...">
+
+            </form>
+
+        </div>
+
+    </section>
+
+    <section class="blog-conteudo">
+
+        <div class="container blog-layout">
+
+            <div class="blog-grid">
+
+                <% if(posts && posts.length){ %>
+
+                    <% posts.forEach(post => { %>
+
+                        <a href="/blog/<%= post.slug %>" class="post-card">
+
+                            <div class="post-card-img">
+
+                                <img
+                                    src="<%= urlImagem(post.imagem) %>"
+                                    alt="<%= post.titulo %>">
+
+                            </div>
+
+                            <div class="post-card-corpo">
+
+                                <h3><%= post.titulo %></h3>
+
+                                <p><%= post.resumo %></p>
+
+                            </div>
+
+                        </a>
+
+                    <% }) %>
+
+                <% } else { %>
+
+                    <div class="vazio">
+                        <i class="ri-search-line"></i>
+                        <p>
+                            <% if(termo){ %>
+                                Nenhum artigo encontrado para "<%= termo %>".
+                            <% } else { %>
+                                Digite algo na busca acima para encontrar artigos.
+                            <% } %>
+                        </p>
+                    </div>
+
+                <% } %>
+
+            </div>
+
+            <aside class="blog-sidebar">
+
+                <div class="blog-sidebar-bloco">
+
+                    <h4>Categorias</h4>
+
+                    <ul>
+
+                        <% categorias.forEach(cat => { %>
+
+                            <li>
+                                <a href="/blog/categoria/<%= cat.slug %>">
+                                    <%= cat.nome %>
+                                </a>
+                            </li>
+
+                        <% }) %>
+
+                    </ul>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", {
+    js: "blog"
+}) %>

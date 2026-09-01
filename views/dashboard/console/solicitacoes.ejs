@@ -1,0 +1,77 @@
+<%- include("../../partials/head", {
+    titulo: "Solicitações • Console Admin",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "solicitacoes" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Solicitações de Usuário</h1>
+                <p>Pedidos de criação de usuário feitos pela equipe STAFF.</p>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <% if(solicitacoes && solicitacoes.length){ %>
+
+                <% solicitacoes.forEach(s => { %>
+
+                    <div class="console-usuario-item" style="cursor:default;margin-bottom:12px;flex-direction:column;align-items:stretch;gap:14px;padding:20px;">
+
+                        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+
+                            <div>
+                                <strong><%= s.nomeUsuario %></strong>
+                                <span style="color:var(--texto-claro);font-size:.88rem;"> — <%= s.emailUsuario %></span>
+                            </div>
+
+                            <span class="status status-pendente"><%= s.tipoSolicitado %></span>
+
+                        </div>
+
+                        <p style="margin:0;color:var(--texto-claro);font-size:.9rem;">
+                            Solicitado por <strong><%= s.staffSolicitante ? s.staffSolicitante.nome : "-" %></strong>
+                            em <%= new Date(s.createdAt).toLocaleString("pt-BR") %>
+                        </p>
+
+                        <% if(s.observacao){ %>
+                            <p style="margin:0;font-size:.9rem;">"<%= s.observacao %>"</p>
+                        <% } %>
+
+                        <div class="form-dashboard-acoes" style="margin:0;">
+
+                            <form method="POST" action="/dashboard/console/solicitacoes/<%= s._id %>/aprovar">
+                                <button type="submit" class="btn">Aprovar e criar usuário</button>
+                            </form>
+
+                            <form method="POST" action="/dashboard/console/solicitacoes/<%= s._id %>/reprovar">
+                                <button type="submit" class="btn-secundario-dash">Reprovar</button>
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                <% }) %>
+
+            <% } else { %>
+
+                <p class="vazio">Nenhuma solicitação pendente no momento.</p>
+
+            <% } %>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", { js: "dashboard" }) %>

@@ -1,0 +1,125 @@
+<%- include("../../partials/head", {
+    titulo: "Novo usuário • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "usuarios" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Novo usuário</h1>
+                <p>Cadastre um cliente ou um membro da equipe.</p>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <form
+                method="POST"
+                action="/dashboard/usuarios"
+                enctype="multipart/form-data"
+                class="form-dashboard">
+
+                <div class="campo">
+                    <label for="nome">Nome completo</label>
+                    <input type="text" id="nome" name="nome" placeholder="Nome do usuário" required>
+                </div>
+
+                <div class="campo">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" placeholder="email@exemplo.com" required>
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" name="senha" placeholder="••••••••" minlength="6" pattern="(?=.*[A-ZÀ-Ý])(?=.*[^A-Za-z0-9À-ÿ]).{6,}" title="Mínimo de 6 caracteres, com pelo menos 1 letra maiúscula e 1 caractere especial." required>
+                        <small>Mínimo de 6 caracteres, 1 letra maiúscula e 1 caractere especial.</small>
+                    </div>
+
+                    <div class="campo">
+                        <label for="papel">Tipo de acesso</label>
+                        <select id="papel" required>
+                            <option value="cliente">Cliente</option>
+                            <option value="staff">Staff — acesso amplo (posts, categorias, pacotes, pagamentos)</option>
+                            <option value="suporte">Suporte — só responde o chat (tawk.to)</option>
+                            <option value="marketing">Marketing — só o blog (posts e categorias)</option>
+                        </select>
+                        <input type="hidden" id="tipo" name="tipo" value="cliente">
+                        <input type="hidden" id="cargo" name="cargo" value="">
+                    </div>
+
+                </div>
+
+                <div class="campo" id="permissoesOpcoes" style="display:none;">
+
+                    <label>Ajuste fino de permissões (opcional)</label>
+
+                    <div class="campo-checkboxes" style="display:flex;flex-wrap:wrap;gap:12px;">
+                        <label style="display:flex;align-items:center;gap:6px;font-weight:400;"><input type="checkbox" name="permissoes" value="posts"> Posts</label>
+                        <label style="display:flex;align-items:center;gap:6px;font-weight:400;"><input type="checkbox" name="permissoes" value="categorias"> Categorias</label>
+                        <label style="display:flex;align-items:center;gap:6px;font-weight:400;"><input type="checkbox" name="permissoes" value="pacotes"> Pacotes</label>
+                        <label style="display:flex;align-items:center;gap:6px;font-weight:400;"><input type="checkbox" name="permissoes" value="pagamentos"> Pagamentos</label>
+                        <label style="display:flex;align-items:center;gap:6px;font-weight:400;"><input type="checkbox" name="permissoes" value="suporte"> Suporte (chat)</label>
+                        <label style="display:flex;align-items:center;gap:6px;font-weight:400;"><input type="checkbox" name="permissoes" value="contratos"> Contratos (registro de serviços e logs)</label>
+                        <label style="display:flex;align-items:center;gap:6px;font-weight:400;"><input type="checkbox" name="permissoes" value="avaliacoes"> Pesquisa e Avaliação (Pique Michelan)</label>
+                    </div>
+
+                    <small>Se não marcar nada aqui, valem as permissões padrão do cargo escolhido acima.</small>
+
+                </div>
+
+                <div class="campo">
+                    <label for="foto">Foto (opcional)</label>
+                    <input type="file" id="foto" name="foto" accept="image/*">
+                </div>
+
+                <div class="form-dashboard-acoes">
+                    <button type="submit" class="btn">Salvar usuário</button>
+                    <a href="/dashboard/usuarios" class="btn-secundario-dash">Cancelar</a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+    (function(){
+        var papelSel = document.getElementById("papel");
+        var tipoHidden = document.getElementById("tipo");
+        var cargoHidden = document.getElementById("cargo");
+        var permissoesBloco = document.getElementById("permissoesOpcoes");
+
+        var MAPA_PAPEL = {
+            cliente: { tipo:"cliente", cargo:"" },
+            staff: { tipo:"staff", cargo:"staff" },
+            suporte: { tipo:"staff", cargo:"suporte" },
+            marketing: { tipo:"staff", cargo:"marketing" }
+        };
+
+        function atualizar(){
+            var config = MAPA_PAPEL[papelSel.value] || MAPA_PAPEL.cliente;
+            tipoHidden.value = config.tipo;
+            cargoHidden.value = config.cargo;
+            permissoesBloco.style.display = config.tipo === "staff" ? "" : "none";
+        }
+
+        papelSel.addEventListener("change", atualizar);
+        atualizar();
+    })();
+</script>
+
+<%- include("../../partials/scripts", {
+    js: "dashboard"
+}) %>

@@ -1,0 +1,76 @@
+<%- include("../../partials/head", {
+    titulo: "Contrato e Sumário • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "contrato-sumario" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+            <div>
+                <h1>Contrato e Sumário</h1>
+                <p>
+                    Contrato institucional da LYXUS (sem empresa/cliente específico), mostrado
+                    publicamente em <code>/contrato</code>. Independente dos contratos fechados
+                    arquivados em "Contratos e Logs".
+                </p>
+            </div>
+
+            <div class="dash-header-acoes">
+                <a href="/contrato" target="_blank" class="btn"><i class="ri-eye-line"></i> Ver como o visitante vê</a>
+            </div>
+        </header>
+
+        <form method="POST" action="/dashboard/contrato-sumario" class="form-dashboard">
+
+            <div class="painel">
+
+                <div class="painel-titulo"><h2>Texto do contrato</h2></div>
+
+                <p class="contrato-doc-ajuda">
+                    Um parágrafo por bloco (separe cada parágrafo com uma linha em branco).
+                    Pra ligar um parágrafo a um artigo do glossário, coloque <code>| Art. 30</code> no final da linha.
+                    Parágrafo sem artigo não precisa do <code>|</code>.
+                </p>
+
+                <div class="campo">
+                    <label for="paragrafosTexto">Parágrafos</label>
+                    <textarea id="paragrafosTexto" name="paragrafosTexto" rows="14" placeholder="Este contrato tem por objeto a prestação de serviços descritos no Anexo I. | Art. 1
+
+O contratante se compromete a fornecer as informações necessárias para a execução do serviço. | Art. 2
+
+Texto sem referência a nenhum artigo, só um parágrafo comum."><%= paragrafosTexto %></textarea>
+                </div>
+
+            </div>
+
+            <div class="painel">
+
+                <div class="painel-titulo"><h2>Sumário — Glossário de artigos</h2></div>
+
+                <p class="contrato-doc-ajuda">
+                    Um artigo por linha, no formato <code>Art. 30 = explicação em linguagem simples</code>.
+                </p>
+
+                <div class="campo">
+                    <label for="glossarioTexto">Artigos</label>
+                    <textarea id="glossarioTexto" name="glossarioTexto" rows="10" placeholder="Art. 1 = Define o que está incluso no serviço contratado.
+Art. 2 = Explica quais informações o cliente precisa enviar."><%= glossarioTexto %></textarea>
+                </div>
+
+            </div>
+
+            <div class="form-dashboard-acoes">
+                <button type="submit" class="btn">Salvar contrato e sumário</button>
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", { js: "dashboard" }) %>

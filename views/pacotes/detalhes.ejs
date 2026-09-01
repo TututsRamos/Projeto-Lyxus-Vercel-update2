@@ -1,0 +1,117 @@
+<%- include("../partials/head", {
+    titulo: pacote.nome + " • Pacotes LYXUS",
+    css: "pacote"
+}) %>
+
+<%- include("../partials/navbar") %>
+
+<main class="pacotes-page">
+
+    <section class="pacote-detalhe">
+
+        <div class="container pacote-detalhe-grid">
+
+            <div class="pacote-detalhe-info">
+
+                <a href="/pacotes" class="blog-voltar">
+                    <i class="ri-arrow-left-line"></i> Todos os pacotes
+                </a>
+
+                <% if(pacote.destaque){ %>
+
+                    <span class="badge">MAIS ESCOLHIDO</span>
+
+                <% } %>
+
+                <h1><%= pacote.nome %></h1>
+
+                <p class="pacote-detalhe-descricao"><%= pacote.descricao %></p>
+
+                <ul class="pacote-beneficios">
+
+                    <% (pacote.beneficios || []).forEach(item => { %>
+
+                        <li>
+                            <i class="ri-checkbox-circle-fill"></i>
+                            <%= item %>
+                        </li>
+
+                    <% }) %>
+
+                </ul>
+
+            </div>
+
+            <div class="pacote-detalhe-card">
+
+                <span class="pacote-detalhe-rotulo">Investimento</span>
+
+                <div class="pacote-preco">
+
+                    <span class="pacote-preco-moeda">R$</span>
+                    <span class="pacote-preco-valor"><%= Number(pacote.preco).toLocaleString("pt-BR") %></span>
+
+                </div>
+
+                <a href="/pacotes/<%= pacote._id %>/checkout" class="btn">
+                    Solicitar este pacote
+                </a>
+
+                <a href="<%= linkWhatsapp %>" class="btn-outline" target="_blank" rel="noopener noreferrer">
+                    Falar com um especialista
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <% if(outros && outros.length){ %>
+
+        <section class="pacotes-grid-section">
+
+            <div class="container">
+
+                <h2 class="pacote-outros-titulo">Outros pacotes</h2>
+
+                <div class="pacotes-grid">
+
+                    <% outros.forEach(p => { %>
+
+                        <div class="pacote-card">
+
+                            <h3><%= p.nome %></h3>
+
+                            <p class="pacote-descricao"><%= p.descricao %></p>
+
+                            <div class="pacote-preco">
+
+                                <span class="pacote-preco-moeda">R$</span>
+                                <span class="pacote-preco-valor"><%= Number(p.preco).toLocaleString("pt-BR") %></span>
+
+                            </div>
+
+                            <a href="/pacotes/<%= p._id %>" class="btn-outline">
+                                Ver detalhes
+                            </a>
+
+                        </div>
+
+                    <% }) %>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    <% } %>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", {
+    js: "pacote"
+}) %>

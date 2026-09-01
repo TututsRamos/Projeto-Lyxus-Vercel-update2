@@ -1,0 +1,889 @@
+/* ===== Estrutura geral ===== */
+
+.login-page{
+
+    min-height:100vh;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+}
+
+/* ===== Painel esquerdo (marca) ===== */
+
+.login-brand{
+
+    position:relative;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    padding:60px;
+
+    overflow:hidden;
+
+    background:linear-gradient(160deg,var(--primaria),#100c29);
+
+}
+
+/* Marca (logo + nome) fixada no canto superior esquerdo do
+   painel de marca */
+
+.login-brand-marca{
+
+    position:absolute;
+
+    top:32px;
+
+    left:32px;
+
+    z-index:2;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+}
+
+.login-brand-marca-logo{
+
+    display:block;
+
+    width:64px;
+
+    height:64px;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.35);
+
+    border:2px solid rgba(255,255,255,.18);
+
+    transition:transform .2s ease, border-color .2s ease;
+
+}
+
+.login-brand-marca:hover .login-brand-marca-logo{
+
+    transform:translateY(-2px);
+
+    border-color:rgba(255,255,255,.4);
+
+}
+
+.login-brand-marca-logo img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    display:block;
+
+}
+
+.login-brand-marca-nome{
+
+    color:#FFFFFF;
+
+    font-family:var(--titulo);
+
+    font-weight:600;
+
+    font-size:1.6rem;
+
+    letter-spacing:.5px;
+
+}
+
+/* ===== Carrossel de "destaque da semana" =====
+   Sai do container de texto (max-width 460px) e ocupa
+   a área roxa inteira, de ponta a ponta, fixo na metade
+   inferior do painel. */
+
+.login-destaque-carousel{
+
+    position:relative;
+
+    z-index:1;
+
+    flex:1 1 auto;
+
+    min-height:200px;
+
+    width:calc(100% + 120px);
+
+    margin-top:32px;
+
+    margin-bottom:-60px;
+
+}
+
+.login-destaque-track{
+
+    position:relative;
+
+    width:100%;
+
+    height:100%;
+
+}
+
+.login-destaque-slide{
+
+    position:absolute;
+
+    inset:0;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:32px;
+
+    background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.09));
+
+    border-top:1px solid rgba(255,255,255,.16);
+
+    border-radius:32px 32px 0 0;
+
+    padding:44px 56px;
+
+    backdrop-filter:blur(8px);
+
+    opacity:0;
+
+    transform:translateX(60px);
+
+    transition:opacity .5s ease, transform .5s ease;
+
+    pointer-events:none;
+
+}
+
+.login-destaque-slide.is-ativo{
+
+    opacity:1;
+
+    transform:translateX(0);
+
+    pointer-events:auto;
+
+}
+
+.login-destaque-slide-imagem{
+
+    flex-shrink:0;
+
+    width:34%;
+
+    max-width:260px;
+
+    height:100%;
+
+    max-height:220px;
+
+    object-fit:cover;
+
+    border-radius:20px;
+
+}
+
+.login-destaque-slide-icone{
+
+    flex-shrink:0;
+
+    width:110px;
+
+    height:110px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:24px;
+
+    background:rgba(var(--acento-rgb),.18);
+
+    color:var(--secundaria);
+
+    font-size:2.8rem;
+
+}
+
+.login-destaque-slide-corpo{
+
+    min-width:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.login-destaque-slide-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:5px;
+
+    color:var(--secundaria);
+
+    font-size:.78rem;
+
+    font-weight:700;
+
+    letter-spacing:.5px;
+
+    text-transform:uppercase;
+
+    margin-bottom:12px;
+
+    width:fit-content;
+
+}
+
+.login-destaque-slide-corpo h3{
+
+    color:#FFFFFF;
+
+    font-size:1.5rem;
+
+    line-height:1.25;
+
+    margin-bottom:10px;
+
+}
+
+.login-destaque-slide-corpo p{
+
+    color:#C9C3E0;
+
+    font-size:.95rem;
+
+    line-height:1.5;
+
+    margin-bottom:16px;
+
+    display:-webkit-box;
+
+    -webkit-line-clamp:3;
+
+    -webkit-box-orient:vertical;
+
+    overflow:hidden;
+
+}
+
+.login-destaque-slide-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    margin-top:auto;
+
+    color:var(--secundaria);
+
+    font-weight:700;
+
+    font-size:.9rem;
+
+    width:fit-content;
+
+}
+
+.login-destaque-slide-btn:hover{
+
+    text-decoration:underline;
+
+}
+
+.login-destaque-dots{
+
+    position:absolute;
+
+    right:32px;
+
+    bottom:22px;
+
+    z-index:2;
+
+    display:flex;
+
+    gap:8px;
+
+}
+
+.login-destaque-dot{
+
+    width:8px;
+
+    height:8px;
+
+    border-radius:50%;
+
+    border:none;
+
+    padding:0;
+
+    background:rgba(255,255,255,.3);
+
+    cursor:pointer;
+
+    transition:var(--transition);
+
+}
+
+.login-destaque-dot.is-ativo{
+
+    width:24px;
+
+    border-radius:5px;
+
+    background:var(--secundaria);
+
+}
+
+.login-brand-glow{
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        radial-gradient(circle at 20% 20%,rgba(var(--acento-rgb),.35),transparent 45%),
+        radial-gradient(circle at 85% 80%,rgba(var(--acento-rgb),.25),transparent 50%);
+
+    pointer-events:none;
+
+}
+
+.login-brand-content{
+
+    position:relative;
+
+    z-index:1;
+
+    max-width:460px;
+
+    width:100%;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+    padding-top:120px;
+
+    color:#FFFFFF;
+
+}
+
+.login-brand-topo{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.login-brand-logo{
+
+    display:block;
+
+    width:88px;
+
+    height:88px;
+
+    border-radius:24px;
+
+    overflow:hidden;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.35);
+
+    margin-bottom:35px;
+
+    border:3px solid rgba(255,255,255,.15);
+
+    transition:transform .2s ease, border-color .2s ease;
+
+}
+
+.login-brand-logo:hover{
+
+    transform:translateY(-3px);
+
+    border-color:rgba(255,255,255,.35);
+
+}
+
+.login-brand-logo img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    display:block;
+
+}
+
+.login-brand-content h1{
+
+    color:#FFFFFF;
+
+    font-size:2.6rem;
+
+    margin-bottom:18px;
+
+    line-height:1.15;
+
+}
+
+.login-brand-content p{
+
+    color:#C9C3E0;
+
+    font-size:1.05rem;
+
+    margin-bottom:18px;
+
+}
+
+.login-brand-lista{
+
+    list-style:none;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+}
+
+.login-brand-lista li{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    color:#E7E3F5;
+
+    font-size:.95rem;
+
+    font-weight:500;
+
+}
+
+.login-brand-lista li i{
+
+    color:var(--secundaria);
+
+    font-size:1.2rem;
+
+}
+
+/* ===== Painel direito (formulário) ===== */
+
+.login-form-panel{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:40px;
+
+    background:var(--surface);
+
+}
+
+.login-box{
+
+    width:100%;
+
+    max-width:400px;
+
+}
+
+.login-box-logo-mobile{
+
+    display:none;
+
+    /* logo3.jpeg é retangular (bem mais larga que alta) — uma
+       caixa quadrada de 64x64 obrigava a imagem a ser cortada
+       (com object-fit:cover) ou esticada/espremida (sem
+       object-fit nenhum, caso do formulário de cadastro, que
+       aplicava essa classe direto na <img>). Trocamos por uma
+       caixa no formato da logo (mais larga que alta) e
+       object-fit:contain, que sempre mostra a logo inteira. */
+
+    width:auto;
+
+    max-width:200px;
+
+    height:56px;
+
+    border-radius:0;
+
+    overflow:visible;
+
+    margin:0 auto 25px;
+
+    box-shadow:none;
+
+}
+
+.login-box-logo-mobile img{
+
+    width:auto;
+
+    max-width:100%;
+
+    height:100%;
+
+    object-fit:contain;
+
+    display:block;
+
+    margin:0 auto;
+
+}
+
+.login-box h2{
+
+    font-size:2rem;
+
+    margin-bottom:10px;
+
+}
+
+.login-subtitle{
+
+    margin-bottom:30px;
+
+}
+
+/* ===== Mensagem de erro ===== */
+
+.login-erro{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:#FDECEA;
+
+    border:1px solid #F6C6C1;
+
+    color:var(--erro);
+
+    padding:14px 16px;
+
+    border-radius:var(--radius-small);
+
+    font-size:.9rem;
+
+    font-weight:500;
+
+    margin-bottom:25px;
+
+}
+
+.login-erro i{
+
+    font-size:1.2rem;
+
+}
+
+/* ===== Formulário ===== */
+
+.login-form{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+    margin-bottom:25px;
+
+}
+
+.input-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.input-group label{
+
+    font-size:.85rem;
+
+    font-weight:600;
+
+    color:var(--texto);
+
+}
+
+.input-wrapper{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    border:2px solid var(--borda);
+
+    border-radius:var(--radius-small);
+
+    padding:0 16px;
+
+    transition:var(--transition);
+
+    background:var(--surface);
+
+}
+
+.input-wrapper:focus-within{
+
+    border-color:var(--secundaria);
+
+    box-shadow:0 0 0 4px rgba(var(--acento-rgb),.15);
+
+}
+
+.input-wrapper i{
+
+    color:var(--texto-claro);
+
+    font-size:1.15rem;
+
+}
+
+.input-wrapper input{
+
+    flex:1;
+
+    border:none;
+
+    outline:none;
+
+    padding:15px 0;
+
+    font-family:var(--texto-fonte);
+
+    font-size:.95rem;
+
+    color:var(--texto);
+
+    background:transparent;
+
+}
+
+.toggle-senha{
+
+    border:none;
+
+    background:none;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    color:var(--texto-claro);
+
+    font-size:1.15rem;
+
+    padding:4px;
+
+}
+
+.toggle-senha:hover{
+
+    color:var(--secundaria);
+
+}
+
+.login-btn{
+
+    width:100%;
+
+    border:none;
+
+    cursor:pointer;
+
+    font-size:1rem;
+
+    margin-top:5px;
+
+}
+
+.login-voltar{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:8px;
+
+    color:var(--texto-claro);
+
+    font-size:.9rem;
+
+    font-weight:500;
+
+    transition:var(--transition);
+
+}
+
+.login-voltar:hover{
+
+    color:var(--secundaria);
+
+}
+
+.login-cadastro-link{
+
+    text-align:center;
+
+    font-size:.9rem;
+
+    color:var(--texto-claro);
+
+    margin-bottom:20px;
+
+}
+
+.login-cadastro-link a{
+
+    color:var(--secundaria);
+
+    font-weight:700;
+
+}
+
+.login-cadastro-link a:hover{
+
+    text-decoration:underline;
+
+}
+
+.login-voltar strong{
+
+    color:var(--secundaria);
+
+    font-weight:700;
+
+}
+
+/* ===== Variante: acesso staff/admin ===== */
+
+.login-page-staff .login-brand{
+
+    background:linear-gradient(160deg,#100c29,var(--primaria));
+
+}
+
+.login-brand-logo-staff{
+
+    cursor:default;
+
+    border-color:rgba(var(--acento-rgb),.4);
+
+}
+
+.login-brand-logo-staff:hover{
+
+    transform:none;
+
+}
+
+.login-badge-staff{
+
+    display:inline-block;
+
+    background:rgba(255,255,255,.1);
+
+    color:#FFFFFF;
+
+    padding:6px 14px;
+
+    border-radius:30px;
+
+    font-size:.75rem;
+
+    font-weight:700;
+
+    letter-spacing:.5px;
+
+    margin-bottom:18px;
+
+    width:fit-content;
+
+}
+
+/* ===== Responsivo ===== */
+
+@media(max-width:992px){
+
+    .login-page{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .login-brand{
+
+        display:none;
+
+    }
+
+    .login-form-panel{
+
+        min-height:100vh;
+
+        padding:30px 20px;
+
+    }
+
+    .login-box-logo-mobile{
+
+        display:block;
+
+    }
+
+}

@@ -1,0 +1,106 @@
+<%- include("../../partials/head", {
+    titulo: "Pacotes • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "pacotes" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Pacotes</h1>
+                <p>Planos oferecidos publicamente no site.</p>
+            </div>
+
+            <div class="dash-header-acoes">
+                <a href="/dashboard/pacotes/novo" class="btn">
+                    <i class="ri-add-line"></i> Novo pacote
+                </a>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Pacote</th>
+                            <th>Preço</th>
+                            <th>Destaque</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(pacotes && pacotes.length){ %>
+
+                            <% pacotes.forEach(p => { %>
+
+                                <tr>
+
+                                    <td>
+                                        <div class="tabela-item">
+                                            <img src="<%= urlImagem(p.imagem) %>" alt="">
+                                            <%= p.nome %>
+                                        </div>
+                                    </td>
+
+                                    <td>R$ <%= Number(p.preco).toLocaleString("pt-BR") %></td>
+
+                                    <td><%= p.destaque ? "Sim" : "-" %></td>
+
+                                    <td>
+                                        <span class="status <%= p.ativo ? 'status-ativo' : 'status-inativo' %>">
+                                            <%= p.ativo ? "Ativo" : "Inativo" %>
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <div class="tabela-acoes">
+                                            <a href="/pacotes/<%= p._id %>" title="Ver no site" target="_blank">
+                                                <i class="ri-external-link-line"></i>
+                                            </a>
+                                            <a href="/dashboard/pacotes/editar/<%= p._id %>" title="Editar">
+                                                <i class="ri-pencil-line"></i>
+                                            </a>
+                                            <a href="/dashboard/pacotes/excluir/<%= p._id %>" title="Excluir" class="excluir">
+                                                <i class="ri-delete-bin-line"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="5" class="vazio">Nenhum pacote cadastrado ainda.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", {
+    js: "dashboard"
+}) %>

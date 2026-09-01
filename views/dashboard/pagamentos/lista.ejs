@@ -1,0 +1,139 @@
+<%- include("../../partials/head", {
+    titulo: "Pagamentos • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "pagamentos" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Pagamentos</h1>
+                <p>Pedidos de pacotes feitos pelos clientes. Aprove manualmente após confirmar o recebimento.</p>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Pacote</th>
+                            <th>Valor</th>
+                            <th>Método</th>
+                            <th>Data</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(pagamentos && pagamentos.length){ %>
+
+                            <% pagamentos.forEach(p => { %>
+
+                                <tr>
+                                    <td><%= p.usuario ? p.usuario.nome : "-" %></td>
+                                    <td><%= p.pacote ? p.pacote.nome : "-" %></td>
+                                    <td>R$ <%= Number(p.valor || 0).toLocaleString("pt-BR") %></td>
+                                    <td style="text-transform:capitalize;"><%= p.metodo %></td>
+                                    <td><%= new Date(p.createdAt).toLocaleString("pt-BR") %></td>
+                                    <td>
+                                        <span class="status <%=
+                                            p.status === 'aprovado' ? 'status-ativo' :
+                                            p.status === 'cancelado' ? 'status-cancelado' : 'status-pendente'
+                                        %>">
+                                            <%= p.status %>
+                                        </span>
+                                    </td>
+                                    <td>
+
+                                        <% if(p.status === "pendente"){ %>
+
+                                            <div class="tabela-acoes">
+
+                                                <button
+                                                    type="button"
+                                                    class="console-usuario-item"
+                                                    style="border:none;background:none;padding:6px;cursor:pointer;"
+                                                    onclick="document.getElementById('form-aprovar-<%= p._id %>').classList.toggle('aberto-inline')"
+                                                    title="Aprovar">
+                                                    <i class="ri-checkbox-circle-line" style="color:var(--sucesso);font-size:1.3rem;"></i>
+                                                </button>
+
+                                                <form method="POST" action="/dashboard/pagamentos/<%= p._id %>/cancelar" style="display:inline;" onsubmit="return confirm('Cancelar este pagamento?')">
+                                                    <button type="submit" style="border:none;background:none;cursor:pointer;">
+                                                        <i class="ri-close-circle-line" style="color:var(--erro);font-size:1.3rem;"></i>
+                                                    </button>
+                                                </form>
+
+                                            </div>
+
+                                            <form
+                                                id="form-aprovar-<%= p._id %>"
+                                                method="POST"
+                                                action="/dashboard/pagamentos/<%= p._id %>/aprovar"
+                                                style="display:none;margin-top:10px;gap:8px;"
+                                                class="tabela-form-aprovar">
+
+                                                <input
+                                                    type="text"
+                                                    name="transactionId"
+                                                    placeholder="Nº do comprovante (opcional)"
+                                                    style="padding:8px 12px;border:2px solid var(--borda);border-radius:8px;font-size:.82rem;margin-right:8px;">
+
+                                                <button type="submit" class="btn" style="padding:8px 18px;font-size:.82rem;">
+                                                    Confirmar aprovação
+                                                </button>
+
+                                            </form>
+
+                                        <% } else { %>
+
+                                            <span style="color:var(--texto-claro);font-size:.85rem;">
+                                                <%= p.transactionId ? "Comprovante: " + p.transactionId : "-" %>
+                                            </span>
+
+                                        <% } %>
+
+                                    </td>
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="7" class="vazio">Nenhum pagamento registrado ainda.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<style>
+    .tabela-form-aprovar.aberto-inline{
+        display:flex !important;
+        align-items:center;
+    }
+</style>
+
+<%- include("../../partials/scripts", { js: "dashboard" }) %>

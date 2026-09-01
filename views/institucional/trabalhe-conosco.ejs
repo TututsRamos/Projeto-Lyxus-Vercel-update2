@@ -1,0 +1,129 @@
+<%- include("../partials/head", {
+    titulo: "Trabalhe Conosco • LYXUS Holding",
+    css: "institucional"
+}) %>
+
+<link rel="stylesheet" href="/css/components/institucional-temas.css">
+
+<%- include("../partials/navbar") %>
+
+<main class="bg-trabalhe-conosco">
+
+    <section class="inst-hero">
+
+        <div class="container">
+
+            <span class="badge">TRABALHE CONOSCO</span>
+
+            <h1>Venha fazer parte do time LYXUS</h1>
+
+            <p>
+                Não temos uma vaga aberta pra tudo o tempo todo, mas
+                estamos sempre de olho em gente boa. Deixe seus dados
+                e conte um pouco sobre você.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="inst-secao claro tema-equipe">
+
+        <div class="container tema-layout">
+
+            <div class="inst-form-box">
+
+                <% if(typeof enviado !== "undefined" && enviado){ %>
+
+                    <div class="inst-form-sucesso">
+
+                        <i class="ri-checkbox-circle-fill"></i>
+
+                        <h3>Recebemos seu interesse!</h3>
+
+                        <p>
+                            Vamos guardar seu contato e chamar você
+                            assim que surgir uma oportunidade na sua área.
+                        </p>
+
+                    </div>
+
+                <% } else { %>
+
+                    <% if(typeof erro !== "undefined" && erro){ %>
+
+                        <div class="login-erro">
+                            <i class="ri-error-warning-line"></i>
+                            <span><%= erro %></span>
+                        </div>
+
+                    <% } %>
+
+                    <form method="POST" action="/trabalhe-conosco" class="inst-form">
+
+                        <input type="hidden" name="tipo" value="trabalhe-conosco">
+
+                        <div class="campo">
+                            <label for="nome">Nome completo</label>
+                            <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+                        </div>
+
+                        <div class="campo">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                        </div>
+
+                        <div class="campo">
+                            <label for="telefone">Telefone</label>
+                            <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000">
+                        </div>
+
+                        <div class="campo">
+                            <label for="area">Área de interesse</label>
+                            <select id="area" name="area">
+                                <option value="programacao">Programação</option>
+                                <option value="design">Design</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="coordenacao">Coordenação</option>
+                                <option value="suporte">Suporte</option>
+                                <option value="outro">Outra</option>
+                            </select>
+                        </div>
+
+                        <div class="campo">
+                            <label for="mensagem">Conte um pouco sobre você</label>
+                            <textarea id="mensagem" name="mensagem" placeholder="Experiência, portfólio, o que te interessa em trabalhar com a gente..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn">Enviar interesse</button>
+
+                    </form>
+
+                <% } %>
+
+            </div>
+
+            <div class="tema-visual">
+
+                <div class="icone-area ia1"><i class="ri-code-s-slash-line"></i></div>
+                <div class="icone-area ia2"><i class="ri-palette-line"></i></div>
+                <div class="icone-area ia3"><i class="ri-megaphone-line"></i></div>
+                <div class="icone-area ia4"><i class="ri-briefcase-4-line"></i></div>
+                <div class="icone-area ia5"><i class="ri-customer-service-2-line"></i></div>
+                <div class="icone-area ia6"><i class="ri-lightbulb-flash-line"></i></div>
+
+                <div class="icone-central">
+                    <i class="ri-team-line"></i>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", { js: "" }) %>

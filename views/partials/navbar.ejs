@@ -1,0 +1,122 @@
+<%
+    const msgBloqueioVisitante = "Essa área ainda não está disponível pra sua conta. Aguarde a aprovação para ter acesso.";
+    const ehVisitante = !!(usuario && usuario.tipo === "visitante");
+    const claseBloqueioVisitante = ehVisitante ? "bloqueado-visitante" : "";
+    const dataBloqueioVisitante = ehVisitante ? ` data-bloqueado-msg="${msgBloqueioVisitante}"` : "";
+%>
+
+<header class="navbar">
+
+    <div class="container navbar-container">
+
+        <a href="/" class="logo">
+
+            <img class="logo-tema-padrao" src="/img/logo/logo-escuro.png" alt="LYXUS">
+            <img class="logo-tema-invertido" src="/img/logo/logo-claro.png" alt="LYXUS">
+
+        </a>
+
+        <nav class="nav-menu">
+
+            <div class="nav-item-dropdown" data-nav-dropdown>
+
+                <div class="nav-dropdown-toggle">
+
+                    <a href="/">Home</a>
+
+                    <button type="button" class="nav-dropdown-caret" data-nav-dropdown-caret aria-label="Abrir submenu do Home">
+                        <i class="ri-arrow-left-s-line"></i>
+                    </button>
+
+                </div>
+
+                <div class="nav-dropdown-menu">
+
+                    <a href="/#servicos"><i class="ri-service-line"></i>Serviços</a>
+
+                    <a href="/#processo"><i class="ri-flow-chart"></i>Como Trabalhamos</a>
+
+                    <a href="/#feedbacks"><i class="ri-chat-quote-line"></i>Feedbacks</a>
+
+                    <a href="/#faq"><i class="ri-question-line"></i>FAQ</a>
+
+                </div>
+
+            </div>
+
+            <a href="/sobre">Sobre</a>
+
+            <a href="/avaliacao">Score Lyxus</a>
+
+            <a href="/pacotes" class="<%= claseBloqueioVisitante %>"<%- dataBloqueioVisitante %>>Pacotes</a>
+
+            <a href="/faq">FAQ</a>
+
+            <a href="<%= linkWhatsapp %>" target="_blank" rel="noopener noreferrer">Contato</a>
+
+            <% if(usuario){ %>
+
+                <%
+                    let linkPainelMobile = "/painel";
+                    if(usuario.tipo === "staff") linkPainelMobile = "/staff";
+                    if(usuario.tipo === "admin" || usuario.tipo === "master") linkPainelMobile = "/dashboard";
+                %>
+
+                <a href="<%= linkPainelMobile %>" class="nav-menu-account">Minha Área</a>
+
+            <% }else{ %>
+
+                <a href="/login" class="nav-menu-account">Registre-se</a>
+
+            <% } %>
+
+        </nav>
+
+        <div class="navbar-buttons">
+
+            <% if(usuario){ %>
+
+                <%
+                    let linkPainel = "/painel";
+                    if(usuario.tipo === "staff") linkPainel = "/staff";
+                    if(usuario.tipo === "admin" || usuario.tipo === "master") linkPainel = "/dashboard";
+                %>
+
+                <a href="<%= linkPainel %>" class="btn-outline">
+
+                    Minha Área
+
+                </a>
+
+            <% }else{ %>
+
+                <a href="/login" class="btn-outline">
+
+                    Registre-se
+
+                </a>
+
+            <% } %>
+
+            <a href="/pacotes" class="btn <%= claseBloqueioVisitante %>"<%- dataBloqueioVisitante %>>
+
+                <span class="cta-texto-completo">Solicitar um Orçamento</span>
+                <span class="cta-texto-curto">Orçamento</span>
+
+            </a>
+
+            <button
+                type="button"
+                class="btn-outline navbar-logout"
+                title="Menu"
+                data-abrir-conta-drawer>
+
+                <i class="ri-menu-line"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</header>

@@ -1,0 +1,86 @@
+<%- include("../../partials/head", {
+    titulo: "Propostas • Console Admin",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "console-propostas" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Propostas Aprovadas ou Reprovadas</h1>
+                <p>Histórico de decisões — propostas ainda em aberto ficam com o STAFF responsável.</p>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Título</th>
+                            <th>Cliente</th>
+                            <th>STAFF</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(propostas && propostas.length){ %>
+
+                            <% propostas.forEach(p => { %>
+
+                                <tr>
+                                    <td><%= p.codigo %></td>
+                                    <td><%= p.titulo %></td>
+                                    <td><%= p.usuario ? p.usuario.nome : "-" %></td>
+                                    <td><%= p.staff ? p.staff.nome : "-" %></td>
+                                    <td>
+                                        <span class="status <%=
+                                            p.status === 'aprovada' ? 'status-ativo' :
+                                            p.status === 'recusada' ? 'status-cancelado' : 'status-inativo'
+                                        %>">
+                                            <%= p.status %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="tabela-acoes">
+                                            <a href="/dashboard/console/propostas/<%= p._id %>" title="Ver">
+                                                <i class="ri-eye-line"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="6" class="vazio">Nenhuma proposta aprovada ou reprovada ainda.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", { js: "dashboard" }) %>

@@ -1,0 +1,125 @@
+<%- include("../../partials/head", {
+    titulo: (modo === "novo" ? "Nova Empresa" : "Editar Empresa") + " • Pesquisa e Avaliação",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "console-avaliacoes" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1><%= modo === "novo" ? "Nova empresa avaliada" : "Editar empresa avaliada" %></h1>
+                <p>Preencha os dados gerais e as notas de 1 a 10 por critério.</p>
+            </div>
+
+        </header>
+
+        <% if(erro){ %>
+            <div class="login-erro" style="margin-bottom:20px;"><%= erro %></div>
+        <% } %>
+
+        <form
+            method="POST"
+            action="<%= modo === 'novo' ? '/dashboard/console/avaliacoes' : '/dashboard/console/avaliacoes/' + dados._id %>"
+            class="form-dashboard">
+
+            <div class="painel">
+
+                <div class="painel-titulo"><h2>Dados gerais</h2></div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="nome">Nome da empresa</label>
+                        <input type="text" id="nome" name="nome" value="<%= dados.nome || '' %>" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="categoria">Categoria</label>
+                        <select id="categoria" name="categoria" required>
+                            <option value="">Selecione...</option>
+                            <% categorias.forEach(function(c){ %>
+                                <option value="<%= c %>" <%= dados.categoria === c ? "selected" : "" %>><%= c %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="campo">
+                    <label for="localizacao">Localização</label>
+                    <input type="text" id="localizacao" name="localizacao" value="<%= dados.localizacao || '' %>" placeholder="Rua, número — Cidade, UF">
+                </div>
+
+                <div class="campo">
+                    <label for="descricao">Descrição</label>
+                    <textarea id="descricao" name="descricao" rows="3"><%= dados.descricao || '' %></textarea>
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="googleRating">Nota no Google (0 a 5)</label>
+                        <input type="number" id="googleRating" name="googleRating" min="0" max="5" step="0.1" value="<%= dados.googleRating || '' %>">
+                    </div>
+
+                    <div class="campo">
+                        <label for="googleReviews">Quantidade de avaliações no Google</label>
+                        <input type="number" id="googleReviews" name="googleReviews" min="0" step="1" value="<%= dados.googleReviews || '' %>">
+                    </div>
+
+                    <div class="campo">
+                        <label style="display:flex;align-items:center;gap:8px;">
+                            <input type="checkbox" name="ativo" <%= (dados.ativo === undefined || dados.ativo) ? "checked" : "" %>>
+                            Visível na área pública
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <% rubrica.forEach(function(grupo){ %>
+
+                <div class="painel">
+
+                    <div class="painel-titulo"><h2><%= grupo.categoria %></h2></div>
+
+                    <div class="campo-linha" style="flex-wrap:wrap;">
+
+                        <% grupo.criterios.forEach(function(criterio){ %>
+
+                            <div class="campo" style="min-width:220px;flex:1;">
+                                <label><%= criterio %></label>
+                                <input
+                                    type="number"
+                                    name="notas[<%= criterio %>]"
+                                    min="1" max="10" step="1"
+                                    value="<%= (dados.notas && dados.notas[criterio]) || '' %>"
+                                    placeholder="1 a 10">
+                            </div>
+
+                        <% }) %>
+
+                    </div>
+
+                </div>
+
+            <% }) %>
+
+            <div class="form-dashboard-acoes">
+                <a href="/dashboard/console/avaliacoes" class="btn-secundario-dash">Cancelar</a>
+                <button type="submit" class="btn"><%= modo === "novo" ? "Cadastrar" : "Salvar alterações" %></button>
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", { js: "dashboard" }) %>

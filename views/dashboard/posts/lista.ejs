@@ -1,0 +1,109 @@
+<%- include("../../partials/head", {
+    titulo: "Posts • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "posts" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Posts do blog</h1>
+                <p>Gerencie os artigos publicados no site.</p>
+            </div>
+
+            <div class="dash-header-acoes">
+                <a href="/dashboard/posts/novo" class="btn">
+                    <i class="ri-add-line"></i> Novo post
+                </a>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Post</th>
+                            <th>Categoria</th>
+                            <th>Autor</th>
+                            <th>Visualizações</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(posts && posts.length){ %>
+
+                            <% posts.forEach(post => { %>
+
+                                <tr>
+
+                                    <td>
+                                        <div class="tabela-item">
+                                            <img src="<%= urlImagem(post.imagem) %>" alt="">
+                                            <%= post.titulo %>
+                                        </div>
+                                    </td>
+
+                                    <td><%= post.categoria ? post.categoria.nome : "-" %></td>
+
+                                    <td><%= post.autor ? post.autor.nome : "-" %></td>
+
+                                    <td><%= post.visualizacoes || 0 %></td>
+
+                                    <td>
+                                        <span class="status <%= post.publicado ? 'status-ativo' : 'status-inativo' %>">
+                                            <%= post.publicado ? "Publicado" : "Rascunho" %>
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <div class="tabela-acoes">
+                                            <a href="/blog/<%= post.slug %>" title="Ver no site" target="_blank">
+                                                <i class="ri-external-link-line"></i>
+                                            </a>
+                                            <a href="/dashboard/posts/editar/<%= post._id %>" title="Editar">
+                                                <i class="ri-pencil-line"></i>
+                                            </a>
+                                            <a href="/dashboard/posts/excluir/<%= post._id %>" title="Excluir" class="excluir">
+                                                <i class="ri-delete-bin-line"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="6" class="vazio">Nenhum post cadastrado ainda.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", {
+    js: "dashboard"
+}) %>

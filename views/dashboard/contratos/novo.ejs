@@ -1,0 +1,84 @@
+<%- include("../../partials/head", {
+    titulo: "Novo Contrato • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "contratos" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+            <div>
+                <h1>Novo contrato</h1>
+                <p>O código do contrato é gerado automaticamente pelo site ao salvar.</p>
+            </div>
+        </header>
+
+        <% if(erro){ %>
+            <div class="login-erro" style="margin-bottom:20px;"><%= erro %></div>
+        <% } %>
+
+        <form method="POST" action="/dashboard/contratos" class="form-dashboard">
+
+            <div class="painel">
+
+                <div class="painel-titulo"><h2>Dados do contrato</h2></div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="nomeEmpresa">Nome da empresa (cliente)</label>
+                        <input type="text" id="nomeEmpresa" name="nomeEmpresa" value="<%= dados.nomeEmpresa || '' %>" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="tituloServico">Serviço / projeto</label>
+                        <input type="text" id="tituloServico" name="tituloServico" value="<%= dados.tituloServico || '' %>" placeholder="Ex: Website Institucional">
+                    </div>
+
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="cnpj">CNPJ</label>
+                        <input type="text" id="cnpj" name="cnpj" value="<%= dados.cnpj || '' %>">
+                    </div>
+
+                    <div class="campo">
+                        <label for="dataContrato">Data de início do contrato</label>
+                        <input type="date" id="dataContrato" name="dataContrato" value="<%= dados.dataContrato || '' %>" required>
+                    </div>
+
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="equipeResponsavel">Equipe responsável</label>
+                        <input type="text" id="equipeResponsavel" name="equipeResponsavel" value="<%= dados.equipeResponsavel || 'LYXUS' %>">
+                    </div>
+
+                    <div class="campo">
+                        <label for="gerenteProjeto">Gerente de projeto</label>
+                        <input type="text" id="gerenteProjeto" name="gerenteProjeto" value="<%= dados.gerenteProjeto || '' %>" required>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="form-dashboard-acoes">
+                <a href="/dashboard/contratos" class="btn-secundario-dash">Cancelar</a>
+                <button type="submit" class="btn">Arquivar contrato</button>
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", { js: "dashboard" }) %>

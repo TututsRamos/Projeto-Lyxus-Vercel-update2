@@ -1,0 +1,95 @@
+<%- include("../../partials/head", {
+    titulo: "Novo post • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "posts" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Novo post</h1>
+                <p>Escreva um novo artigo para o blog.</p>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <form
+                method="POST"
+                action="/dashboard/posts"
+                enctype="multipart/form-data"
+                class="form-dashboard">
+
+                <div class="campo">
+                    <label for="titulo">Título</label>
+                    <input type="text" id="titulo" name="titulo" placeholder="Título do artigo" required>
+                </div>
+
+                <div class="campo">
+                    <label for="resumo">Resumo</label>
+                    <textarea id="resumo" name="resumo" placeholder="Um resumo curto que aparece nos cards" style="min-height:80px;" required></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="conteudo">Conteúdo</label>
+                    <textarea id="conteudo" name="conteudo" placeholder="Conteúdo completo do post (aceita HTML simples)" required></textarea>
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="categoria">Categoria</label>
+                        <select id="categoria" name="categoria" required>
+
+                            <% if(categorias && categorias.length){ %>
+
+                                <% categorias.forEach(cat => { %>
+                                    <option value="<%= cat._id %>"><%= cat.nome %></option>
+                                <% }) %>
+
+                            <% } else { %>
+
+                                <option value="">Nenhuma categoria cadastrada</option>
+
+                            <% } %>
+
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="publicado">Status</label>
+                        <select id="publicado" name="publicado" required>
+                            <option value="true">Publicado</option>
+                            <option value="false">Rascunho</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="campo">
+                    <label for="imagem">Imagem de capa</label>
+                    <input type="file" id="imagem" name="imagem" accept="image/*">
+                </div>
+
+                <div class="form-dashboard-acoes">
+                    <button type="submit" class="btn">Publicar post</button>
+                    <a href="/dashboard/posts" class="btn-secundario-dash">Cancelar</a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", {
+    js: "dashboard"
+}) %>

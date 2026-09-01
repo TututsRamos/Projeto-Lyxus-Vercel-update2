@@ -1,0 +1,98 @@
+<%- include("../../partials/head", {
+    titulo: "Editar post • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "posts" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Editar post</h1>
+                <p><%= post.titulo %></p>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <form
+                method="POST"
+                action="/dashboard/posts/editar/<%= post._id %>"
+                enctype="multipart/form-data"
+                class="form-dashboard">
+
+                <div class="campo">
+                    <label for="titulo">Título</label>
+                    <input type="text" id="titulo" name="titulo" value="<%= post.titulo %>" required>
+                </div>
+
+                <div class="campo">
+                    <label for="resumo">Resumo</label>
+                    <textarea id="resumo" name="resumo" style="min-height:80px;" required><%= post.resumo %></textarea>
+                </div>
+
+                <div class="campo">
+                    <label for="conteudo">Conteúdo</label>
+                    <textarea id="conteudo" name="conteudo" required><%= post.conteudo %></textarea>
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="categoria">Categoria</label>
+                        <select id="categoria" name="categoria" required>
+
+                            <% categorias.forEach(cat => { %>
+
+                                <option
+                                    value="<%= cat._id %>"
+                                    <%= String(post.categoria && post.categoria._id ? post.categoria._id : post.categoria) === String(cat._id) ? "selected" : "" %>>
+                                    <%= cat.nome %>
+                                </option>
+
+                            <% }) %>
+
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="publicado">Status</label>
+                        <select id="publicado" name="publicado" required>
+                            <option value="true" <%= post.publicado ? "selected" : "" %>>Publicado</option>
+                            <option value="false" <%= !post.publicado ? "selected" : "" %>>Rascunho</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="campo">
+                    <label for="imagem">Imagem de capa</label>
+                    <input type="file" id="imagem" name="imagem" accept="image/*" data-preview="#preview-imagem">
+                    <img
+                        id="preview-imagem"
+                        src="<%= urlImagem(post.imagem) %>"
+                        alt=""
+                        style="width:120px;border-radius:12px;object-fit:cover;margin-top:10px;">
+                </div>
+
+                <div class="form-dashboard-acoes">
+                    <button type="submit" class="btn">Salvar alterações</button>
+                    <a href="/dashboard/posts" class="btn-secundario-dash">Cancelar</a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", {
+    js: "dashboard"
+}) %>

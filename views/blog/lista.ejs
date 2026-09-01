@@ -1,0 +1,133 @@
+<%- include("../partials/head", {
+    titulo: "Blog • LYXUS Holding",
+    css: "blog"
+}) %>
+
+<%- include("../partials/navbar") %>
+
+<main class="blog-page">
+
+    <section class="blog-hero">
+
+        <div class="container">
+
+            <span class="badge">BLOG</span>
+
+            <h1>Conteúdo sobre tecnologia, design e marketing</h1>
+
+            <p>Artigos, novidades e bastidores dos projetos da LYXUS.</p>
+
+            <form action="/blog/pesquisa" method="GET" class="blog-busca">
+
+                <i class="ri-search-line"></i>
+
+                <input
+                    type="text"
+                    name="q"
+                    placeholder="Pesquisar artigos...">
+
+            </form>
+
+        </div>
+
+    </section>
+
+    <section class="blog-conteudo">
+
+        <div class="container blog-layout">
+
+            <div class="blog-grid">
+
+                <% if(posts && posts.length){ %>
+
+                    <% posts.forEach(post => { %>
+
+                        <a href="/blog/<%= post.slug %>" class="post-card">
+
+                            <div class="post-card-img">
+
+                                <img
+                                    src="<%= urlImagem(post.imagem) %>"
+                                    alt="<%= post.titulo %>">
+
+                                <% if(post.categoria){ %>
+
+                                    <span class="post-card-categoria" style="background:<%= post.categoria.cor %>">
+                                        <%= post.categoria.nome %>
+                                    </span>
+
+                                <% } %>
+
+                            </div>
+
+                            <div class="post-card-corpo">
+
+                                <h3><%= post.titulo %></h3>
+
+                                <p><%= post.resumo %></p>
+
+                                <span class="post-card-data">
+                                    <i class="ri-calendar-line"></i>
+                                    <%= new Date(post.createdAt).toLocaleDateString("pt-BR") %>
+                                </span>
+
+                            </div>
+
+                        </a>
+
+                    <% }) %>
+
+                <% } else { %>
+
+                    <div class="vazio">
+                        <i class="ri-file-text-line"></i>
+                        <p>Ainda não temos artigos publicados. Volte em breve!</p>
+                    </div>
+
+                <% } %>
+
+            </div>
+
+            <aside class="blog-sidebar">
+
+                <div class="blog-sidebar-bloco">
+
+                    <h4>Categorias</h4>
+
+                    <ul>
+
+                        <% if(categorias && categorias.length){ %>
+
+                            <% categorias.forEach(cat => { %>
+
+                                <li>
+                                    <a href="/blog/categoria/<%= cat.slug %>">
+                                        <%= cat.nome %>
+                                    </a>
+                                </li>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <li class="blog-sidebar-vazio">Nenhuma categoria ainda.</li>
+
+                        <% } %>
+
+                    </ul>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", {
+    js: "blog"
+}) %>

@@ -1,0 +1,103 @@
+<%- include("../../partials/head", {
+    titulo: "Pesquisa e Avaliação • Console Admin",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "console-avaliacoes" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Pesquisa e Avaliação Lyxus</h1>
+                <p>Empresas cadastradas na área pública de pesquisa e avaliação (/avaliacao).</p>
+            </div>
+
+            <div class="dash-header-acoes">
+                <a href="/dashboard/console/avaliacoes/novo" class="btn">
+                    <i class="ri-add-line"></i> Nova empresa
+                </a>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <div class="painel-titulo">
+                <h2>Empresas avaliadas</h2>
+            </div>
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Empresa</th>
+                            <th>Categoria</th>
+                            <th>Nota geral</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(empresas && empresas.length){ %>
+
+                            <% empresas.forEach(function(item){ %>
+
+                                <tr>
+                                    <td><%= item.empresa.nome %></td>
+                                    <td><%= item.empresa.categoria %></td>
+                                    <td><%= item.nota %>/10</td>
+                                    <td>
+                                        <span class="status <%= item.empresa.ativo ? 'status-ativo' : 'status-inativo' %>">
+                                            <%= item.empresa.ativo ? "visível" : "oculta" %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="tabela-acoes">
+
+                                            <a href="/avaliacao/<%= item.empresa._id %>" target="_blank" title="Ver na área pública">
+                                                <i class="ri-external-link-line"></i>
+                                            </a>
+
+                                            <a href="/dashboard/console/avaliacoes/<%= item.empresa._id %>/editar" title="Editar">
+                                                <i class="ri-edit-line"></i>
+                                            </a>
+
+                                            <form method="POST" action="/dashboard/console/avaliacoes/<%= item.empresa._id %>/excluir" style="display:inline;" onsubmit="return confirm('Excluir esta empresa avaliada? Essa ação não pode ser desfeita.');">
+                                                <button type="submit" style="background:none;border:none;cursor:pointer;padding:0;" title="Excluir">
+                                                    <i class="ri-delete-bin-line" style="color:var(--erro);"></i>
+                                                </button>
+                                            </form>
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="5" class="vazio">Nenhuma empresa cadastrada ainda.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", { js: "dashboard" }) %>

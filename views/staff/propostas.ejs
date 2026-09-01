@@ -1,0 +1,95 @@
+<%- include("../partials/head", {
+    titulo: "Propostas Criadas • LYXUS",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../partials/sidebarStaff", { atual: "propostas" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Propostas Criadas</h1>
+                <p>Propostas que você criou para clientes.</p>
+            </div>
+
+            <div class="dash-header-acoes">
+                <a href="/staff/propostas/novo" class="btn">
+                    <i class="ri-add-line"></i> Criar proposta
+                </a>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Título</th>
+                            <th>Cliente</th>
+                            <th>Área</th>
+                            <th>Valor</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(propostas && propostas.length){ %>
+
+                            <% propostas.forEach(p => { %>
+
+                                <tr>
+                                    <td><%= p.codigo %></td>
+                                    <td><%= p.titulo %></td>
+                                    <td><%= p.usuario ? p.usuario.nome : "-" %></td>
+                                    <td><%= p.areaAtuacao %></td>
+                                    <td>R$ <%= Number(p.valorContrato).toLocaleString("pt-BR") %></td>
+                                    <td>
+                                        <span class="status <%=
+                                            p.status === 'aprovada' ? 'status-ativo' :
+                                            p.status === 'recusada' ? 'status-cancelado' :
+                                            p.status === 'cancelada' ? 'status-inativo' : 'status-pendente'
+                                        %>">
+                                            <%= p.status %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="tabela-acoes">
+                                            <a href="/staff/propostas/<%= p._id %>" title="Ver">
+                                                <i class="ri-eye-line"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="7" class="vazio">Você ainda não criou nenhuma proposta.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../partials/scripts", { js: "dashboard" }) %>

@@ -1,0 +1,104 @@
+<%- include("../../partials/head", {
+    titulo: "Contratos • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "contratos" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Contratos e Logs</h1>
+                <p>Contratos arquivados da LYXUS, com histórico de modificações de cada projeto.</p>
+            </div>
+
+            <div class="dash-header-acoes">
+                <a href="/dashboard/contratos/novo" class="btn">
+                    <i class="ri-add-line"></i> Novo contrato
+                </a>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <div class="painel-titulo">
+                <h2>Contratos</h2>
+            </div>
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Empresa</th>
+                            <th>Gerente de projeto</th>
+                            <th>Data de contrato</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(contratos && contratos.length){ %>
+
+                            <% contratos.forEach(function(c){ %>
+
+                                <tr>
+                                    <td><%= c.codigo %></td>
+                                    <td><%= c.nomeEmpresa %></td>
+                                    <td><%= c.gerenteProjeto %></td>
+                                    <td><%= new Date(c.dataContrato).toLocaleDateString("pt-BR") %></td>
+                                    <td>
+                                        <span class="status <%=
+                                            c.status === 'em_andamento' ? 'status-pendente' :
+                                            c.status === 'concluido' ? 'status-ativo' : 'status-inativo'
+                                        %>">
+                                            <%= c.status === 'em_andamento' ? 'em andamento' : c.status %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="tabela-acoes">
+                                            <a href="/dashboard/contratos/<%= c._id %>" title="Ver logs">
+                                                <i class="ri-file-history-line"></i>
+                                            </a>
+
+                                            <% if(souAdminOuMaster){ %>
+                                                <form method="POST" action="/dashboard/contratos/<%= c._id %>/excluir" style="display:inline;" onsubmit="return confirm('Excluir este contrato inteiro? Isso apaga também todos os logs e não pode ser desfeito.');">
+                                                    <button type="submit" style="background:none;border:none;cursor:pointer;padding:0;" title="Excluir contrato">
+                                                        <i class="ri-delete-bin-line" style="color:var(--erro);"></i>
+                                                    </button>
+                                                </form>
+                                            <% } %>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="6" class="vazio">Nenhum contrato arquivado ainda.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", { js: "dashboard" }) %>

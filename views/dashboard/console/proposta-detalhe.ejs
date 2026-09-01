@@ -1,0 +1,114 @@
+<%- include("../../partials/head", {
+    titulo: proposta.titulo + " • Console Admin",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "console-propostas" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1><%= proposta.titulo %></h1>
+                <p>Código <%= proposta.codigo %></p>
+            </div>
+
+            <div class="dash-header-acoes">
+                <span class="status <%=
+                    proposta.status === 'aprovada' ? 'status-ativo' :
+                    proposta.status === 'recusada' ? 'status-cancelado' :
+                    proposta.status === 'cancelada' ? 'status-inativo' : 'status-pendente'
+                %>">
+                    <%= proposta.status %>
+                </span>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <div class="painel-titulo">
+                <h2>Envolvidos</h2>
+            </div>
+
+            <p><strong>Cliente:</strong> <%= proposta.usuario ? proposta.usuario.nome + " (" + proposta.usuario.email + ")" : "-" %></p>
+            <p><strong>STAFF responsável:</strong> <%= proposta.staff ? proposta.staff.nome : "-" %></p>
+
+            <% if(proposta.staffsEnvolvidos && proposta.staffsEnvolvidos.length > 1){ %>
+
+                <p>
+                    <strong>Outros STAFFs envolvidos:</strong>
+                    <%= proposta.staffsEnvolvidos.filter(s => String(s._id) !== String(proposta.staff._id)).map(s => s.nome).join(", ") || "-" %>
+                </p>
+
+            <% } %>
+
+        </div>
+
+        <div class="painel">
+
+            <div class="painel-titulo">
+                <h2>Termos do contrato</h2>
+            </div>
+
+            <p><strong>Área:</strong> <%= proposta.areaAtuacao %></p>
+            <p><strong>Valor:</strong> R$ <%= Number(proposta.valorContrato).toLocaleString("pt-BR") %></p>
+            <p><strong>Prazo:</strong> <%= proposta.prazo || "-" %></p>
+            <p><strong>Multa:</strong> <%= proposta.percentualMulta || 0 %>% • <strong>Correção:</strong> <%= proposta.percentualCorrecao || 0 %>%</p>
+
+        </div>
+
+        <div class="painel">
+
+            <div class="painel-titulo">
+                <h2>Histórico completo</h2>
+            </div>
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Evento</th>
+                            <th>Autor</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(proposta.historico && proposta.historico.length){ %>
+
+                            <% proposta.historico.forEach(h => { %>
+
+                                <tr>
+                                    <td><%= h.tipo.replace(/_/g," ") %></td>
+                                    <td><%= h.autor ? h.autor.nome : "-" %></td>
+                                    <td><%= new Date(h.data).toLocaleString("pt-BR") %></td>
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="3" class="vazio">Sem eventos registrados.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", { js: "dashboard" }) %>

@@ -1,0 +1,70 @@
+<%- include("../../partials/head", {
+    titulo: "Logs Gerais • Console Admin",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "logs" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Logs Gerais</h1>
+                <p>Últimas 200 ações registradas no sistema.</p>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Evento</th>
+                            <th>Descrição</th>
+                            <th>Autor</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(logs && logs.length){ %>
+
+                            <% logs.forEach(l => { %>
+
+                                <tr>
+                                    <td><%= l.tipo.replace(/_/g," ") %></td>
+                                    <td><%= l.descricao %></td>
+                                    <td><%= l.autor ? l.autor.nome : "sistema" %></td>
+                                    <td><%= new Date(l.createdAt).toLocaleString("pt-BR") %></td>
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="4" class="vazio">Nenhum log registrado ainda.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", { js: "dashboard" }) %>
+ 

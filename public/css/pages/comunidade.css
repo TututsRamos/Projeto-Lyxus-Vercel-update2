@@ -1,0 +1,156 @@
+.bg-comunidade{
+    background:var(--background);
+}
+
+.comunidade-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:18px;
+}
+
+.comunidade-card{
+    display:block;
+    background:var(--surface);
+    border:1px solid var(--borda);
+    border-radius:var(--radius);
+    padding:22px;
+    transition:var(--transition);
+}
+
+.comunidade-card:hover{
+    border-color:var(--secundaria);
+    box-shadow:var(--shadow);
+    transform:translateY(-2px);
+}
+
+.comunidade-card-topo{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+}
+
+.comunidade-card h3{
+    font-size:1.1rem;
+    margin-top:10px;
+}
+
+.comunidade-card p{
+    font-size:.88rem;
+    margin-top:6px;
+}
+
+.comunidade-status{
+    flex-shrink:0;
+    font-size:.68rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    padding:4px 10px;
+    border-radius:999px;
+}
+
+.comunidade-status.aberta{
+    background:rgba(35,193,107,.12);
+    color:var(--sucesso);
+}
+
+.comunidade-status.encerrada{
+    background:rgba(102,102,102,.12);
+    color:var(--texto-claro);
+}
+
+.comunidade-prazo{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:.8rem;
+    color:var(--secundaria);
+    margin-top:12px;
+}
+
+.comunidade-card-imagem{
+    width:100%;
+    height:150px;
+    object-fit:cover;
+    border-radius:calc(var(--radius) - 4px);
+    margin-bottom:14px;
+}
+
+.comunidade-detalhe-imagem{
+    width:100%;
+    max-height:340px;
+    object-fit:cover;
+    border-radius:var(--radius);
+    margin-bottom:6px;
+}
+
+/* "Se for Participação, fixar o formulário no topo do post": o
+   box do formulário acompanha a rolagem, ficando visível no topo
+   enquanto a pessoa lê a descrição abaixo dele. */
+.comunidade-form-fixo{
+    position:sticky;
+    top:100px;
+    margin-bottom:24px;
+    z-index:2;
+}
+
+/* Seção "posts sobre os vitoriosos", exibida abaixo da grade de
+   votações/participações ativas em /comunidade. */
+.comunidade-resultados{
+    margin-top:48px;
+    padding-top:32px;
+    border-top:1px solid var(--borda);
+}
+
+.comunidade-resultados h2{
+    margin-bottom:18px;
+}
+
+.comunidade-card-resultado{
+    border-color:var(--secundaria);
+}
+
+.comunidade-resultado-post{
+    border-left:3px solid var(--secundaria);
+}
+
+/* Opções de votação, com barra de resultado depois de votar */
+.comunidade-opcoes{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.comunidade-opcao-topo{
+    display:flex;
+    justify-content:space-between;
+    font-size:.88rem;
+    margin-bottom:6px;
+}
+
+.comunidade-opcao-barra{
+    width:100%;
+    height:8px;
+    border-radius:999px;
+    background:var(--borda);
+    overflow:hidden;
+}
+
+.comunidade-opcao-barra-fill{
+    height:100%;
+    background:var(--secundaria);
+    border-radius:999px;
+}
+
+@media(max-width:900px){
+
+    .comunidade-grid{
+        grid-template-columns:1fr;
+    }
+
+    .comunidade-form-fixo{
+        position:static;
+    }
+
+}

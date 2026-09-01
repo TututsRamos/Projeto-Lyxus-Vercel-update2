@@ -1,0 +1,267 @@
+<button class="dash-menu-mobile">
+    <i class="ri-menu-3-line"></i>
+</button>
+
+<aside class="sidebar">
+
+    <div class="sidebar-top">
+
+        <img class="logo-tema-padrao" src="/img/logo/logo-escuro.png" alt="LYXUS">
+        <img class="logo-tema-invertido" src="/img/logo/logo-claro.png" alt="LYXUS">
+
+        <div class="tema-switcher tema-switcher--bloco">
+            <button type="button" class="tema-opcao" data-tema-opcao="padrao" title="Tema claro">
+                <i class="ri-sun-line"></i>
+            </button>
+            <button type="button" class="tema-opcao" data-tema-opcao="escuro" title="Tema escuro">
+                <i class="ri-moon-line"></i>
+            </button>
+            <button type="button" class="tema-opcao" data-tema-opcao="invertido" title="Tema invertido">
+                <i class="ri-contrast-2-line"></i>
+            </button>
+        </div>
+
+    </div>
+
+    <nav>
+
+        <ul>
+
+            <li>
+
+                <a href="/">
+
+                    <i class="ri-home-4-line"></i>
+
+                    Ir para o site
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="/pacotes">
+
+                    <i class="ri-vip-crown-line"></i>
+
+                    Comprar Pacotes
+
+                </a>
+
+            </li>
+
+            <li style="margin-top:14px;padding-top:14px;border-top:1px solid var(--borda-chrome);">
+
+                <a href="/sobre" style="pointer-events:none;color:var(--texto-chrome-claro);font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;">
+                    Institucional
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'sobre' ? 'ativo' : '' %>">
+
+                <a href="/sobre">
+
+                    <i class="ri-information-line"></i>
+
+                    Sobre a LYXUS
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'equipe' ? 'ativo' : '' %>">
+
+                <a href="/equipe">
+
+                    <i class="ri-team-line"></i>
+
+                    Equipe
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'beneficios' ? 'ativo' : '' %>">
+
+                <a href="/beneficios">
+
+                    <i class="ri-medal-line"></i>
+
+                    Benefícios
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'assinaturas' ? 'ativo' : '' %>">
+
+                <a href="/assinaturas">
+
+                    <i class="ri-refresh-line"></i>
+
+                    Assinaturas
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'avaliacao' ? 'ativo' : '' %>">
+
+                <a href="/avaliacao">
+
+                    <i class="ri-medal-line"></i>
+
+                    Pesquisa e Avaliação
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'comunidade' ? 'ativo' : '' %>">
+
+                <a href="/comunidade">
+
+                    <i class="ri-hand-heart-line"></i>
+
+                    Propostas à Comunidade
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'parceiros' ? 'ativo' : '' %>">
+
+                <a href="/parceiros">
+
+                    <i class="ri-links-line"></i>
+
+                    Parceiros
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'apoiador' ? 'ativo' : '' %>">
+
+                <a href="/apoiador">
+
+                    <i class="ri-heart-line"></i>
+
+                    Torne-se Apoiador
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'trabalhe-conosco' ? 'ativo' : '' %>">
+
+                <a href="/trabalhe-conosco">
+
+                    <i class="ri-briefcase-line"></i>
+
+                    Trabalhe Conosco
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'faq' ? 'ativo' : '' %>">
+
+                <a href="/faq">
+
+                    <i class="ri-question-line"></i>
+
+                    FAQ
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'suporte' ? 'ativo' : '' %>">
+
+                <a href="/suporte" data-abrir-tawk>
+
+                    <i class="ri-customer-service-2-line"></i>
+
+                    Suporte
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'termos' ? 'ativo' : '' %>">
+
+                <a href="/termos/uso">
+
+                    <i class="ri-file-shield-2-line"></i>
+
+                    Termos
+
+                </a>
+
+            </li>
+
+            <li style="margin-top:14px;padding-top:14px;border-top:1px solid var(--borda-chrome);">
+
+                <a href="/painel" style="pointer-events:none;color:var(--texto-chrome-claro);font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;">
+                    Minha Conta
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'propostas' ? 'ativo' : '' %>">
+
+                <a href="/painel/propostas">
+
+                    <i class="ri-file-list-3-line"></i>
+
+                    Minhas Propostas
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'pedidos' ? 'ativo' : '' %>">
+
+                <a href="/painel/pedidos">
+
+                    <i class="ri-shopping-bag-3-line"></i>
+
+                    Meus Pedidos
+
+                </a>
+
+            </li>
+
+            <li class="<%= typeof atual !== 'undefined' && atual === 'configuracoes' ? 'ativo' : '' %>">
+
+                <a href="/painel/configuracoes">
+
+                    <i class="ri-settings-3-line"></i>
+
+                    Configurações
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="/logout">
+
+                    <i class="ri-logout-box-line"></i>
+
+                    Sair
+
+                </a>
+
+            </li>
+
+        </ul>
+
+    </nav>
+
+</aside>
+ 

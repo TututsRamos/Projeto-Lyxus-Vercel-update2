@@ -1,0 +1,481 @@
+/* ==========================================================
+   Layout de duas colunas: formulário + painel visual temático
+   ========================================================== */
+
+.tema-layout{
+
+    display:grid;
+
+    grid-template-columns:1fr .85fr;
+
+    gap:50px;
+
+    align-items:center;
+
+}
+
+.tema-layout .inst-form-box{
+
+    margin:0;
+
+}
+
+.tema-visual{
+
+    position:relative;
+
+    height:440px;
+
+    border-radius:var(--radius);
+
+    overflow:hidden;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    box-shadow:var(--shadow);
+
+}
+
+@media(max-width:900px){
+
+    .tema-layout{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .tema-visual{
+
+        height:220px;
+
+        order:-1;
+
+    }
+
+}
+
+/* ==========================================================
+   TEMA: Trabalhe Conosco — verde, ícones de área flutuando
+   ========================================================== */
+
+.tema-equipe .tema-visual{
+
+    background:
+
+        radial-gradient(circle at top right,#3ED59833,transparent 55%),
+
+        linear-gradient(160deg,#0F3D2E,#134A38);
+
+}
+
+.tema-equipe .badge{
+
+    background:rgba(62,213,152,.15);
+
+    color:#3ED598;
+
+}
+
+.tema-equipe .icone-area{
+
+    position:absolute;
+
+    width:64px;
+
+    height:64px;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.08);
+
+    border:1px solid rgba(62,213,152,.35);
+
+    color:#3ED598;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:1.6rem;
+
+    animation:flutuar 4s ease-in-out infinite;
+
+}
+
+.tema-equipe .ia1{ top:14%; left:12%; }
+.tema-equipe .ia2{ top:12%; right:14%; animation-delay:.6s; }
+.tema-equipe .ia3{ bottom:16%; left:20%; animation-delay:1.2s; }
+.tema-equipe .ia4{ bottom:18%; right:10%; animation-delay:1.8s; }
+
+.tema-equipe .ia5{
+
+    top:50%;
+    left:4%;
+    width:46px;
+    height:46px;
+    font-size:1.2rem;
+    animation-delay:2.4s;
+
+}
+
+.tema-equipe .ia6{
+
+    top:48%;
+    right:5%;
+    width:46px;
+    height:46px;
+    font-size:1.2rem;
+    animation-delay:3s;
+
+}
+
+.tema-equipe .icone-central{
+
+    width:110px;
+
+    height:110px;
+
+    border-radius:50%;
+
+    background:linear-gradient(135deg,#3ED598,#0F3D2E);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:#FFFFFF;
+
+    font-size:2.6rem;
+
+    box-shadow:0 20px 50px rgba(62,213,152,.35);
+
+    animation:flutuar 5s ease-in-out infinite;
+
+}
+
+/* ==========================================================
+   TEMA: Torne-se Apoiador — âmbar, barras de "impacto" crescendo
+   ========================================================== */
+
+.tema-apoio .tema-visual{
+
+    background:
+
+        radial-gradient(circle at top right,#FFB64833,transparent 55%),
+
+        linear-gradient(160deg,#4A3400,#6B4D00);
+
+    flex-direction:column;
+
+    gap:26px;
+
+}
+
+.tema-apoio .badge{
+
+    background:rgba(255,182,72,.18);
+
+    color:#FFB648;
+
+}
+
+.tema-apoio .barras-impacto{
+
+    display:flex;
+
+    align-items:flex-end;
+
+    gap:16px;
+
+    height:170px;
+
+}
+
+.tema-apoio .barras-impacto span{
+
+    width:26px;
+
+    border-radius:8px 8px 0 0;
+
+    background:linear-gradient(180deg,#FFB648,#8A6300);
+
+    transform-origin:bottom;
+
+    animation:crescerImpacto 2.6s ease-in-out infinite;
+
+}
+
+.tema-apoio .barras-impacto span:nth-child(1){ height:35%; animation-delay:0s; }
+.tema-apoio .barras-impacto span:nth-child(2){ height:55%; animation-delay:.2s; }
+.tema-apoio .barras-impacto span:nth-child(3){ height:80%; animation-delay:.4s; }
+.tema-apoio .barras-impacto span:nth-child(4){ height:60%; animation-delay:.6s; }
+.tema-apoio .barras-impacto span:nth-child(5){ height:95%; animation-delay:.8s; }
+
+@keyframes crescerImpacto{
+
+    0%,100%{ transform:scaleY(.82); }
+
+    50%{ transform:scaleY(1); }
+
+}
+
+.tema-apoio .selo-coracao{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:#FFE3AD;
+
+    font-weight:700;
+
+    font-size:1.05rem;
+
+}
+
+.tema-apoio .selo-coracao i{
+
+    font-size:1.6rem;
+
+    color:#FFB648;
+
+    animation:flutuar 2.4s ease-in-out infinite;
+
+}
+
+.tema-apoio .icone-flutuante{
+
+    position:absolute;
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.08);
+
+    border:1px solid rgba(255,182,72,.35);
+
+    color:#FFB648;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:1.35rem;
+
+    animation:flutuar 4s ease-in-out infinite;
+
+}
+
+.tema-apoio .if1{ top:12%; left:10%; }
+.tema-apoio .if2{ top:16%; right:10%; animation-delay:.7s; }
+.tema-apoio .if3{ bottom:14%; right:16%; width:40px; height:40px; font-size:1.1rem; animation-delay:1.4s; }
+
+/* ==========================================================
+   TEMA: Parceiros — azul, nós conectados (rede/parceria)
+   ========================================================== */
+
+.tema-parceria .tema-visual{
+
+    background:
+
+        radial-gradient(circle at top right,#4C9CFF33,transparent 55%),
+
+        linear-gradient(160deg,#0B2A4A,#123A63);
+
+}
+
+.tema-parceria .badge{
+
+    background:rgba(76,156,255,.16);
+
+    color:#4C9CFF;
+
+}
+
+.tema-parceria .rede-svg{
+
+    width:100%;
+
+    height:100%;
+
+}
+
+.tema-parceria .rede-svg line{
+
+    stroke:#4C9CFF;
+
+    stroke-width:1.4;
+
+    opacity:.4;
+
+}
+
+.tema-parceria .rede-svg circle{
+
+    fill:#0B2A4A;
+
+    stroke:#4C9CFF;
+
+    stroke-width:2;
+
+}
+
+.tema-parceria .no{
+
+    animation:pulsarNo 3s ease-in-out infinite;
+
+    transform-origin:center;
+
+}
+
+.tema-parceria .no.n2{ animation-delay:.5s; }
+.tema-parceria .no.n3{ animation-delay:1s; }
+.tema-parceria .no.n4{ animation-delay:1.5s; }
+.tema-parceria .no.n5{ animation-delay:2s; }
+
+@keyframes pulsarNo{
+
+    0%,100%{ r:7; opacity:.85; }
+
+    50%{ r:10; opacity:1; }
+
+}
+
+/* ==========================================================
+   TEMA: Suporte — ciano, balão de chat "digitando"
+   ========================================================== */
+
+.tema-suporte .tema-visual{
+
+    background:
+
+        radial-gradient(circle at top right,#2DD4D433,transparent 55%),
+
+        linear-gradient(160deg,#063B3B,#0B5555);
+
+}
+
+.tema-suporte .badge{
+
+    background:rgba(45,212,212,.16);
+
+    color:#2DD4D4;
+
+}
+
+.tema-suporte .bolha-chat{
+
+    position:relative;
+
+    width:150px;
+
+    height:110px;
+
+    background:#FFFFFF;
+
+    border-radius:24px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:8px;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+
+    animation:flutuar 4s ease-in-out infinite;
+
+}
+
+.tema-suporte .bolha-chat::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:-14px;
+
+    left:34px;
+
+    width:24px;
+
+    height:24px;
+
+    background:#FFFFFF;
+
+    transform:rotate(45deg);
+
+    border-radius:0 0 6px 0;
+
+}
+
+.tema-suporte .bolha-chat span{
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:50%;
+
+    background:#2DD4D4;
+
+    animation:digitando 1.2s ease-in-out infinite;
+
+}
+
+.tema-suporte .bolha-chat span:nth-child(2){ animation-delay:.2s; }
+.tema-suporte .bolha-chat span:nth-child(3){ animation-delay:.4s; }
+
+@keyframes digitando{
+
+    0%,60%,100%{ transform:translateY(0); opacity:.5; }
+
+    30%{ transform:translateY(-8px); opacity:1; }
+
+}
+
+.tema-suporte .icone-orbita{
+
+    position:absolute;
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.1);
+
+    border:1px solid rgba(45,212,212,.4);
+
+    color:#2DD4D4;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:1.3rem;
+
+}
+
+.tema-suporte .io1{ top:20%; left:22%; animation:flutuar 3.4s ease-in-out infinite; }
+.tema-suporte .io2{ bottom:22%; right:24%; animation:flutuar 3.8s ease-in-out infinite; }

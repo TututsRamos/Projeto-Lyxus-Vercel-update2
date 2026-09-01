@@ -1,0 +1,134 @@
+<%- include("../../partials/head", {
+    titulo: "Usuários • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "usuarios" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Usuários</h1>
+                <p>Clientes e membros da equipe cadastrados.</p>
+            </div>
+
+            <div class="dash-header-acoes">
+                <a href="/dashboard/usuarios/novo" class="btn">
+                    <i class="ri-add-line"></i> Novo usuário
+                </a>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Usuário</th>
+                            <th>E-mail</th>
+                            <th>Tipo</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(usuarios && usuarios.length){ %>
+
+                            <% usuarios.forEach(u => { %>
+
+                                <tr>
+
+                                    <td>
+                                        <div class="tabela-item">
+                                            <img src="<%= urlImagem(u.foto) %>" alt="">
+                                            <%= u.nome %>
+                                        </div>
+                                    </td>
+
+                                    <td><%= u.email %></td>
+
+                                    <td>
+                                        <% if(u.tipo === "master"){ %>Mestre
+                                        <% } else if(u.tipo === "admin"){ %>Administrador
+                                        <% } else if(u.tipo === "staff"){ %>
+                                            Staff
+                                            <span style="color:#7A7396;font-size:.75rem;">
+                                                (<%= u.cargo === "suporte" ? "Suporte" : u.cargo === "marketing" ? "Marketing" : "Geral" %>)
+                                            </span>
+                                        <% } else if(u.tipo === "visitante"){ %>
+                                            <span class="status" style="background:rgba(247,144,9,.15);color:#F79009;">
+                                                Visitante (pendente)
+                                            </span>
+                                        <% } else { %>Cliente
+                                        <% } %>
+                                    </td>
+
+                                    <td>
+                                        <span class="status <%= u.ativo ? 'status-ativo' : 'status-inativo' %>">
+                                            <%= u.ativo ? "Ativo" : "Inativo" %>
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <div class="tabela-acoes">
+
+                                            <% if(u.tipo === "visitante"){ %>
+
+                                                <form method="POST" action="/dashboard/usuarios/<%= u._id %>/aprovar" style="display:inline;">
+                                                    <button type="submit" title="Aprovar conta" style="background:none;border:none;cursor:pointer;color:#23C16B;">
+                                                        <i class="ri-check-line"></i>
+                                                    </button>
+                                                </form>
+
+                                                <form method="POST" action="/dashboard/usuarios/<%= u._id %>/recusar" style="display:inline;" onsubmit="return confirm('Recusar e excluir este cadastro?');">
+                                                    <button type="submit" title="Recusar cadastro" style="background:none;border:none;cursor:pointer;color:#F04438;">
+                                                        <i class="ri-close-line"></i>
+                                                    </button>
+                                                </form>
+
+                                            <% } %>
+
+                                            <a href="/dashboard/usuarios/editar/<%= u._id %>" title="Editar">
+                                                <i class="ri-pencil-line"></i>
+                                            </a>
+                                            <a href="/dashboard/usuarios/excluir/<%= u._id %>" title="Excluir" class="excluir">
+                                                <i class="ri-delete-bin-line"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="5" class="vazio">Nenhum usuário cadastrado ainda.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", {
+    js: "dashboard"
+}) %>

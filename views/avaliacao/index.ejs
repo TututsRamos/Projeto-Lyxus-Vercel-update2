@@ -1,0 +1,155 @@
+<%- include("../partials/head", {
+    titulo: "Pesquisa e Avaliação Lyxus • LYXUS Holding",
+    css: "avaliacao"
+}) %>
+
+<%- include("../partials/navbar") %>
+
+<main class="bg-avaliacao">
+
+    <section class="inst-hero">
+
+        <div class="container">
+
+            <span class="badge">AVALIAÇÃO DIGITAL DE EMPRESAS</span>
+
+            <h1>Score de Presença Digital Lyxus</h1>
+
+            <p>
+                Pesquise empresas por categoria e veja o Score de Presença Digital Lyxus:
+                nota geral, por área e por critério, com badges de mérito e alerta.
+            </p>
+
+            <div class="avaliacao-total">
+                <strong><%= totalEmpresas %></strong> empresa<%= totalEmpresas === 1 ? "" : "s" %> avaliada<%= totalEmpresas === 1 ? "" : "s" %>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="inst-secao claro avaliacao-secao">
+
+        <div class="container">
+
+            <nav class="avaliacao-tabs">
+
+                <a href="/avaliacao?aba=pesquisa" class="<%= aba === 'pesquisa' ? 'ativo' : '' %>">Pesquisa</a>
+
+                <a href="/avaliacao?aba=destaques" class="<%= aba === 'destaques' ? 'ativo' : '' %>">Destaques do mês</a>
+
+            </nav>
+
+            <% if(aba === "pesquisa"){ %>
+
+                <form method="GET" action="/avaliacao" class="avaliacao-busca">
+
+                    <input type="hidden" name="aba" value="pesquisa">
+
+                    <div class="avaliacao-busca-input">
+                        <i class="ri-search-line"></i>
+                        <input
+                            type="text"
+                            name="busca"
+                            value="<%= busca %>"
+                            placeholder="Buscar empresa, categoria ou endereço…">
+                    </div>
+
+                    <button type="submit" class="btn">Buscar</button>
+
+                </form>
+
+                <div class="avaliacao-filtros">
+
+                    <a href="/avaliacao?aba=pesquisa<%= busca ? '&busca='+encodeURIComponent(busca) : '' %>"
+                        class="chip <%= !categoriaAtual ? 'ativo' : '' %>">Todas</a>
+
+                    <% categorias.forEach(function(c){ %>
+
+                        <a href="/avaliacao?aba=pesquisa&categoria=<%= encodeURIComponent(c) %><%= busca ? '&busca='+encodeURIComponent(busca) : '' %>"
+                            class="chip <%= categoriaAtual === c ? 'ativo' : '' %>"><%= c %></a>
+
+                    <% }) %>
+
+                </div>
+
+                <div class="avaliacao-resumo">
+
+                    <span>
+                        <%= resultados.length %> resultado<%= resultados.length === 1 ? "" : "s" %>
+                        <%= categoriaAtual ? "em " + categoriaAtual : "(sem filtro)" %>
+                    </span>
+
+                    <% if(categoriaAtual || busca){ %>
+                        <a href="/avaliacao?aba=pesquisa"><i class="ri-close-line"></i> limpar filtros</a>
+                    <% } %>
+
+                </div>
+
+                <% if(!resultados.length){ %>
+
+                    <div class="avaliacao-vazio">
+
+                        <% if(busca || categoriaAtual){ %>
+                            <i class="ri-search-eye-line"></i>
+                            <p>Nenhuma empresa encontrada para esta busca.</p>
+                        <% } else { %>
+                            <i class="ri-inbox-line"></i>
+                            <p>Nada por aqui ainda — em breve teremos empresas avaliadas.</p>
+                        <% } %>
+
+                    </div>
+
+                <% } else { %>
+
+                    <div class="avaliacao-grid">
+
+                        <% resultados.forEach(function(r){ %>
+
+                            <%- include("../partials/avaliacaoCard", { empresa: r.empresa, nota: r.nota }) %>
+
+                        <% }) %>
+
+                    </div>
+
+                <% } %>
+
+            <% } else { %>
+
+                <h2 class="avaliacao-destaques-titulo"><i class="ri-trophy-line"></i> Os maiores destaques do mês</h2>
+
+                <% if(!destaques.length){ %>
+
+                    <div class="avaliacao-vazio">
+                        <i class="ri-award-line"></i>
+                        <p>Ainda não há empresas avaliadas suficientes para gerar destaques.</p>
+                    </div>
+
+                <% } else { %>
+
+                    <div class="avaliacao-grid avaliacao-grid-destaques">
+
+                        <% destaques.forEach(function(r, i){ %>
+
+                            <div class="avaliacao-destaque-item">
+                                <span class="avaliacao-destaque-numero">#<%= i + 1 %></span>
+                                <%- include("../partials/avaliacaoCard", { empresa: r.empresa, nota: r.nota }) %>
+                            </div>
+
+                        <% }) %>
+
+                    </div>
+
+                <% } %>
+
+            <% } %>
+
+        </div>
+
+    </section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<%- include("../partials/scripts", { js: "" }) %>

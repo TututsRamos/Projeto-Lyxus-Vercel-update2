@@ -1,0 +1,159 @@
+<%
+    // Painel lateral de conta — reaproveita o mesmo visual dos sidebars
+    // internos (dashboard/painel/staff), mas fica disponível em
+    // qualquer página pública, acionado pelo botão "Minha Conta" no
+    // rodapé (ou pelo ícone de usuário na navbar).
+
+    let linkArea = "/painel";
+
+    if(usuario){
+        if(usuario.tipo === "staff") linkArea = "/staff";
+        if(usuario.tipo === "admin" || usuario.tipo === "master") linkArea = "/dashboard";
+    }
+
+    const msgBloqueioVisitante = "Essa área ainda não está disponível pra sua conta. Aguarde a aprovação para ter acesso.";
+    const ehVisitante = !!(usuario && usuario.tipo === "visitante");
+    const claseBloqueioVisitante = ehVisitante ? "bloqueado-visitante" : "";
+    const dataBloqueioVisitante = ehVisitante ? ` data-bloqueado-msg="${msgBloqueioVisitante}"` : "";
+%>
+
+<div class="conta-drawer-overlay" id="conta-drawer-overlay"></div>
+
+<aside class="conta-drawer" id="conta-drawer">
+
+    <div class="conta-drawer-top">
+
+        <div class="conta-drawer-top-linha">
+
+            <img class="logo-tema-padrao" src="/img/logo/logo-escuro.png" alt="LYXUS">
+            <img class="logo-tema-invertido" src="/img/logo/logo-claro.png" alt="LYXUS">
+
+            <button type="button" class="conta-drawer-fechar" id="conta-drawer-fechar" aria-label="Fechar">
+                <i class="ri-close-line"></i>
+            </button>
+
+        </div>
+
+        <div class="tema-switcher tema-switcher--bloco">
+            <button type="button" class="tema-opcao" data-tema-opcao="padrao" title="Tema claro">
+                <i class="ri-sun-line"></i>
+            </button>
+            <button type="button" class="tema-opcao" data-tema-opcao="escuro" title="Tema escuro">
+                <i class="ri-moon-line"></i>
+            </button>
+            <button type="button" class="tema-opcao" data-tema-opcao="invertido" title="Tema invertido">
+                <i class="ri-contrast-2-line"></i>
+            </button>
+        </div>
+
+    </div>
+
+    <nav>
+
+        <ul>
+
+            <% if(usuario){ %>
+
+                <li class="conta-drawer-saudacao">
+                    Olá, <%= usuario.nome ? usuario.nome.split(" ")[0] : "" %>
+                </li>
+
+                <li>
+                    <a href="<%= linkArea %>">
+                        <i class="ri-layout-4-line"></i>
+                        Ir para minha área
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/pacotes" class="<%= claseBloqueioVisitante %>"<%- dataBloqueioVisitante %>>
+                        <span><i class="ri-vip-crown-line"></i> Comprar Pacotes</span>
+                        <% if(ehVisitante){ %><span class="conta-drawer-tag-bloqueado"><i class="ri-lock-2-line"></i>Bloqueado</span><% } %>
+                    </a>
+                </li>
+
+                <li class="conta-drawer-titulo">Institucional</li>
+
+                <li><a href="/sobre"><i class="ri-information-line"></i>Sobre a LYXUS</a></li>
+                <li><a href="/equipe"><i class="ri-team-line"></i>Equipe</a></li>
+                <li><a href="/beneficios"><i class="ri-medal-line"></i>Benefícios</a></li>
+                <li>
+                    <a href="/assinaturas" class="<%= claseBloqueioVisitante %>"<%- dataBloqueioVisitante %>>
+                        <span><i class="ri-refresh-line"></i> Assinaturas</span>
+                        <% if(ehVisitante){ %><span class="conta-drawer-tag-bloqueado"><i class="ri-lock-2-line"></i>Bloqueado</span><% } %>
+                    </a>
+                </li>
+                <li><a href="/parceiros"><i class="ri-links-line"></i>Parceiros</a></li>
+                <li>
+                    <a href="/apoiador" class="<%= claseBloqueioVisitante %>"<%- dataBloqueioVisitante %>>
+                        <span><i class="ri-heart-line"></i> Torne-se Apoiador</span>
+                        <% if(ehVisitante){ %><span class="conta-drawer-tag-bloqueado"><i class="ri-lock-2-line"></i>Bloqueado</span><% } %>
+                    </a>
+                </li>
+                <li><a href="/trabalhe-conosco"><i class="ri-briefcase-line"></i>Trabalhe Conosco</a></li>
+                <li><a href="/avaliacao"><i class="ri-star-line"></i>Avaliação</a></li>
+                <li><a href="/comunidade"><i class="ri-hand-heart-line"></i>Comunidade</a></li>
+                <li><a href="/faq"><i class="ri-question-line"></i>FAQ</a></li>
+                <li><a href="/suporte" data-abrir-tawk><i class="ri-customer-service-2-line"></i>Suporte</a></li>
+                <li><a href="/termos/uso"><i class="ri-file-shield-2-line"></i>Termos</a></li>
+
+                <li class="conta-drawer-titulo">Minha Conta</li>
+
+                <% if(usuario.tipo === "staff"){ %>
+
+                    <li><a href="/staff/propostas"><i class="ri-file-list-3-line"></i>Propostas Criadas</a></li>
+                    <li><a href="/staff/solicitar-usuario"><i class="ri-user-add-line"></i>Solicitar Usuário</a></li>
+                    <li><a href="/staff/configuracoes"><i class="ri-settings-3-line"></i>Configurações</a></li>
+
+                <% }else if(usuario.tipo === "admin" || usuario.tipo === "master"){ %>
+
+                    <li><a href="/dashboard/pagamentos"><i class="ri-bank-card-line"></i>Pagamentos</a></li>
+                    <li><a href="/dashboard/usuarios"><i class="ri-team-line"></i>Usuários</a></li>
+                    <li><a href="/dashboard/configuracoes"><i class="ri-settings-3-line"></i>Configurações</a></li>
+
+                <% }else{ %>
+
+                    <li><a href="/painel/propostas"><i class="ri-file-list-3-line"></i>Minhas Propostas</a></li>
+                    <li><a href="/painel/pedidos"><i class="ri-shopping-bag-3-line"></i>Meus Pedidos</a></li>
+                    <li><a href="/painel/configuracoes"><i class="ri-settings-3-line"></i>Configurações</a></li>
+
+                <% } %>
+
+                <li class="conta-drawer-sair">
+                    <a href="/logout">
+                        <i class="ri-logout-box-line"></i>
+                        Sair
+                    </a>
+                </li>
+
+            <% }else{ %>
+
+                <li>
+                    <a href="/login">
+                        <i class="ri-login-box-line"></i>
+                        Entrar
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/cadastro">
+                        <i class="ri-user-add-line"></i>
+                        Criar Conta
+                    </a>
+                </li>
+
+                <li class="conta-drawer-titulo">Explorar</li>
+
+                <li><a href="/pacotes"><i class="ri-vip-crown-line"></i>Pacotes</a></li>
+                <li><a href="/avaliacao"><i class="ri-star-line"></i>Avaliação</a></li>
+                <li><a href="/comunidade"><i class="ri-hand-heart-line"></i>Comunidade</a></li>
+                <li><a href="/faq"><i class="ri-question-line"></i>Perguntas Frequentes</a></li>
+                <li><a href="/suporte" data-abrir-tawk><i class="ri-customer-service-2-line"></i>Suporte</a></li>
+
+            <% } %>
+
+        </ul>
+
+    </nav>
+
+</aside>

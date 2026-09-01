@@ -1,0 +1,72 @@
+<%- include("../../partials/head", {
+    titulo: "Editar categoria • Dashboard",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "categorias" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Editar categoria</h1>
+                <p><%= categoria.nome %></p>
+            </div>
+
+        </header>
+
+        <div class="painel">
+
+            <form
+                method="POST"
+                action="/dashboard/categorias/editar/<%= categoria._id %>"
+                class="form-dashboard">
+
+                <div class="campo">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" name="nome" value="<%= categoria.nome %>" required>
+                </div>
+
+                <div class="campo">
+                    <label for="descricao">Descrição (opcional)</label>
+                    <textarea id="descricao" name="descricao" style="min-height:90px;"><%= categoria.descricao %></textarea>
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo">
+                        <label for="cor">Cor</label>
+                        <input type="color" id="cor" name="cor" value="<%= categoria.cor %>" style="height:48px;padding:6px;">
+                    </div>
+
+                    <div class="campo">
+                        <label for="icone">Ícone (classe Remix Icon)</label>
+                        <input type="text" id="icone" name="icone" value="<%= categoria.icone %>" placeholder="ri-line-chart-line">
+                    </div>
+
+                </div>
+
+                <div class="campo campo-checkbox">
+                    <input type="checkbox" id="ativo" name="ativo" value="true" <%= categoria.ativo ? "checked" : "" %>>
+                    <label for="ativo" style="margin:0;">Categoria ativa</label>
+                </div>
+
+                <div class="form-dashboard-acoes">
+                    <button type="submit" class="btn">Salvar alterações</button>
+                    <a href="/dashboard/categorias" class="btn-secundario-dash">Cancelar</a>
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", {
+    js: "dashboard"
+}) %>

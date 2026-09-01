@@ -1,0 +1,139 @@
+<%- include("../partials/head", {
+    titulo: "Acesso Administrativo • LYXUS Holding",
+    css: "login"
+}) %>
+
+<main class="login-page login-page-staff">
+
+    <div class="login-brand">
+
+        <div class="login-brand-glow"></div>
+
+        <div class="login-brand-content">
+
+            <div class="login-brand-logo login-brand-logo-staff">
+
+                <img src="/img/logo/logo.jpeg" alt="LIXUS Holding">
+
+            </div>
+
+            <span class="badge login-badge-staff">ACESSO RESTRITO</span>
+
+            <h1>Console Administrativo</h1>
+
+            <p>
+                Área exclusiva para administradores da LYXUS.
+                Se você é cliente, use o login padrão.
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="login-form-panel">
+
+        <div class="login-box">
+
+            <div class="login-box-logo-mobile">
+
+                <img src="/img/logo/logo3.jpeg" alt="LIXUS Holding">
+
+            </div>
+
+            <span class="badge">ADMINISTRAÇÃO</span>
+
+            <h2>Acesso administrativo</h2>
+
+            <p class="login-subtitle">
+                Entre com suas credenciais de administrador.
+            </p>
+
+            <% if (typeof erro !== "undefined" && erro) { %>
+
+                <div class="login-erro">
+
+                    <i class="ri-error-warning-line"></i>
+
+                    <span><%= erro %></span>
+
+                </div>
+
+            <% } %>
+
+            <form method="POST" action="/admin/login" class="login-form">
+
+                <div class="input-group">
+
+                    <label for="email">E-mail</label>
+
+                    <div class="input-wrapper">
+
+                        <i class="ri-mail-line"></i>
+
+                        <input
+                            type="text"
+                            id="email"
+                            name="email"
+                            maxlength="35"
+                            placeholder="admin@lyxus.com ou usuário mestre"
+                            autocomplete="username"
+                            required>
+
+                    </div>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label for="senha">Senha</label>
+
+                    <div class="input-wrapper">
+
+                        <i class="ri-lock-line"></i>
+
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            maxlength="16"
+                            placeholder="••••••••"
+                            autocomplete="current-password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="toggle-senha"
+                            aria-label="Mostrar senha">
+
+                            <i class="ri-eye-line"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn login-btn">
+
+                    Entrar
+
+                </button>
+
+            </form>
+
+            <a href="/" class="login-voltar">
+
+                <i class="ri-arrow-left-line"></i> Voltar para o site
+
+            </a>
+
+        </div>
+
+    </div>
+
+</main>
+
+<script src="/js/login.js"></script>
+
+</body>
+</html>
