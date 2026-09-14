@@ -23,6 +23,7 @@
             <form
                 method="POST"
                 action="/dashboard/categorias"
+                enctype="multipart/form-data"
                 class="form-dashboard">
 
                 <div class="campo">
@@ -35,19 +36,12 @@
                     <textarea id="descricao" name="descricao" style="min-height:90px;" placeholder="Uma breve descrição da categoria"></textarea>
                 </div>
 
-                <div class="campo-linha">
-
-                    <div class="campo">
-                        <label for="cor">Cor</label>
-                        <input type="color" id="cor" name="cor" value="#A678FF" style="height:48px;padding:6px;">
-                    </div>
-
-                    <div class="campo">
-                        <label for="icone">Ícone (classe Remix Icon)</label>
-                        <input type="text" id="icone" name="icone" placeholder="ri-line-chart-line">
-                    </div>
-
+                <div class="campo">
+                    <label for="cor">Cor</label>
+                    <input type="color" id="cor" name="cor" value="#A678FF" style="height:48px;padding:6px;max-width:160px;">
                 </div>
+
+                <%- include("../../partials/categoriaIconePicker", { categoria: null }) %>
 
                 <div class="form-dashboard-acoes">
                     <button type="submit" class="btn">Salvar categoria</button>

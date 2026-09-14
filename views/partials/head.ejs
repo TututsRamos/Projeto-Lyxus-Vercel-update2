@@ -53,43 +53,58 @@
         href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css"
         rel="stylesheet">
 
-    <!-- Base -->
+    <!-- Base + Componentes -->
 
-    <link rel="stylesheet" href="/css/base/reset.css">
+    <!-- Em produção isso vira 1 arquivo só (scripts/buildAssets.js
+         junta os 19 CSS abaixo mantendo a mesma ordem/cascata).
+         Sem o bundle (ambiente local sem rodar "npm run build"),
+         carrega os arquivos individuais igual antes. -->
 
-    <link rel="stylesheet" href="/css/base/variables.css">
+    <% if(typeof assetsBundled !== "undefined" && assetsBundled){ %>
 
-    <link rel="stylesheet" href="/css/base/themes.css">
+        <link rel="stylesheet" href="<%= cssBundle %>">
 
-    <link rel="stylesheet" href="/css/base/typography.css">
+    <% } else { %>
 
-    <link rel="stylesheet" href="/css/base/global.css">
+        <link rel="stylesheet" href="/css/base/reset.css">
 
-    <link rel="stylesheet" href="/css/base/animations.css">
+        <link rel="stylesheet" href="/css/base/variables.css">
 
-    <link rel="stylesheet" href="/css/base/responsive.css">
+        <link rel="stylesheet" href="/css/base/themes.css">
 
-    <!-- Componentes -->
+        <link rel="stylesheet" href="/css/base/typography.css">
 
-    <link rel="stylesheet" href="/css/components/buttons.css">
+        <link rel="stylesheet" href="/css/base/global.css">
 
-    <link rel="stylesheet" href="/css/components/navbar.css">
+        <link rel="stylesheet" href="/css/base/animations.css">
 
-    <link rel="stylesheet" href="/css/components/footer.css">
+        <link rel="stylesheet" href="/css/base/responsive.css">
 
-    <link rel="stylesheet" href="/css/components/theme-switcher.css">
+        <link rel="stylesheet" href="/css/components/buttons.css">
 
-    <link rel="stylesheet" href="/css/components/conta-drawer.css">
+        <link rel="stylesheet" href="/css/components/navbar.css">
 
-    <link rel="stylesheet" href="/css/components/cards.css">
+        <link rel="stylesheet" href="/css/components/footer.css">
 
-    <link rel="stylesheet" href="/css/components/forms.css">
+        <link rel="stylesheet" href="/css/components/theme-switcher.css">
 
-    <link rel="stylesheet" href="/css/components/faq.css">
+        <link rel="stylesheet" href="/css/components/conta-drawer.css">
 
-    <link rel="stylesheet" href="/css/components/processo.css">
+        <link rel="stylesheet" href="/css/components/cards.css">
 
-    <link rel="stylesheet" href="/css/components/feedback.css">
+        <link rel="stylesheet" href="/css/components/forms.css">
+
+        <link rel="stylesheet" href="/css/components/faq.css">
+
+        <link rel="stylesheet" href="/css/components/processo.css">
+
+        <link rel="stylesheet" href="/css/components/feedback.css">
+
+        <link rel="stylesheet" href="/css/components/categoria-icone.css">
+
+        <link rel="stylesheet" href="/css/components/cookie-banner.css">
+
+    <% } %>
 
     <!-- Página -->
 
@@ -99,15 +114,23 @@
 
     <% } %>
 
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-WSWF7HMYF7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Google tag (gtag.js) — só carrega depois que o usuário aceita
+         cookies no banner do rodapé (ver partials/cookiesBanner e
+         public/js/cookies.js). Enquanto ele não decidir ("aceito" ou
+         "recusado"), ou se recusar, o Analytics não é carregado. -->
 
-  gtag('config', 'G-WSWF7HMYF7');
-</script>
+    <% if(typeof cookieConsent !== "undefined" && cookieConsent === "aceito"){ %>
+
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-WSWF7HMYF7"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-WSWF7HMYF7');
+        </script>
+
+    <% } %>
 
     <link rel="icon" type="image/jpeg" href="/img/logo/logo.jpeg">
 </head>

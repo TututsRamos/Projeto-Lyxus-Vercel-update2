@@ -21,6 +21,7 @@
                     class="badge"
                     style="background:<%= post.categoria.cor %>22; color:<%= post.categoria.cor %>">
 
+                    <%- include("../partials/categoriaVisual", { categoria: post.categoria, tamanho: 14 }) %>
                     <%= post.categoria.nome %>
 
                 </span>

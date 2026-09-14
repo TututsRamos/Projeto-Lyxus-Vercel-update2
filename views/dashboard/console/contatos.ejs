@@ -1,0 +1,110 @@
+<%- include("../../partials/head", {
+    titulo: "Solicitações de Contato • Console Admin",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "console-contatos" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Solicitações de Contato</h1>
+                <p>Tudo que chega pelos formulários de Trabalhe Conosco, Torne-se Parceiro, Suporte, Proposta da Comunidade e Torne-se Apoiador.</p>
+            </div>
+
+            <% if(pendentes > 0){ %>
+                <div class="dash-header-acoes">
+                    <span class="status status-pendente"><%= pendentes %> nova(s)</span>
+                </div>
+            <% } %>
+
+        </header>
+
+        <div class="painel">
+
+            <div class="contatos-filtros">
+
+                <a href="/dashboard/console/contatos" class="<%= tipoFiltro === '' ? 'ativo' : '' %>">
+                    Todas (<%= totalGeral %>)
+                </a>
+
+                <% Object.keys(nomesTipo).forEach(tipo => { %>
+
+                    <a href="/dashboard/console/contatos?tipo=<%= tipo %>" class="<%= tipoFiltro === tipo ? 'ativo' : '' %>">
+                        <%= nomesTipo[tipo] %> (<%= contagemPorTipo[tipo] %>)
+                    </a>
+
+                <% }) %>
+
+            </div>
+
+            <div class="tabela-wrap">
+
+                <table class="tabela">
+
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Área</th>
+                            <th>Contato</th>
+                            <th>Recebido em</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <% if(contatos && contatos.length){ %>
+
+                            <% contatos.forEach(c => { %>
+
+                                <tr>
+                                    <td><%= c.nome %></td>
+                                    <td><%= nomesTipo[c.tipo] || c.tipo %></td>
+                                    <td>
+                                        <%= c.email %>
+                                        <% if(c.telefone){ %>
+                                            <br><span style="color:var(--texto-claro);font-size:.85rem;"><%= c.telefone %></span>
+                                        <% } %>
+                                    </td>
+                                    <td><%= new Date(c.createdAt).toLocaleString("pt-BR") %></td>
+                                    <td>
+                                        <span class="status <%= c.status === 'novo' ? 'status-pendente' : (c.status === 'em-andamento' ? 'status-andamento' : 'status-ativo') %>">
+                                            <%= c.status === 'novo' ? 'novo' : (c.status === 'em-andamento' ? 'em andamento' : 'concluído') %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="tabela-acoes">
+                                            <a href="/dashboard/console/contatos/<%= c._id %>" title="Ver detalhes">
+                                                <i class="ri-eye-line"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr><td colspan="6" class="vazio">Nenhuma solicitação encontrada.</td></tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", { js: "dashboard" }) %>

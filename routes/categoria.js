@@ -4,6 +4,7 @@ import categoriaController from "../controllers/categoriaController.js";
 
 import auth from "../middleware/auth.js";
 import { permitir } from "../config/auth.js";
+import upload from "../middleware/upload.js";
 
 const router = express.Router();
 
@@ -11,11 +12,11 @@ router.get("/", auth, permitir("posts","categorias"), categoriaController.listar
 
 router.get("/novo", auth, permitir("posts","categorias"), categoriaController.novo);
 
-router.post("/", auth, permitir("posts","categorias"), categoriaController.salvar);
+router.post("/", auth, permitir("posts","categorias"), upload.single("imagem"), categoriaController.salvar);
 
 router.get("/editar/:id", auth, permitir("posts","categorias"), categoriaController.editar);
 
-router.post("/editar/:id", auth, permitir("posts","categorias"), categoriaController.atualizar);
+router.post("/editar/:id", auth, permitir("posts","categorias"), upload.single("imagem"), categoriaController.atualizar);
 
 router.get("/excluir/:id", auth, permitir("posts","categorias"), categoriaController.excluir);
 

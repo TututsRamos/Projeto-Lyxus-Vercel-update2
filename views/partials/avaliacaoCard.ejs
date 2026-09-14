@@ -4,13 +4,17 @@
     const meiaEstrela = nota % 2 === 1;
 %>
 
-<a href="/avaliacao/<%= empresa._id %>" class="avaliacao-card">
+<a href="/avaliacao/<%= empresa._id %>" class="avaliacao-card <%= empresa.emAlta ? 'avaliacao-card-radiante' : '' %>">
 
     <div class="avaliacao-card-topo">
 
         <div class="avaliacao-card-info">
 
             <span class="avaliacao-card-categoria"><%= empresa.categoria %></span>
+
+            <% if(empresa.emAlta){ %>
+                <span class="avaliacao-emalta"><i class="ri-sparkling-2-fill"></i> Em alta</span>
+            <% } %>
 
             <% if(temSeloQualidade && temSeloQualidade(empresa)){ %>
                 <span class="avaliacao-selo"><i class="ri-award-fill"></i> Selo de qualidade Lyxus</span>

@@ -22,10 +22,12 @@ feedbacks:[
 ],
 
 faq:[
-{ pergunta:"Quanto tempo leva para desenvolver um app?", resposta:"Em média de 4 a 10 semanas, dependendo da complexidade das funcionalidades e integrações necessárias." },
-{ pergunta:"O app funciona em Android e iOS?", resposta:"Sim, desenvolvemos para as duas plataformas, seja de forma nativa ou híbrida, conforme a necessidade do projeto." },
-{ pergunta:"Vocês fazem manutenção depois da publicação?", resposta:"Sim, oferecemos planos de manutenção contínua, incluindo correções, atualizações e novas funcionalidades." },
-{ pergunta:"Posso pedir alterações durante o desenvolvimento?", resposta:"Claro, cada etapa é validada com você antes de seguirmos, então ajustes fazem parte do processo normal." }
+{ pergunta:"Quais tipos de aplicativos vocês desenvolvem?", resposta:"Desenvolvemos aplicativos para iOS e Android, tanto nativos quanto multiplataforma, de acordo com a necessidade e o orçamento de cada projeto." },
+{ pergunta:"Quanto tempo leva para desenvolver um aplicativo?", resposta:"O prazo varia conforme a complexidade do projeto. Um MVP (versão mínima viável) costuma levar de 2 a 3 meses, enquanto aplicativos mais robustos, com integrações e funcionalidades avançadas, podem levar de 4 a 8 meses." },
+{ pergunta:"Qual o custo de desenvolvimento de um app?", resposta:"O valor depende de fatores como número de telas, integrações com sistemas externos, complexidade das funcionalidades e plataformas contempladas. Após entender as necessidades do projeto, montamos uma proposta personalizada." },
+{ pergunta:"Vocês publicam o aplicativo nas lojas (App Store e Google Play)?", resposta:"Sim, cuidamos de todo o processo de publicação, incluindo configuração das contas de desenvolvedor, adequação às políticas das lojas e acompanhamento até a aprovação." },
+{ pergunta:"O app pode se integrar com sistemas que já usamos na empresa?", resposta:"Sim. Trabalhamos com integrações via API para conectar o aplicativo a ERPs, CRMs, sistemas de pagamento e outras plataformas já utilizadas pelo cliente." },
+{ pergunta:"É possível começar com uma versão simples do app e evoluir depois?", resposta:"Sim, recomendamos inclusive essa abordagem. Começamos com um MVP (como se fosse um \"escopo\" funcional do app) focado nas funcionalidades essenciais, validamos com os usuários reais e, a partir do feedback, evoluímos o produto em novas versões." }
 ]
 
 },
@@ -67,11 +69,10 @@ titulo:"Design",
 descricao:"Criamos experiências visuais modernas.",
 
 etapas:[
-{ titulo:"Pesquisa", descricao:"Analisamos mercado, concorrentes e referências visuais do segmento." },
-{ titulo:"Moodboard", descricao:"Definimos cores, tipografia e o estilo visual que vai guiar o projeto." },
-{ titulo:"Wireframe", descricao:"Montamos a estrutura básica das telas ou peças, ainda sem refinamento." },
-{ titulo:"Interface", descricao:"Criamos o design final, já com a identidade visual aplicada." },
-{ titulo:"Entrega", descricao:"Enviamos os arquivos finalizados e um guia de uso da marca." }
+{ titulo:"Análise de mercado", descricao:"Estudamos os concorrentes e reunimos referências visuais que vão guiar o projeto." },
+{ titulo:"Moodboard", descricao:"Definimos paleta de cores, tipografia e composições." },
+{ titulo:"Conceito inicial", descricao:"Apresentamos um rascunho para validação, feedback e solicitação de ajustes necessários." },
+{ titulo:"Entrega", descricao:"Enviamos os arquivos finalizados e, quando for o caso, um guia de uso da marca." }
 ],
 
 feedbacks:[
@@ -82,10 +83,9 @@ feedbacks:[
 ],
 
 faq:[
-{ pergunta:"Vocês criam a identidade visual do zero?", resposta:"Sim, desenvolvemos toda a identidade a partir de pesquisa e briefing, sem usar modelos prontos." },
-{ pergunta:"Quantas opções de layout eu recebo?", resposta:"Normalmente apresentamos duas alternativas de conceito antes de refinarmos a escolhida com você." },
-{ pergunta:"Posso pedir ajustes depois da entrega?", resposta:"Sim, incluímos uma rodada de ajustes finos após a entrega, sem custo adicional." },
-{ pergunta:"Vocês entregam os arquivos editáveis?", resposta:"Sim, você recebe todos os arquivos fonte, prontos para uso futuro." }
+{ pergunta:"Vocês criam a identidade visual do zero?", resposta:"Sim. Todo o processo parte de pesquisa e briefing. Não usamos templates prontos." },
+{ pergunta:"Posso pedir ajustes depois da entrega?", resposta:"Não. Os ajustes entram na fase 3, durante o conceito inicial. Pedidos feitos após a entrega final geram cobrança extra." },
+{ pergunta:"Vocês entregam os arquivos editáveis?", resposta:"Não, por padrão o editável sai com custo adicional. O guia de marca já traz tudo o que é necessário pra aplicar o projeto no dia a dia." }
 ]
 
 },
@@ -98,7 +98,7 @@ descricao:"Campanhas inteligentes para gerar resultados.",
 
 etapas:[
 { titulo:"Pesquisa", descricao:"Estudamos o público-alvo, o mercado e os concorrentes diretos." },
-{ titulo:"Estratégia", descricao:"Definimos metas, canais e o cronograma das campanhas." },
+{ titulo:"Estratégia", descricao:"Testamos o que funciona para o seu negócio." },
 { titulo:"Campanhas", descricao:"Criamos e veiculamos os anúncios nas plataformas escolhidas." },
 { titulo:"Métricas", descricao:"Acompanhamos os resultados em tempo real, canal por canal." },
 { titulo:"Otimização", descricao:"Ajustamos continuamente as campanhas para melhorar o desempenho." }
@@ -115,7 +115,8 @@ faq:[
 { pergunta:"Como funciona o pagamento das campanhas?", resposta:"Cobramos uma taxa de gestão fixa, e o valor investido em anúncios fica sob seu controle direto na plataforma." },
 { pergunta:"Em quanto tempo vejo resultados?", resposta:"Os primeiros dados aparecem já nas primeiras semanas, mas resultados consistentes costumam vir a partir do segundo mês." },
 { pergunta:"Vocês fazem relatórios de desempenho?", resposta:"Sim, enviamos relatórios periódicos com as principais métricas e próximos passos." },
-{ pergunta:"Quais plataformas vocês trabalham (Meta, Google, etc)?", resposta:"Trabalhamos com Meta Ads, Google Ads e outras plataformas, conforme o público do seu negócio." }
+{ pergunta:"Quais plataformas vocês trabalham (Meta, Google, etc)?", resposta:"Trabalhamos com Meta Ads, Google Ads e outras plataformas, conforme o público do seu negócio." },
+{ pergunta:"Quantos anúncios posso ter?", resposta:"A quantidade de anúncios varía conforme o orçamento da empresa."}
 ]
 
 }
@@ -322,7 +323,11 @@ const todosFeedbacks = Object.entries(dados).flatMap(([area, item])=>
 );
 
 let filtroFeedbackAtivo = "recentes";
-let areaFeedbackAtiva = "todas";
+
+/* Conjunto de áreas selecionadas no filtro. Vazio = "todas as áreas"
+   (equivalente a antes, mas agora dá pra marcar mais de uma área
+   ao mesmo tempo, ex: só "Apps" + "Design"). */
+let areasFeedbackAtivas = new Set();
 
 function ordenarFeedbacks(lista, filtro){
 
@@ -344,22 +349,22 @@ function ordenarFeedbacks(lista, filtro){
 
 }
 
-function filtrarFeedbacksPorArea(lista, area){
+function filtrarFeedbacksPorArea(lista, areas){
 
-    if(area === "todas") return lista;
+    if(!areas || areas.size === 0) return lista;
 
-    return lista.filter(f=> f.area === area);
+    return lista.filter(f=> areas.has(f.area));
 
 }
 
-function renderizarFeedbacks(filtro = filtroFeedbackAtivo, area = areaFeedbackAtiva){
+function renderizarFeedbacks(filtro = filtroFeedbackAtivo, areas = areasFeedbackAtivas){
 
     const feedback = document.getElementById("feedback-grid");
 
     if(!feedback) return;
 
     filtroFeedbackAtivo = filtro;
-    areaFeedbackAtiva = area;
+    areasFeedbackAtivas = areas;
 
     document.querySelectorAll("[data-feedback-filtro]").forEach(botao=>{
 
@@ -369,13 +374,16 @@ function renderizarFeedbacks(filtro = filtroFeedbackAtivo, area = areaFeedbackAt
 
     document.querySelectorAll("[data-feedback-area]").forEach(botao=>{
 
-        botao.classList.toggle("ativo", botao.dataset.feedbackArea === area);
+        const area = botao.dataset.feedbackArea;
+        const ativo = area === "todas" ? areasFeedbackAtivas.size === 0 : areasFeedbackAtivas.has(area);
+
+        botao.classList.toggle("ativo", ativo);
 
     });
 
     feedback.innerHTML = "";
 
-    const lista = ordenarFeedbacks(filtrarFeedbacksPorArea(todosFeedbacks, area), filtro);
+    const lista = ordenarFeedbacks(filtrarFeedbacksPorArea(todosFeedbacks, areasFeedbackAtivas), filtro);
 
     if(lista.length === 0){
 
@@ -403,9 +411,49 @@ function renderizarFeedbacks(filtro = filtroFeedbackAtivo, area = areaFeedbackAt
 
     feedback.scrollTo({ left:0 });
 
+    autoScrollDirecao = 1;
+
     requestAnimationFrame(atualizarScrub);
 
 }
+
+/* Se o filtro de áreas não couber inteiro numa linha só, força
+   "Todas as áreas" a ficar sozinho em cima e o resto a quebrar
+   normalmente embaixo (em vez de deixar sobrar um item solto,
+   tipo "Marketing" isolado). Quando cabe tudo numa linha, não
+   mexe em nada. Reavalia no carregamento e ao redimensionar. */
+
+function ajustarQuebraFiltroArea(){
+
+    const container = document.querySelector(".feedback-filtros-area");
+
+    if(!container) return;
+
+    container.classList.remove("filtro-area-quebrado");
+
+    const botoes = Array.from(container.querySelectorAll(".feedback-filtro"));
+
+    if(botoes.length < 2) return;
+
+    const primeiraLinha = botoes[0].offsetTop;
+    const quebrou = botoes.some(botao=> botao.offsetTop !== primeiraLinha);
+
+    if(quebrou){
+
+        container.classList.add("filtro-area-quebrado");
+
+    }
+
+}
+
+let ajustarQuebraFiltroAreaTimeout = null;
+
+window.addEventListener("resize", ()=>{
+
+    clearTimeout(ajustarQuebraFiltroAreaTimeout);
+    ajustarQuebraFiltroAreaTimeout = setTimeout(ajustarQuebraFiltroArea, 150);
+
+});
 
 function configurarFiltroFeedback(){
 
@@ -413,7 +461,7 @@ function configurarFiltroFeedback(){
 
         botao.addEventListener("click", ()=>{
 
-            renderizarFeedbacks(botao.dataset.feedbackFiltro, areaFeedbackAtiva);
+            renderizarFeedbacks(botao.dataset.feedbackFiltro, areasFeedbackAtivas);
 
         });
 
@@ -423,7 +471,23 @@ function configurarFiltroFeedback(){
 
         botao.addEventListener("click", ()=>{
 
-            renderizarFeedbacks(filtroFeedbackAtivo, botao.dataset.feedbackArea);
+            const area = botao.dataset.feedbackArea;
+
+            if(area === "todas"){
+
+                areasFeedbackAtivas.clear();
+
+            } else if(areasFeedbackAtivas.has(area)){
+
+                areasFeedbackAtivas.delete(area);
+
+            } else {
+
+                areasFeedbackAtivas.add(area);
+
+            }
+
+            renderizarFeedbacks(filtroFeedbackAtivo, areasFeedbackAtivas);
 
         });
 
@@ -489,6 +553,87 @@ function configurarCarrossel(){
     trilha.addEventListener("touchmove", e=>{
         irParaPosicao(e.touches[0].clientX);
     });
+
+}
+
+/* ==========================================================
+   Auto-scroll do carrossel de feedbacks
+
+   O carrossel anda sozinho devagar (ida e volta), pra dar a
+   entender que dá pra arrastar sem precisar de instrução.
+   Assim que o visitante interage (arrasta a trilha, encosta
+   no carrossel ou usa a roda do mouse) o auto-scroll pausa,
+   e volta a andar sozinho depois de alguns segundos parado.
+   ========================================================== */
+
+let autoScrollAtivo = true;
+let autoScrollDirecao = 1;
+let autoScrollPausaTimeout = null;
+
+function passoAutoScroll(){
+
+    const track = document.getElementById("feedback-grid");
+
+    if(track && autoScrollAtivo){
+
+        const max = track.scrollWidth - track.clientWidth;
+
+        if(max > 0){
+
+            track.scrollLeft += autoScrollDirecao * 0.6;
+
+            if(track.scrollLeft >= max){
+
+                track.scrollLeft = max;
+                autoScrollDirecao = -1;
+
+            } else if(track.scrollLeft <= 0){
+
+                track.scrollLeft = 0;
+                autoScrollDirecao = 1;
+
+            }
+
+        }
+
+    }
+
+    requestAnimationFrame(passoAutoScroll);
+
+}
+
+function pausarAutoScroll(){
+
+    autoScrollAtivo = false;
+
+    clearTimeout(autoScrollPausaTimeout);
+
+    autoScrollPausaTimeout = setTimeout(()=>{
+
+        autoScrollAtivo = true;
+
+    }, 2500);
+
+}
+
+function iniciarAutoScroll(){
+
+    const track = document.getElementById("feedback-grid");
+    const trilha = document.querySelector(".feedback-scrub");
+
+    if(!track) return;
+
+    // interação manual do usuário pausa o auto-scroll temporariamente
+    track.addEventListener("mousedown", pausarAutoScroll);
+    track.addEventListener("touchstart", pausarAutoScroll, { passive:true });
+    track.addEventListener("wheel", pausarAutoScroll, { passive:true });
+
+    if(trilha){
+        trilha.addEventListener("mousedown", pausarAutoScroll);
+        trilha.addEventListener("touchstart", pausarAutoScroll, { passive:true });
+    }
+
+    requestAnimationFrame(passoAutoScroll);
 
 }
 
@@ -579,4 +724,6 @@ document.querySelectorAll("[data-servico]").forEach(el=>{
 configurarCarrossel();
 configurarFiltroFeedback();
 renderizarFeedbacks();
+iniciarAutoScroll();
+ajustarQuebraFiltroArea();
 carregar("apps");

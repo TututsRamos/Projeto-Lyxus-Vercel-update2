@@ -1,0 +1,135 @@
+<%- include("../../partials/head", {
+    titulo: "Evidências • " + empresa.nome,
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "console-avaliacoes" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1>Evidências — <%= empresa.nome %></h1>
+                <p>Prints, links e observações que sustentam a nota de cada categoria e critério.</p>
+            </div>
+
+            <a href="/dashboard/console/avaliacoes/<%= empresa._id %>/editar" class="btn-secundario-dash">
+                <i class="ri-arrow-left-line"></i> Voltar pra ficha da empresa
+            </a>
+
+        </header>
+
+        <% if(erro){ %>
+            <div class="login-erro" style="margin-bottom:20px;"><%= erro %></div>
+        <% } %>
+
+        <div class="painel">
+
+            <div class="painel-titulo"><h2>Anexar nova evidência</h2></div>
+
+            <form method="POST" action="/dashboard/console/avaliacoes/<%= empresa._id %>/evidencias" enctype="multipart/form-data" class="avaliacao-evidencia-add">
+
+                <div class="campo">
+                    <label>Categoria ou critério</label>
+                    <select name="chave" required>
+                        <% grupos.forEach(function(grupo){ %>
+                            <optgroup label="<%= grupo.nome %>">
+                                <option value="<%= grupo.nome %>">(toda a categoria) <%= grupo.nome %></option>
+                                <% grupo.criterios.forEach(function(c){ %>
+                                    <option value="<%= c.nome %>"><%= c.nome %></option>
+                                <% }) %>
+                            </optgroup>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label>Print (imagem ou PDF)</label>
+                    <input type="file" name="arquivo" accept="image/*,application/pdf">
+                </div>
+
+                <div class="campo">
+                    <label>URL da evidência</label>
+                    <input type="url" name="url" placeholder="https://…">
+                </div>
+
+                <div class="campo">
+                    <label>Ferramenta usada</label>
+                    <input type="text" name="ferramenta" placeholder="Ex: PageSpeed Insights">
+                </div>
+
+                <div class="campo">
+                    <label>Data da captura</label>
+                    <input type="date" name="capturadoEm" value="<%= new Date().toISOString().slice(0,10) %>">
+                </div>
+
+                <div class="campo" style="grid-column:1 / -1;">
+                    <label>Observação (opcional)</label>
+                    <input type="text" name="observacao" placeholder="Alguma nota sobre essa prova">
+                </div>
+
+                <div>
+                    <button type="submit" class="btn">Salvar prova</button>
+                </div>
+
+            </form>
+
+        </div>
+
+        <% grupos.forEach(function(grupo){ %>
+
+            <div class="painel avaliacao-evidencias-grupo">
+
+                <h3><%= grupo.nome %></h3>
+
+                <% if(grupo.evidenciasCategoria.length){ %>
+
+                    <div class="avaliacao-evidencias-criterio">
+
+                        <div class="avaliacao-evidencias-criterio-topo">
+                            <span>Provas da categoria inteira</span>
+                        </div>
+
+                        <% grupo.evidenciasCategoria.forEach(function(e){ %>
+                            <%- include("../../partials/avaliacaoEvidenciaItem", { e, empresaId: empresa._id }) %>
+                        <% }) %>
+
+                    </div>
+
+                <% } %>
+
+                <% grupo.criterios.forEach(function(c){ %>
+
+                    <div class="avaliacao-evidencias-criterio">
+
+                        <div class="avaliacao-evidencias-criterio-topo">
+                            <span><%= c.nome %></span>
+                            <span style="color:var(--texto-claro);font-weight:400;">
+                                <%= c.evidencias.length %> prova<%= c.evidencias.length === 1 ? "" : "s" %>
+                            </span>
+                        </div>
+
+                        <% if(!c.evidencias.length){ %>
+                            <p style="color:var(--texto-claro);font-size:.82rem;margin-top:6px;">Nenhuma prova registrada ainda.</p>
+                        <% } %>
+
+                        <% c.evidencias.forEach(function(e){ %>
+                            <%- include("../../partials/avaliacaoEvidenciaItem", { e, empresaId: empresa._id }) %>
+                        <% }) %>
+
+                    </div>
+
+                <% }) %>
+
+            </div>
+
+        <% }) %>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", { js: "dashboard" }) %>

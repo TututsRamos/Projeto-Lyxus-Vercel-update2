@@ -66,4 +66,6 @@ const destaqueSchema = new mongoose.Schema({
     timestamps:true
 });
 
+destaqueSchema.index({ ativo:1, createdAt:-1 });
+
 export default mongoose.model("Destaque", destaqueSchema);

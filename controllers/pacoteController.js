@@ -1,6 +1,5 @@
 import Pacote from "../models/Pacote.js";
 import Pagamento from "../models/Pagamento.js";
-import Configuracao from "../models/Configuracao.js";
 import { gerarPixCopiaCola } from "../utils/pix.js";
 import imagemParaBase64 from "../utils/imagemBase64.js";
 
@@ -380,7 +379,9 @@ const pacoteController = {
 
             if(metodo === "pix"){
 
-                const configuracao = await Configuracao.findOne();
+                // middleware/locals.js já buscou (com cache) a
+                // Configuracao pra essa mesma requisição.
+                const configuracao = res.locals.config;
 
                 if(configuracao && configuracao.pixChave){
 

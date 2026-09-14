@@ -1,10 +1,24 @@
-<script src="/js/theme.js"></script>
+<!-- Mesma ideia do head.ejs: em produção os 5 arquivos abaixo (na
+     mesma ordem) viram 1 bundle só (scripts/buildAssets.js). Sem o
+     bundle, carrega cada um igual antes. -->
 
-<script src="/js/navbar.js"></script>
+<% if(typeof assetsBundled !== "undefined" && assetsBundled){ %>
 
-<script src="/js/hero.js"></script>
+    <script src="<%= jsBundle %>"></script>
 
-<script src="/js/conta-drawer.js"></script>
+<% } else { %>
+
+    <script src="/js/theme.js"></script>
+
+    <script src="/js/navbar.js"></script>
+
+    <script src="/js/hero.js"></script>
+
+    <script src="/js/conta-drawer.js"></script>
+
+    <script src="/js/cookies.js"></script>
+
+<% } %>
 
 <% if(js){ %>
 

@@ -1,6 +1,5 @@
 import Post from "../models/Post.js";
 import Pacote from "../models/Pacote.js";
-import Configuracao from "../models/Configuracao.js";
 
 const homeController = {
 
@@ -12,20 +11,26 @@ const homeController = {
 
         try{
 
-            const configuracao = await Configuracao.findOne();
+            // middleware/locals.js já busca Configuracao (com cache)
+            // pra TODA página, incluindo essa — reusamos res.locals.config
+            // em vez de buscar o mesmo documento de novo no banco.
+            const configuracao = res.locals.config;
 
-            const posts = await Post.find({
-                publicado: true
-            })
-            .populate("categoria")
-            .populate("autor")
-            .sort({ createdAt: -1 })
-            .limit(3);
+            // posts e pacotes não dependem um do outro, então buscamos
+            // os dois ao mesmo tempo (Promise.all) em vez de um esperar
+            // o outro terminar.
+            const [posts, pacotes] = await Promise.all([
 
-            const pacotes = await Pacote.find({
-                ativo: true
-            })
-            .sort({ preco: 1 });
+                Post.find({ publicado: true })
+                    .populate("categoria")
+                    .populate("autor")
+                    .sort({ createdAt: -1 })
+                    .limit(3),
+
+                Pacote.find({ ativo: true })
+                    .sort({ preco: 1 })
+
+            ]);
 
             res.render("home/index",{
 

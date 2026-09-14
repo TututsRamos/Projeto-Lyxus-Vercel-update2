@@ -55,23 +55,19 @@
                             placeholder="Buscar empresa, categoria ou endereço…">
                     </div>
 
+                    <div class="avaliacao-select-input">
+                        <i class="ri-filter-3-line"></i>
+                        <select name="categoria" onchange="this.form.submit()">
+                            <option value="">Todas as categorias</option>
+                            <% categorias.forEach(function(c){ %>
+                                <option value="<%= c %>" <%= categoriaAtual === c ? "selected" : "" %>><%= c %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+
                     <button type="submit" class="btn">Buscar</button>
 
                 </form>
-
-                <div class="avaliacao-filtros">
-
-                    <a href="/avaliacao?aba=pesquisa<%= busca ? '&busca='+encodeURIComponent(busca) : '' %>"
-                        class="chip <%= !categoriaAtual ? 'ativo' : '' %>">Todas</a>
-
-                    <% categorias.forEach(function(c){ %>
-
-                        <a href="/avaliacao?aba=pesquisa&categoria=<%= encodeURIComponent(c) %><%= busca ? '&busca='+encodeURIComponent(busca) : '' %>"
-                            class="chip <%= categoriaAtual === c ? 'ativo' : '' %>"><%= c %></a>
-
-                    <% }) %>
-
-                </div>
 
                 <div class="avaliacao-resumo">
 
@@ -151,5 +147,6 @@
 </main>
 
 <%- include("../partials/footer") %>
+
 
 <%- include("../partials/scripts", { js: "" }) %>

@@ -23,7 +23,14 @@
 
             </span>
 
-            <h1><%= categoriaAtual.nome %></h1>
+            <h1 class="blog-hero-categoria-titulo">
+                <span
+                    class="categoria-visual-badge categoria-visual-badge-grande"
+                    style="background:<%= categoriaAtual.cor %>22; color:<%= categoriaAtual.cor %>;">
+                    <%- include("../partials/categoriaVisual", { categoria: categoriaAtual, tamanho: 26 }) %>
+                </span>
+                <%= categoriaAtual.nome %>
+            </h1>
 
             <% if(categoriaAtual.descricao){ %>
 
@@ -97,6 +104,7 @@
                                 <a
                                     href="/blog/categoria/<%= cat.slug %>"
                                     class="<%= cat.slug === categoriaAtual.slug ? 'ativo' : '' %>">
+                                    <%- include("../partials/categoriaVisual", { categoria: cat, tamanho: 14 }) %>
                                     <%= cat.nome %>
                                 </a>
                             </li>

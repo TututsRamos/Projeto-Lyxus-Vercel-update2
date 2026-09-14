@@ -1,0 +1,29 @@
+<%
+    // Espera: e (documento AvaliacaoEvidencia, lean), empresaId
+%>
+
+<div class="avaliacao-evidencia-item">
+
+    <span><%= new Date(e.capturadoEm).toLocaleDateString("pt-BR") %></span>
+
+    <% if(e.ferramenta){ %>
+        <span><i class="ri-tools-line"></i> <%= e.ferramenta %></span>
+    <% } %>
+
+    <% if(e.observacao){ %>
+        <span><%= e.observacao %></span>
+    <% } %>
+
+    <% if(e.arquivo){ %>
+        <a href="<%= e.arquivo %>" target="_blank" rel="noopener noreferrer"><i class="ri-image-line"></i> ver print</a>
+    <% } %>
+
+    <% if(e.url){ %>
+        <a href="<%= e.url %>" target="_blank" rel="noopener noreferrer"><i class="ri-external-link-line"></i> link</a>
+    <% } %>
+
+    <form method="POST" action="/dashboard/console/avaliacoes/<%= empresaId %>/evidencias/<%= e._id %>/excluir" onsubmit="return confirm('Remover esta prova?');">
+        <button type="submit" title="Remover"><i class="ri-delete-bin-line"></i></button>
+    </form>
+
+</div>

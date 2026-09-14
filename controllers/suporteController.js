@@ -1,5 +1,3 @@
-import Configuracao from "../models/Configuracao.js";
-
 // Área exclusiva de quem tem a permissão "suporte". A única
 // função dessa tela é dar acesso ao lado de resposta do
 // tawk.to — sem nenhum outro dado do dashboard.
@@ -9,7 +7,10 @@ const suporteController = {
 
         try{
 
-            const configuracao = await Configuracao.findOne();
+            // middleware/locals.js já buscou (com cache) a Configuracao
+            // pra essa mesma requisição — reusamos em vez de buscar
+            // o mesmo documento de novo.
+            const configuracao = res.locals.config;
 
             res.render("dashboard/suporte/index", {
 

@@ -1,5 +1,9 @@
 {
   "type": "module",
+  "scripts": {
+    "build": "node scripts/buildAssets.js",
+    "vercel-build": "node scripts/buildAssets.js"
+  },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "compression": "^1.7.5",

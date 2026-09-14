@@ -1,13 +1,38 @@
-import Configuracao from "../models/Configuracao.js";
-import Destaque from "../models/Destaque.js";
+import { obterConfiguracao, obterDestaquesAtivos } from "../utils/cache.js";
 import { gerarLinkWhatsapp } from "../utils/whatsapp.js";
 //import formatarData from "../utils/formatarData.js";
+
+// Não há cookie-parser no projeto (mesma decisão já tomada em
+// comunidadeController.js) — lemos o cookie de consentimento na
+// mão pra não precisar de uma dependência nova só pra isso.
+function lerCookieConsentimento(req){
+
+    const header = req.headers.cookie || "";
+
+    const match = header
+        .split(";")
+        .map(c => c.trim())
+        .find(c => c.startsWith("lyxus_cookie_consent="));
+
+    if(!match) return null;
+
+    const valor = decodeURIComponent(match.split("=")[1] || "");
+
+    return (valor === "aceito" || valor === "recusado") ? valor : null;
+
+}
 
 export default async function(req,res,next){
 
     try{
 
         res.locals.usuario = req.session.usuario || null;
+
+        // Consentimento de cookies (banner Aceitar/Recusar no rodapé
+        // público). null = usuário ainda não decidiu (banner aparece);
+        // "aceito"/"recusado" = já decidiu nesse navegador. Usado
+        // aqui pra decidir se o Google Analytics carrega ou não.
+        res.locals.cookieConsent = lerCookieConsentimento(req);
 
         // Helpers de permissão pras views do dashboard. master/admin
         // sempre têm acesso total; staff só se a chave estiver no
@@ -43,7 +68,22 @@ export default async function(req,res,next){
 
         };
 
-        const configuracao = await Configuracao.findOne();
+        // Configuracao e Destaque vinham direto do banco aqui, TODA
+        // requisição (esse middleware roda antes de qualquer rota).
+        // obterConfiguracao()/obterDestaquesAtivos() (utils/cache.js)
+        // guardam o resultado por 1 minuto e reusam nas requisições
+        // seguintes — inclusive já cria o documento de Configuracao
+        // com os defaults (inclusive tawk.to) se o master nunca abriu
+        // /dashboard/configuracoes ainda, igual antes.
+        //
+        // As duas consultas não dependem uma da outra, então rodam
+        // em paralelo (Promise.all) em vez de uma esperar a outra.
+        const [configuracao, destaquesAtivos] = await Promise.all([
+
+            obterConfiguracao(),
+            obterDestaquesAtivos()
+
+        ]);
 
         res.locals.config = configuracao;
 
@@ -52,8 +92,6 @@ export default async function(req,res,next){
         // do texto fixo genérico. Podem existir vários simultâneos,
         // cada um mirando login, cadastro ou os dois — por isso já
         // separamos aqui em duas listas prontas pra cada tela usar.
-        const destaquesAtivos = await Destaque.find({ ativo:true })
-            .sort({ createdAt:-1 });
 
         res.locals.destaquesLogin = destaquesAtivos.filter(
             d => d.exibirEm === "ambos" || d.exibirEm === "login"

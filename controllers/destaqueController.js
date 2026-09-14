@@ -1,5 +1,6 @@
 import Destaque from "../models/Destaque.js";
 import imagemParaBase64 from "../utils/imagemBase64.js";
+import { invalidarDestaques } from "../utils/cache.js";
 
 const destaqueController = {
 
@@ -77,6 +78,8 @@ const destaqueController = {
                 atualizadoPor: req.session.usuario.id
 
             });
+
+            invalidarDestaques();
 
             res.redirect("/dashboard/destaque");
 
@@ -169,6 +172,8 @@ const destaqueController = {
 
             );
 
+            invalidarDestaques();
+
             res.redirect("/dashboard/destaque");
 
         }catch(err){
@@ -194,6 +199,8 @@ const destaqueController = {
                 req.params.id
 
             );
+
+            invalidarDestaques();
 
             res.redirect("/dashboard/destaque");
 

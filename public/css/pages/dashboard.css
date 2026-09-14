@@ -491,6 +491,82 @@ table.tabela tr:hover td{
 
 .status-cancelado{ background:#FDECEA; color:var(--erro); }
 
+.status-andamento{ background:#E8F0FE; color:#2F6FED; }
+
+/* Link em destaque dentro de um painel (ex: e-mail do console de
+   Solicitações de Contato) — sem isso, o navegador usa a cor padrão
+   de link (azul), que some em cima do fundo escuro dos temas. */
+
+.link-destaque{
+
+    color:var(--secundaria);
+
+    font-weight:600;
+
+}
+
+.link-destaque:hover{
+
+    color:var(--secundaria-hover);
+
+    text-decoration:underline;
+
+}
+
+/* ===== Filtros em aba (ex: console de Solicitações de Contato) ===== */
+
+.contatos-filtros{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    margin-bottom:20px;
+
+}
+
+.contatos-filtros a{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    padding:8px 16px;
+
+    border-radius:30px;
+
+    background:var(--surface-2);
+
+    color:var(--texto-claro);
+
+    font-size:.85rem;
+
+    font-weight:600;
+
+    text-decoration:none;
+
+    transition:var(--transition);
+
+}
+
+.contatos-filtros a:hover{
+
+    background:rgba(var(--acento-rgb),.15);
+
+}
+
+.contatos-filtros a.ativo{
+
+    background:var(--acento);
+
+    color:#fff;
+
+}
+
 /* ===== Estado vazio ===== */
 
 .vazio{
@@ -1057,4 +1133,158 @@ table.tabela tr:hover td{
     padding:2px 6px;
     border-radius:4px;
     font-size:.8rem;
+}
+
+/* ===== Score Lyxus v2: badges, evidências e formulário ===== */
+
+.avaliacao-badges-selecao{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.avaliacao-badge-opcao{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:8px 14px;
+    border:2px solid var(--borda);
+    border-radius:50px;
+    font-size:.85rem;
+    font-weight:600;
+    cursor:pointer;
+    color:var(--texto-claro);
+    transition:var(--transition);
+}
+
+.avaliacao-badge-opcao input{
+    display:none;
+}
+
+.avaliacao-badge-opcao.merito.marcada{
+    border-color:#2f9e6e;
+    background:rgba(47,158,110,.12);
+    color:var(--texto);
+}
+
+.avaliacao-badge-opcao.alerta.marcada{
+    border-color:#d64545;
+    background:rgba(214,69,69,.12);
+    color:var(--texto);
+}
+
+.avaliacao-badge-form{
+    display:grid;
+    grid-template-columns:1.2fr 2fr 1fr .8fr auto;
+    gap:12px;
+    align-items:end;
+    margin-bottom:20px;
+}
+
+.avaliacao-badges-lista{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.avaliacao-badges-lista .avaliacao-badge-item{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 12px;
+    border-radius:12px;
+    border:2px solid var(--borda);
+    font-size:.85rem;
+}
+
+.avaliacao-badges-lista .avaliacao-badge-item.merito{
+    border-color:#2f9e6e;
+    background:rgba(47,158,110,.08);
+}
+
+.avaliacao-badges-lista .avaliacao-badge-item.alerta{
+    border-color:#d64545;
+    background:rgba(214,69,69,.08);
+}
+
+.avaliacao-badges-lista .avaliacao-badge-item form{
+    display:inline;
+}
+
+.avaliacao-badges-lista .avaliacao-badge-item button{
+    border:none;
+    background:none;
+    cursor:pointer;
+    color:inherit;
+    opacity:.7;
+}
+
+.avaliacao-badges-lista .avaliacao-badge-item button:hover{
+    opacity:1;
+}
+
+.avaliacao-evidencias-grupo{
+    margin-bottom:22px;
+}
+
+.avaliacao-evidencias-grupo h3{
+    font-size:1rem;
+    margin-bottom:10px;
+}
+
+.avaliacao-evidencias-criterio{
+    padding:14px 16px;
+    border:1px solid var(--borda);
+    border-radius:var(--radius-small);
+    margin-bottom:10px;
+}
+
+.avaliacao-evidencias-criterio-topo{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    font-weight:600;
+    font-size:.9rem;
+}
+
+.avaliacao-evidencia-item{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:10px;
+    padding:8px 0;
+    border-top:1px solid var(--borda);
+    margin-top:8px;
+    font-size:.82rem;
+    color:var(--texto-claro);
+}
+
+.avaliacao-evidencia-item form{
+    margin-left:auto;
+}
+
+.avaliacao-evidencia-item button{
+    border:none;
+    background:none;
+    color:#d64545;
+    cursor:pointer;
+}
+
+.avaliacao-evidencia-add{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:10px;
+}
+
+.avaliacao-evidencia-add .campo{
+    gap:4px;
+}
+
+@media (max-width:900px){
+    .avaliacao-badge-form,
+    .avaliacao-evidencia-add{
+        grid-template-columns:1fr;
+    }
 }

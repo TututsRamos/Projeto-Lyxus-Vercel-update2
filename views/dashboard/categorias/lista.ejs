@@ -32,6 +32,7 @@
 
                     <thead>
                         <tr>
+                            <th>Ícone</th>
                             <th>Categoria</th>
                             <th>Descrição</th>
                             <th>Status</th>
@@ -48,8 +49,15 @@
                                 <tr>
 
                                     <td>
+                                        <span
+                                            class="categoria-visual-badge"
+                                            style="background:<%= cat.cor %>22; color:<%= cat.cor %>;">
+                                            <%- include("../../partials/categoriaVisual", { categoria: cat, tamanho: 18 }) %>
+                                        </span>
+                                    </td>
+
+                                    <td>
                                         <div class="tabela-item">
-                                            <span style="width:14px;height:14px;border-radius:50%;background:<%= cat.cor %>;display:inline-block;"></span>
                                             <%= cat.nome %>
                                         </div>
                                     </td>

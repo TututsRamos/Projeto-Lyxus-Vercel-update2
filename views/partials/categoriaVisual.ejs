@@ -1,0 +1,31 @@
+<%
+/*
+    Partial reutilizável pra exibir o "visual" de uma categoria do
+    blog (usado no dashboard e nas páginas públicas). Prioridade:
+
+    1) imagem enviada pelo usuário (categoria.imagem, base64)
+    2) ícone da Remix Icon (categoria.icone)
+    3) ícone padrão (pasta), se nada foi configurado
+
+    Uso: include partials/categoriaVisual passando "categoria" (o
+    documento da categoria) e, opcionalmente, "tamanho" em px
+    (padrão 20).
+*/
+const _catVisual = typeof categoria !== "undefined" ? categoria : null;
+const _tamVisual = typeof tamanho !== "undefined" ? tamanho : 20;
+%>
+<% if(_catVisual && _catVisual.imagem){ %>
+
+    <img
+        src="<%= urlImagem(_catVisual.imagem) %>"
+        alt="<%= _catVisual.nome || '' %>"
+        class="categoria-visual-img"
+        style="width:<%= _tamVisual %>px;height:<%= _tamVisual %>px;">
+
+<% } else { %>
+
+    <i
+        class="categoria-visual-icone <%= (_catVisual && _catVisual.icone) ? _catVisual.icone : 'ri-folder-2-line' %>"
+        style="font-size:<%= _tamVisual %>px;"></i>
+
+<% } %>

@@ -100,11 +100,11 @@
 
                         <div class="avaliacao-grupo-topo">
                             <h3><%= grupo.nome %></h3>
-                            <span class="avaliacao-nota-numero"><%= grupo.nota %></span>
+                            <span class="avaliacao-nota-numero"><%= grupo.nota %><span>/4</span></span>
                         </div>
 
                         <div class="avaliacao-barra">
-                            <div class="avaliacao-barra-preenchida" style="width:<%= grupo.nota * 10 %>%;"></div>
+                            <div class="avaliacao-barra-preenchida" style="width:<%= grupo.nota * 25 %>%;"></div>
                         </div>
 
                         <ul class="avaliacao-criterios">
@@ -114,10 +114,10 @@
                                 <li>
                                     <div class="avaliacao-criterio-linha">
                                         <span><%= c.nome %></span>
-                                        <span class="avaliacao-criterio-nota"><%= c.nota %></span>
+                                        <span class="avaliacao-criterio-nota"><%= c.nota %><span class="avaliacao-criterio-escala">/4</span></span>
                                     </div>
                                     <div class="avaliacao-barra pequena">
-                                        <div class="avaliacao-barra-preenchida" style="width:<%= c.nota * 10 %>%;"></div>
+                                        <div class="avaliacao-barra-preenchida" style="width:<%= c.nota * 25 %>%;"></div>
                                     </div>
                                 </li>
 

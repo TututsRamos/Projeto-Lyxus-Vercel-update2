@@ -32,11 +32,36 @@ document.addEventListener("click",(evento)=>{
 
         Tawk_API.maximize();
 
+        return;
+
     }
 
-    // Se o widget do tawk.to ainda não carregou (ex: sem
-    // config no dashboard), deixa o link seguir normalmente
-    // pra página /suporte, que continua existindo como fallback.
+    // Widget ainda não carregado (ex: visitante não decidiu sobre
+    // cookies ainda). Clicar em "Suporte" já é o próprio visitante
+    // pedindo pra falar com alguém, então carregamos o tawk.to agora
+    // e maximizamos assim que ele terminar de carregar, em vez de só
+    // deixar a página estática de contato abrir.
+    if(typeof window.iniciarTawk === "function"){
+
+        evento.preventDefault();
+
+        window.iniciarTawk(function(){
+
+            if(window.Tawk_API && typeof Tawk_API.maximize === "function"){
+
+                Tawk_API.maximize();
+
+            }
+
+        });
+
+        return;
+
+    }
+
+    // Se nem isso existir (tawk.to não configurado no dashboard), o
+    // link segue normalmente pra página /suporte, que continua
+    // existindo como fallback com e-mail, WhatsApp e formulário.
 
 });
 

@@ -11,13 +11,19 @@ const blogController = {
 
         try{
 
-            const posts = await Post.find({ publicado:true })
-                .populate("categoria")
-                .populate("autor")
-                .sort({ createdAt:-1 });
+            // posts e categorias não dependem um do outro — buscamos
+            // os dois em paralelo em vez de um esperar o outro.
+            const [posts, categorias] = await Promise.all([
 
-            const categorias = await Categoria.find({ ativo:true })
-                .sort({ nome:1 });
+                Post.find({ publicado:true })
+                    .populate("categoria")
+                    .populate("autor")
+                    .sort({ createdAt:-1 }),
+
+                Categoria.find({ ativo:true })
+                    .sort({ nome:1 })
+
+            ]);
 
             res.render("blog/lista", {
                 posts,
@@ -96,16 +102,22 @@ const blogController = {
 
             }
 
-            const posts = await Post.find({
-                categoria: categoria._id,
-                publicado:true
-            })
-                .populate("categoria")
-                .populate("autor")
-                .sort({ createdAt:-1 });
+            // posts (dessa categoria) e a lista completa de categorias
+            // (pro menu) não dependem uma da outra — em paralelo.
+            const [posts, categorias] = await Promise.all([
 
-            const categorias = await Categoria.find({ ativo:true })
-                .sort({ nome:1 });
+                Post.find({
+                    categoria: categoria._id,
+                    publicado:true
+                })
+                    .populate("categoria")
+                    .populate("autor")
+                    .sort({ createdAt:-1 }),
+
+                Categoria.find({ ativo:true })
+                    .sort({ nome:1 })
+
+            ]);
 
             res.render("blog/categoria", {
                 posts,
@@ -142,13 +154,19 @@ const blogController = {
                 }
                 : { publicado:true };
 
-            const posts = await Post.find(filtro)
-                .populate("categoria")
-                .populate("autor")
-                .sort({ createdAt:-1 });
+            // posts (filtrados pela busca) e a lista de categorias (pro
+            // menu) não dependem uma da outra — em paralelo.
+            const [posts, categorias] = await Promise.all([
 
-            const categorias = await Categoria.find({ ativo:true })
-                .sort({ nome:1 });
+                Post.find(filtro)
+                    .populate("categoria")
+                    .populate("autor")
+                    .sort({ createdAt:-1 }),
+
+                Categoria.find({ ativo:true })
+                    .sort({ nome:1 })
+
+            ]);
 
             res.render("blog/pesquisa", {
                 posts,

@@ -92,6 +92,27 @@
 
     margin-bottom:2px;
 
+    gap:8px;
+
+}
+
+.feedback-filtros-area .feedback-filtro{
+
+    padding:7px 14px;
+
+    font-size:.8rem;
+
+}
+
+/* Se mesmo com o ajuste acima ainda não couber tudo numa linha só
+   (telas menores), o JS detecta a quebra e adiciona esta classe:
+   "Todas as áreas" vira sozinho a primeira linha, e as demais
+   áreas quebram normalmente entre si na(s) linha(s) de baixo. */
+
+.feedback-filtros-area.filtro-area-quebrado [data-feedback-area="todas"]{
+
+    flex:1 1 100%;
+
 }
 
 .feedback-filtros:not(.feedback-filtros-area){

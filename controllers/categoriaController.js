@@ -1,5 +1,6 @@
 import Categoria from "../models/Categoria.js";
 import slug from "../utils/slug.js";
+import imagemParaBase64 from "../utils/imagemBase64.js";
 
 const categoriaController = {
 
@@ -72,7 +73,9 @@ const categoriaController = {
 
                 cor,
 
-                icone
+                icone,
+
+                imagem:req.file ? imagemParaBase64(req.file) : ""
 
             });
 
@@ -134,29 +137,45 @@ const categoriaController = {
                 descricao,
                 cor,
                 icone,
-                ativo
+                ativo,
+                removerImagem
 
             }=req.body;
+
+            const dados = {
+
+                nome,
+
+                slug:slug(nome),
+
+                descricao,
+
+                cor,
+
+                icone,
+
+                ativo:ativo==="true"
+
+            };
+
+            // Se veio um arquivo novo, ele substitui a imagem atual.
+            // Se não veio arquivo mas o usuário marcou "remover imagem",
+            // a categoria volta a exibir o ícone Remix Icon no lugar.
+            if(req.file){
+
+                dados.imagem = imagemParaBase64(req.file);
+
+            }else if(removerImagem === "true"){
+
+                dados.imagem = "";
+
+            }
 
             await Categoria.findByIdAndUpdate(
 
                 req.params.id,
 
-                {
-
-                    nome,
-
-                    slug:slug(nome),
-
-                    descricao,
-
-                    cor,
-
-                    icone,
-
-                    ativo:ativo==="true"
-
-                }
+                dados
 
             );
 

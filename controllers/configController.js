@@ -1,5 +1,6 @@
 import Configuracao from "../models/Configuracao.js";
 import imagemParaBase64 from "../utils/imagemBase64.js";
+import { obterConfiguracao, invalidarConfiguracao } from "../utils/cache.js";
 
 const configController = {
 
@@ -11,15 +12,7 @@ const configController = {
 
         try{
 
-            let configuracao = await Configuracao.findOne();
-
-            if(!configuracao){
-
-                configuracao = await Configuracao.create({
-                    empresa:"principal"
-                });
-
-            }
+            const configuracao = await obterConfiguracao();
 
             res.render("dashboard/configuracoes/index",{
 
@@ -104,6 +97,11 @@ const configController = {
             }
 
             await configuracao.save();
+
+            // Invalida o cache (utils/cache.js) pra próxima requisição
+            // já vir com os dados novos, em vez de esperar o TTL de
+            // 1 minuto expirar sozinho.
+            invalidarConfiguracao();
 
             res.redirect("/dashboard/configuracoes");
 

@@ -8,10 +8,15 @@ const painelController = {
 
         try{
 
-            const usuario = await Usuario.findById(req.session.usuario.id);
+            // As 3 consultas abaixo são independentes — rodam em
+            // paralelo em vez de uma esperar a outra terminar.
+            const [usuario, totalPropostas, totalPedidos] = await Promise.all([
 
-            const totalPropostas = await Proposta.countDocuments({ usuario: req.session.usuario.id });
-            const totalPedidos = await Pagamento.countDocuments({ usuario: req.session.usuario.id });
+                Usuario.findById(req.session.usuario.id),
+                Proposta.countDocuments({ usuario: req.session.usuario.id }),
+                Pagamento.countDocuments({ usuario: req.session.usuario.id })
+
+            ]);
 
             res.render("painel/index", {
                 dono: usuario,

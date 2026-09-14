@@ -4,16 +4,43 @@ import CodigoAcesso from "../models/CodigoAcesso.js";
 import SolicitacaoUsuario from "../models/SolicitacaoUsuario.js";
 import Log from "../models/Log.js";
 import EmpresaAvaliada from "../models/EmpresaAvaliada.js";
+import AvaliacaoBadge from "../models/AvaliacaoBadge.js";
+import AvaliacaoEvidencia from "../models/AvaliacaoEvidencia.js";
 import PropostaComunidade from "../models/PropostaComunidade.js";
+import Contato from "../models/Contato.js";
 import registrarLog from "../utils/registrarLog.js";
 import hashSenha from "../utils/hashSenha.js";
 import { CATEGORIAS, RUBRICA, notaGeral } from "../utils/avaliacaoLyxus.js";
 import imagemParaBase64 from "../utils/imagemBase64.js";
 
+// Nome de exibição de cada "tipo" de Contato — usado no console de
+// solicitações (Trabalhe Conosco, Torne-se Parceiro, Suporte,
+// Proposta da Comunidade e Torne-se Apoiador caem todos no mesmo
+// model, diferenciados só por esse campo).
+const NOMES_TIPO_CONTATO = {
+    "trabalhe-conosco": "Trabalhe Conosco",
+    "parceiro": "Torne-se Parceiro",
+    "suporte": "Suporte",
+    "comunidade": "Proposta da Comunidade",
+    "apoiador": "Torne-se Apoiador"
+};
+
 function gerarCodigoAleatorio(){
 
     return Math.random().toString(36).slice(2, 8).toUpperCase() +
            Math.random().toString(36).slice(2, 6).toUpperCase();
+
+}
+
+// Um <input type="checkbox" name="badges"> repetido chega no
+// req.body como string única (se só um marcado) ou array (se
+// vários) — e undefined se nenhum. Normaliza pra sempre virar
+// uma lista de ids.
+function normalizarListaIds(valor){
+
+    if(!valor) return [];
+
+    return Array.isArray(valor) ? valor : [valor];
 
 }
 
@@ -452,6 +479,127 @@ const adminConsoleController = {
     },
 
     // ==========================================================
+    // SOLICITAÇÕES DE CONTATO (Trabalhe Conosco, Torne-se Parceiro,
+    // Suporte, Proposta da Comunidade e Torne-se Apoiador — todos
+    // caem no model Contato, diferenciados pelo campo "tipo")
+    // ==========================================================
+
+    async contatosConsole(req, res){
+
+        try{
+
+            const tipoFiltro = req.query.tipo || "";
+
+            const filtro = tipoFiltro && NOMES_TIPO_CONTATO[tipoFiltro]
+                ? { tipo: tipoFiltro }
+                : {};
+
+            const contatos = await Contato.find(filtro)
+                .sort({ createdAt:-1 })
+                .lean();
+
+            // Contagem por área, pra montar as abas de filtro com o
+            // total de cada uma (independente do filtro aplicado).
+            const todos = await Contato.find().select("tipo status").lean();
+
+            const contagemPorTipo = {};
+
+            Object.keys(NOMES_TIPO_CONTATO).forEach(tipo => {
+                contagemPorTipo[tipo] = todos.filter(c => c.tipo === tipo).length;
+            });
+
+            const pendentes = todos.filter(c => c.status === "novo").length;
+
+            res.render("dashboard/console/contatos", {
+
+                contatos,
+                nomesTipo: NOMES_TIPO_CONTATO,
+                tipoFiltro,
+                contagemPorTipo,
+                totalGeral: todos.length,
+                pendentes
+
+            });
+
+        }catch(err){
+
+            console.error(err);
+            res.status(500).render("erro/500");
+
+        }
+
+    },
+
+    async contatoDetalhe(req, res){
+
+        try{
+
+            const contato = await Contato.findById(req.params.id).lean();
+
+            if(!contato){
+
+                return res.status(404).render("erro/404");
+
+            }
+
+            res.render("dashboard/console/contato-detalhe", {
+
+                contato,
+                nomeTipo: NOMES_TIPO_CONTATO[contato.tipo] || contato.tipo
+
+            });
+
+        }catch(err){
+
+            console.error(err);
+            res.status(500).render("erro/500");
+
+        }
+
+    },
+
+    // Edição: por enquanto só o status é editável (novo / em-andamento
+    // / concluído), que é o que a equipe realmente precisa mudar ao
+    // acompanhar uma solicitação.
+    async contatoAtualizarStatus(req, res){
+
+        try{
+
+            const contato = await Contato.findById(req.params.id);
+
+            if(!contato){
+
+                return res.status(404).render("erro/404");
+
+            }
+
+            const statusValidos = ["novo","em-andamento","concluido"];
+
+            if(statusValidos.includes(req.body.status)){
+
+                contato.status = req.body.status;
+                await contato.save();
+
+                await registrarLog(
+                    "contato_atualizado",
+                    req.session.usuario.id,
+                    `Atualizou o status da solicitação de ${NOMES_TIPO_CONTATO[contato.tipo] || contato.tipo} de "${contato.nome}" para "${contato.status}"`
+                );
+
+            }
+
+            res.redirect(`/dashboard/console/contatos/${contato._id}`);
+
+        }catch(err){
+
+            console.error(err);
+            res.status(500).render("erro/500");
+
+        }
+
+    },
+
+    // ==========================================================
     // CÓDIGOS DE ACESSO
     // ==========================================================
 
@@ -575,13 +723,17 @@ const adminConsoleController = {
     // ÁREA DE PESQUISA E AVALIAÇÃO LYXUS (Pique Michelan)
     // Cadastro exclusivo do master — o site público /avaliacao
     // começa vazio e só exibe o que for cadastrado aqui.
+    //
+    // v2: notas em escala 1-4, selo/em-alta/destaque manuais,
+    // atribuição manual de badges (catálogo em AvaliacaoBadge) e
+    // evidências por categoria/critério (AvaliacaoEvidencia).
     // ==========================================================
 
     async avaliacoesConsole(req, res){
 
         try{
 
-            const empresas = await EmpresaAvaliada.find().sort({ createdAt:-1 }).lean();
+            const empresas = await EmpresaAvaliada.find().sort({ ordem:1, createdAt:-1 }).lean();
 
             const comNota = empresas.map(e => ({ empresa:e, nota:notaGeral(e) }));
 
@@ -596,17 +748,29 @@ const adminConsoleController = {
 
     },
 
-    avaliacaoNovaTela(req, res){
+    async avaliacaoNovaTela(req, res){
 
-        res.render("dashboard/console/avaliacao-form",{
+        try{
 
-            modo:"novo",
-            erro:null,
-            dados:{},
-            categorias:CATEGORIAS,
-            rubrica:RUBRICA
+            const badgesDisponiveis = await AvaliacaoBadge.find().sort({ ordem:1, rotulo:1 }).lean();
 
-        });
+            res.render("dashboard/console/avaliacao-form",{
+
+                modo:"novo",
+                erro:null,
+                dados:{},
+                categorias:CATEGORIAS,
+                rubrica:RUBRICA,
+                badgesDisponiveis
+
+            });
+
+        }catch(err){
+
+            console.error(err);
+            res.status(500).render("erro/500");
+
+        }
 
     },
 
@@ -614,7 +778,9 @@ const adminConsoleController = {
 
         try{
 
-            const { nome, categoria, localizacao, googleRating, googleReviews, descricao, notas, ativo } = req.body;
+            const { nome, categoria, localizacao, googleRating, googleReviews, descricao, notas, ativo, seloManual, emAlta, destaqueManual, ordem } = req.body;
+
+            const badgesDisponiveis = await AvaliacaoBadge.find().sort({ ordem:1, rotulo:1 }).lean();
 
             if(!nome || !categoria){
 
@@ -623,7 +789,8 @@ const adminConsoleController = {
                     erro:"Preencha ao menos nome e categoria.",
                     dados:req.body,
                     categorias:CATEGORIAS,
-                    rubrica:RUBRICA
+                    rubrica:RUBRICA,
+                    badgesDisponiveis
                 });
 
             }
@@ -632,7 +799,7 @@ const adminConsoleController = {
 
             Object.entries(notas || {}).forEach(([chave, valor]) => {
                 const n = Number(valor);
-                if(n) notasLimpa[chave] = Math.max(1, Math.min(10, Math.round(n)));
+                if(n) notasLimpa[chave] = Math.max(1, Math.min(4, Math.round(n)));
             });
 
             const empresa = await EmpresaAvaliada.create({
@@ -644,6 +811,11 @@ const adminConsoleController = {
                 googleReviews: Number(googleReviews) || 0,
                 descricao: descricao || "",
                 notas: notasLimpa,
+                badges: normalizarListaIds(req.body.badges),
+                seloManual: seloManual === "on" || seloManual === "true",
+                emAlta: emAlta === "on" || emAlta === "true",
+                destaqueManual: destaqueManual === "on" || destaqueManual === "true",
+                ordem: Number.isFinite(Number(ordem)) ? Number(ordem) : 999,
                 ativo: ativo === "on" || ativo === "true",
                 criadoPor: req.session.usuario.id
 
@@ -678,13 +850,16 @@ const adminConsoleController = {
 
             }
 
+            const badgesDisponiveis = await AvaliacaoBadge.find().sort({ ordem:1, rotulo:1 }).lean();
+
             res.render("dashboard/console/avaliacao-form",{
 
                 modo:"editar",
                 erro:null,
                 dados:empresa,
                 categorias:CATEGORIAS,
-                rubrica:RUBRICA
+                rubrica:RUBRICA,
+                badgesDisponiveis
 
             });
 
@@ -709,13 +884,13 @@ const adminConsoleController = {
 
             }
 
-            const { nome, categoria, localizacao, googleRating, googleReviews, descricao, notas, ativo } = req.body;
+            const { nome, categoria, localizacao, googleRating, googleReviews, descricao, notas, ativo, seloManual, emAlta, destaqueManual, ordem } = req.body;
 
             const notasLimpa = {};
 
             Object.entries(notas || {}).forEach(([chave, valor]) => {
                 const n = Number(valor);
-                if(n) notasLimpa[chave] = Math.max(1, Math.min(10, Math.round(n)));
+                if(n) notasLimpa[chave] = Math.max(1, Math.min(4, Math.round(n)));
             });
 
             empresa.nome = nome || empresa.nome;
@@ -725,6 +900,11 @@ const adminConsoleController = {
             empresa.googleReviews = Number(googleReviews) || 0;
             empresa.descricao = descricao || "";
             empresa.notas = notasLimpa;
+            empresa.badges = normalizarListaIds(req.body.badges);
+            empresa.seloManual = seloManual === "on" || seloManual === "true";
+            empresa.emAlta = emAlta === "on" || emAlta === "true";
+            empresa.destaqueManual = destaqueManual === "on" || destaqueManual === "true";
+            empresa.ordem = Number.isFinite(Number(ordem)) ? Number(ordem) : empresa.ordem;
             empresa.ativo = ativo === "on" || ativo === "true";
 
             await empresa.save();
@@ -754,6 +934,8 @@ const adminConsoleController = {
 
             if(empresa){
 
+                await AvaliacaoEvidencia.deleteMany({ empresa: empresa._id });
+
                 await registrarLog(
                     "avaliacao_excluida",
                     req.session.usuario.id,
@@ -772,6 +954,284 @@ const adminConsoleController = {
         }
 
     },
+
+    // ---------------- Catálogo de badges (mérito/alerta) ----------------
+
+    async avaliacaoBadgesConsole(req, res){
+
+        try{
+
+            const badges = await AvaliacaoBadge.find().sort({ ordem:1, rotulo:1 }).lean();
+
+            res.render("dashboard/console/avaliacao-badges", { badges, erro:null });
+
+        }catch(err){
+
+            console.error(err);
+            res.status(500).render("erro/500");
+
+        }
+
+    },
+
+    async avaliacaoBadgeCriar(req, res){
+
+        try{
+
+            const { rotulo, descricao, tipo, ordem } = req.body;
+
+            if(!rotulo || !rotulo.trim()){
+
+                const badges = await AvaliacaoBadge.find().sort({ ordem:1, rotulo:1 }).lean();
+                return res.render("dashboard/console/avaliacao-badges", { badges, erro:"Preencha o nome da badge." });
+
+            }
+
+            await AvaliacaoBadge.create({
+
+                rotulo: rotulo.trim(),
+                descricao: (descricao || "").trim(),
+                tipo: tipo === "alerta" ? "alerta" : "merito",
+                ordem: Number(ordem) || 0
+
+            });
+
+            await registrarLog(
+                "avaliacao_badge_criada",
+                req.session.usuario.id,
+                `Cadastrou a badge "${rotulo.trim()}" na área de pesquisa e avaliação`
+            );
+
+            res.redirect("/dashboard/console/avaliacoes/badges");
+
+        }catch(err){
+
+            console.error(err);
+
+            if(err.code === 11000){
+                const badges = await AvaliacaoBadge.find().sort({ ordem:1, rotulo:1 }).lean();
+                return res.render("dashboard/console/avaliacao-badges", { badges, erro:"Já existe uma badge com esse nome." });
+            }
+
+            res.status(500).render("erro/500");
+
+        }
+
+    },
+
+    async avaliacaoBadgeAtualizar(req, res){
+
+        try{
+
+            const { rotulo, descricao, tipo, ordem } = req.body;
+
+            const badge = await AvaliacaoBadge.findById(req.params.id);
+
+            if(badge){
+
+                badge.rotulo = rotulo && rotulo.trim() ? rotulo.trim() : badge.rotulo;
+                badge.descricao = (descricao || "").trim();
+                badge.tipo = tipo === "alerta" ? "alerta" : "merito";
+                badge.ordem = Number(ordem) || 0;
+
+                await badge.save();
+
+                await registrarLog(
+                    "avaliacao_badge_editada",
+                    req.session.usuario.id,
+                    `Editou a badge "${badge.rotulo}"`
+                );
+
+            }
+
+            res.redirect("/dashboard/console/avaliacoes/badges");
+
+        }catch(err){
+
+            console.error(err);
+            res.status(500).render("erro/500");
+
+        }
+
+    },
+
+    async avaliacaoBadgeExcluir(req, res){
+
+        try{
+
+            const badge = await AvaliacaoBadge.findByIdAndDelete(req.params.id);
+
+            if(badge){
+
+                // Remove a badge de qualquer empresa que a tinha atribuída.
+                await EmpresaAvaliada.updateMany(
+                    { badges: badge._id },
+                    { $pull:{ badges: badge._id } }
+                );
+
+                await registrarLog(
+                    "avaliacao_badge_excluida",
+                    req.session.usuario.id,
+                    `Excluiu a badge "${badge.rotulo}"`
+                );
+
+            }
+
+            res.redirect("/dashboard/console/avaliacoes/badges");
+
+        }catch(err){
+
+            console.error(err);
+            res.status(500).render("erro/500");
+
+        }
+
+    },
+
+    // ---------------- Evidências (provas) por empresa ----------------
+
+    async avaliacaoEvidenciasTela(req, res){
+
+        try{
+
+            const empresa = await EmpresaAvaliada.findById(req.params.id).lean();
+
+            if(!empresa){
+
+                return res.status(404).render("erro/404");
+
+            }
+
+            const evidencias = await AvaliacaoEvidencia
+                .find({ empresa: empresa._id })
+                .sort({ capturadoEm:-1 })
+                .lean();
+
+            // Agrupa por chave (nome da categoria ou do critério) só
+            // pra facilitar a exibição — cada grupo da rubrica junto
+            // com as evidências de categoria e de cada critério dele.
+            const grupos = RUBRICA.map(grupo => ({
+
+                nome: grupo.categoria,
+                evidenciasCategoria: evidencias.filter(e => e.escopo === "categoria" && e.chave === grupo.categoria),
+                criterios: grupo.criterios.map(c => ({
+                    nome: c,
+                    evidencias: evidencias.filter(e => e.escopo === "criterio" && e.chave === c)
+                }))
+
+            }));
+
+            res.render("dashboard/console/avaliacao-evidencias",{
+
+                empresa,
+                grupos,
+                erro: null
+
+            });
+
+        }catch(err){
+
+            console.error(err);
+            res.status(500).render("erro/500");
+
+        }
+
+    },
+
+    async avaliacaoEvidenciaCriar(req, res){
+
+        try{
+
+            const empresa = await EmpresaAvaliada.findById(req.params.id).lean();
+
+            if(!empresa){
+
+                return res.status(404).render("erro/404");
+
+            }
+
+            const { chave, url, ferramenta, capturadoEm, observacao } = req.body;
+
+            const escopo = RUBRICA.some(g => g.categoria === chave) ? "categoria" : "criterio";
+
+            const arquivo = imagemParaBase64(req.file);
+
+            if(!arquivo && !(url || "").trim()){
+
+                const evidencias = await AvaliacaoEvidencia.find({ empresa: empresa._id }).sort({ capturadoEm:-1 }).lean();
+                const grupos = RUBRICA.map(grupo => ({
+                    nome: grupo.categoria,
+                    evidenciasCategoria: evidencias.filter(e => e.escopo === "categoria" && e.chave === grupo.categoria),
+                    criterios: grupo.criterios.map(c => ({
+                        nome: c,
+                        evidencias: evidencias.filter(e => e.escopo === "criterio" && e.chave === c)
+                    }))
+                }));
+
+                return res.render("dashboard/console/avaliacao-evidencias", {
+                    empresa, grupos, erro:"Anexe um print ou informe um link para a evidência."
+                });
+
+            }
+
+            await AvaliacaoEvidencia.create({
+
+                empresa: empresa._id,
+                escopo,
+                chave,
+                arquivo,
+                url: (url || "").trim(),
+                ferramenta: (ferramenta || "").trim(),
+                capturadoEm: capturadoEm ? new Date(`${capturadoEm}T00:00:00`) : new Date(),
+                observacao: (observacao || "").trim(),
+                criadoPor: req.session.usuario.id
+
+            });
+
+            await registrarLog(
+                "avaliacao_evidencia_criada",
+                req.session.usuario.id,
+                `Anexou uma evidência em "${chave}" para a empresa "${empresa.nome}"`
+            );
+
+            res.redirect(`/dashboard/console/avaliacoes/${empresa._id}/evidencias`);
+
+        }catch(err){
+
+            console.error(err);
+            res.status(500).render("erro/500");
+
+        }
+
+    },
+
+    async avaliacaoEvidenciaExcluir(req, res){
+
+        try{
+
+            const evidencia = await AvaliacaoEvidencia.findByIdAndDelete(req.params.evidenciaId);
+
+            if(evidencia){
+
+                await registrarLog(
+                    "avaliacao_evidencia_excluida",
+                    req.session.usuario.id,
+                    `Removeu uma evidência de "${evidencia.chave}"`
+                );
+
+            }
+
+            res.redirect(`/dashboard/console/avaliacoes/${req.params.id}/evidencias`);
+
+        }catch(err){
+
+            console.error(err);
+            res.status(500).render("erro/500");
+
+        }
+
+    },
+
 
     // ==========================================================
     // ABA DE PROPOSTAS À COMUNIDADE

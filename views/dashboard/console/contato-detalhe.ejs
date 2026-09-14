@@ -1,0 +1,114 @@
+<%- include("../../partials/head", {
+    titulo: "Solicitação de Contato • Console Admin",
+    css: "dashboard"
+}) %>
+
+<div class="dash-layout">
+
+    <%- include("../../partials/sidebar", { atual: "console-contatos" }) %>
+
+    <main class="dash-main">
+
+        <header class="dash-header">
+
+            <div>
+                <h1><%= nomeTipo %></h1>
+                <p>Solicitação enviada em <%= new Date(contato.createdAt).toLocaleString("pt-BR") %>.</p>
+            </div>
+
+            <div class="dash-header-acoes">
+                <a href="/dashboard/console/contatos" class="btn-secundario-dash">
+                    <i class="ri-arrow-left-line"></i> Voltar
+                </a>
+            </div>
+
+        </header>
+
+        <div class="painel" style="max-width:720px;">
+
+            <div class="painel-titulo">
+                <h2>Dados enviados</h2>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:14px;">
+
+                <div>
+                    <strong>Nome</strong>
+                    <p style="margin:2px 0 0;"><%= contato.nome %></p>
+                </div>
+
+                <div>
+                    <strong>E-mail</strong>
+                    <p style="margin:2px 0 0;"><a href="mailto:<%= contato.email %>" class="link-destaque"><%= contato.email %></a></p>
+                </div>
+
+                <% if(contato.telefone){ %>
+                    <div>
+                        <strong>Telefone</strong>
+                        <p style="margin:2px 0 0;"><%= contato.telefone %></p>
+                    </div>
+                <% } %>
+
+                <% if(contato.mensagem){ %>
+                    <div>
+                        <strong>Mensagem</strong>
+                        <p style="margin:2px 0 0;white-space:pre-wrap;"><%= contato.mensagem %></p>
+                    </div>
+                <% } %>
+
+                <% if(contato.detalhes && Object.keys(contato.detalhes).length){ %>
+
+                    <div>
+                        <strong>Outras informações</strong>
+
+                        <ul style="margin:6px 0 0;padding-left:18px;">
+
+                            <% Object.keys(contato.detalhes).forEach(chave => { %>
+
+                                <li><%= chave %>: <%= typeof contato.detalhes[chave] === "object" ? JSON.stringify(contato.detalhes[chave]) : contato.detalhes[chave] %></li>
+
+                            <% }) %>
+
+                        </ul>
+
+                    </div>
+
+                <% } %>
+
+            </div>
+
+        </div>
+
+        <div class="painel" style="max-width:720px;">
+
+            <div class="painel-titulo">
+                <h2>Andamento</h2>
+            </div>
+
+            <form method="POST" action="/dashboard/console/contatos/<%= contato._id %>" class="form-dashboard">
+
+                <div class="campo">
+
+                    <label for="status">Status da solicitação</label>
+
+                    <select id="status" name="status">
+                        <option value="novo" <%= contato.status === "novo" ? "selected" : "" %>>Novo</option>
+                        <option value="em-andamento" <%= contato.status === "em-andamento" ? "selected" : "" %>>Em andamento</option>
+                        <option value="concluido" <%= contato.status === "concluido" ? "selected" : "" %>>Concluído</option>
+                    </select>
+
+                </div>
+
+                <div class="form-dashboard-acoes">
+                    <button type="submit" class="btn">Salvar</button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+<%- include("../../partials/scripts", { js: "dashboard" }) %>

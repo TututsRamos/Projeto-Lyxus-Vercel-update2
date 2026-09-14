@@ -32,6 +32,14 @@ const categoriaSchema = new mongoose.Schema({
         default: ""
     },
 
+    // Imagem enviada pelo usuário (Data URI base64, mesmo padrão de
+    // Post/Pacote — ver utils/imagemBase64.js). Quando preenchida,
+    // tem prioridade sobre "icone" na exibição da categoria.
+    imagem: {
+        type: String,
+        default: ""
+    },
+
     ativo: {
         type: Boolean,
         default: true
@@ -40,5 +48,8 @@ const categoriaSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
+
+// O blog e o menu de categorias sempre filtram por "ativo".
+categoriaSchema.index({ ativo:1 });
 
 export default mongoose.model("Categoria", categoriaSchema);

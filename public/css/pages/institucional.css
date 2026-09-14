@@ -493,6 +493,27 @@ main.bg-apoiadores .inst-secao.claro{
 
 }
 
+/* Link dentro do card (ex: "Veja as perguntas frequentes" no card
+   de FAQ da página de Suporte) — sem isso, ficava com a cor padrão
+   de link do navegador, ilegível em cima do fundo do card nos temas
+   escuros. */
+
+.inst-card p a{
+
+    color:var(--secundaria);
+
+    font-weight:600;
+
+}
+
+.inst-card p a:hover{
+
+    color:var(--secundaria-hover);
+
+    text-decoration:underline;
+
+}
+
 /* ===== Equipe ===== */
 
 .equipe-grid{

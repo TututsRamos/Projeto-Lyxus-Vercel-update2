@@ -120,15 +120,44 @@
 
 </footer>
 
+<%- include("cookiesBanner") %>
+
 <%- include("contaDrawer") %>
 
 <% if(typeof config !== "undefined" && config && config.tawkPropertyId && config.tawkWidgetId){ %>
 
-    <!-- Chat de suporte (tawk.to) — configurado em dashboard/configuracoes -->
+    <!-- Chat de suporte (tawk.to) — configurado em dashboard/configuracoes.
+         window.iniciarTawk() carrega o script sob demanda e é reaproveitada
+         de dois jeitos:
+         1) Chamada automaticamente aqui embaixo só depois que o visitante
+            ACEITA cookies no banner (mesma regra do Google Analytics em
+            head.ejs), pro widget aparecer sozinho no canto da tela.
+         2) Chamada também pelo clique em "Suporte" (data-abrir-tawk, em
+            public/js/navbar.js) mesmo sem esse consentimento geral —
+            nesse caso é o próprio visitante pedindo explicitamente pra
+            falar com o suporte, então carregamos na hora pra já abrir
+            a conversa, sem obrigar ele a passar pela página estática. -->
     <script type="text/javascript">
         var Tawk_API = Tawk_API || {};
         var Tawk_LoadStart = new Date();
-        (function(){
+
+        window.iniciarTawk = function(aoCarregar){
+
+            if(window.Tawk_API && window.Tawk_API._lyxusCarregado){
+                if(typeof aoCarregar === "function") aoCarregar();
+                return;
+            }
+
+            Tawk_API._lyxusCarregado = true;
+
+            if(typeof aoCarregar === "function"){
+                var onLoadAnterior = Tawk_API.onLoad;
+                Tawk_API.onLoad = function(){
+                    if(typeof onLoadAnterior === "function") onLoadAnterior();
+                    aoCarregar();
+                };
+            }
+
             var s1 = document.createElement("script");
             var s0 = document.getElementsByTagName("script")[0];
             s1.async = true;
@@ -136,7 +165,12 @@
             s1.charset = "UTF-8";
             s1.setAttribute("crossorigin", "*");
             s0.parentNode.insertBefore(s1, s0);
-        })();
+
+        };
+
+        <% if(typeof cookieConsent !== "undefined" && cookieConsent === "aceito"){ %>
+            window.iniciarTawk();
+        <% } %>
     </script>
 
 <% } %>

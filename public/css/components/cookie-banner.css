@@ -1,0 +1,147 @@
+    /* ============================================================
+   Banner de consentimento de cookies (Aceitar / Recusar)
+   ============================================================ */
+
+.cookie-banner{
+
+    position:fixed;
+
+    left:20px;
+
+    right:20px;
+
+    bottom:20px;
+
+    z-index:3000;
+
+    max-width:920px;
+
+    margin:0 auto;
+
+    background:var(--surface);
+
+    border:1px solid var(--borda);
+
+    border-radius:var(--radius);
+
+    box-shadow:var(--shadow);
+
+    padding:22px 26px;
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    align-items:center;
+
+    gap:18px;
+
+    justify-content:space-between;
+
+    animation:cookieBannerEntrar .4s ease;
+
+}
+
+@keyframes cookieBannerEntrar{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(16px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+.cookie-banner-texto{
+
+    flex:1 1 420px;
+
+}
+
+.cookie-banner-texto p{
+
+    margin:0;
+
+    color:var(--texto);
+
+    font-size:.88rem;
+
+    line-height:1.6;
+
+}
+
+.cookie-banner-texto a{
+
+    color:var(--secundaria);
+
+    font-weight:600;
+
+    text-decoration:underline;
+
+}
+
+.cookie-banner-acoes{
+
+    display:flex;
+
+    gap:12px;
+
+    flex-shrink:0;
+
+}
+
+.cookie-banner-acoes .btn,
+.cookie-banner-acoes .btn-outline{
+
+    padding:11px 22px;
+
+    font-size:.88rem;
+
+    white-space:nowrap;
+
+}
+
+@media (max-width:640px){
+
+    .cookie-banner{
+
+        left:12px;
+
+        right:12px;
+
+        bottom:12px;
+
+        padding:18px;
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .cookie-banner-acoes{
+
+        justify-content:stretch;
+
+    }
+
+    .cookie-banner-acoes .btn,
+    .cookie-banner-acoes .btn-outline{
+
+        flex:1;
+
+        text-align:center;
+
+    }
+
+}

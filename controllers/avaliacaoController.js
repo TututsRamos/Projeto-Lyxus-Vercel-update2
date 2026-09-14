@@ -1,5 +1,15 @@
 import EmpresaAvaliada from "../models/EmpresaAvaliada.js";
-import { CATEGORIAS, RUBRICA, notaGeral, notaGrupo, temSeloQualidade, destaques, badges } from "../utils/avaliacaoLyxus.js";
+import AvaliacaoBadge from "../models/AvaliacaoBadge.js";
+import {
+    CATEGORIAS,
+    RUBRICA,
+    notaGeral,
+    notaCategoria,
+    notaCriterio,
+    temSeloQualidade,
+    destaques,
+    badgesDaEmpresa
+} from "../utils/avaliacaoLyxus.js";
 
 const avaliacaoController = {
 
@@ -82,13 +92,15 @@ const avaliacaoController = {
 
             }
 
+            const catalogoBadges = await AvaliacaoBadge.find().sort({ ordem:1, rotulo:1 }).lean();
+
             const grupos = RUBRICA.map(grupo => ({
 
                 nome: grupo.categoria,
-                nota: notaGrupo(empresa, grupo.categoria),
+                nota: notaCategoria(empresa, grupo.categoria),
                 criterios: grupo.criterios.map(c => ({
                     nome: c,
-                    nota: Number((empresa.notas || {})[c]) || 0
+                    nota: notaCriterio(empresa, c)
                 }))
 
             }));
@@ -99,7 +111,7 @@ const avaliacaoController = {
                 nota: notaGeral(empresa),
                 selo: temSeloQualidade(empresa),
                 grupos,
-                badgesEmpresa: badges(empresa)
+                badgesEmpresa: badgesDaEmpresa(empresa, catalogoBadges)
 
             });
 

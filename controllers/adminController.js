@@ -11,31 +11,50 @@ const adminController = {
 
         try{
 
-            const totalPosts = await Post.countDocuments();
+            // As 8 consultas abaixo são independentes entre si (nenhuma
+            // usa o resultado da outra), mas estavam todas com "await"
+            // uma atrás da outra — ou seja, a página só terminava de
+            // carregar depois da SOMA do tempo das 8. Com Promise.all
+            // elas saem todas ao mesmo tempo e a página espera só a
+            // mais lenta das 8, não a soma.
+            const [
+                totalPosts,
+                totalUsuarios,
+                totalPacotes,
+                totalCategorias,
+                totalPagamentos,
+                ultimosPosts,
+                ultimosUsuarios,
+                ultimosPagamentos
+            ] = await Promise.all([
 
-            const totalUsuarios = await Usuario.countDocuments();
+                Post.countDocuments(),
 
-            const totalPacotes = await Pacote.countDocuments();
+                Usuario.countDocuments(),
 
-            const totalCategorias = await Categoria.countDocuments();
+                Pacote.countDocuments(),
 
-            const totalPagamentos = await Pagamento.countDocuments();
+                Categoria.countDocuments(),
 
-            const ultimosPosts = await Post.find()
-                .sort({createdAt:-1})
-                .limit(5)
-                .populate("categoria")
-                .populate("autor");
+                Pagamento.countDocuments(),
 
-            const ultimosUsuarios = await Usuario.find()
-                .sort({createdAt:-1})
-                .limit(5);
+                Post.find()
+                    .sort({createdAt:-1})
+                    .limit(5)
+                    .populate("categoria")
+                    .populate("autor"),
 
-            const ultimosPagamentos = await Pagamento.find()
-                .sort({createdAt:-1})
-                .limit(5)
-                .populate("usuario")
-                .populate("pacote");
+                Usuario.find()
+                    .sort({createdAt:-1})
+                    .limit(5),
+
+                Pagamento.find()
+                    .sort({createdAt:-1})
+                    .limit(5)
+                    .populate("usuario")
+                    .populate("pacote")
+
+            ]);
 
             res.render("dashboard/index",{
 

@@ -13,8 +13,14 @@
 
             <div>
                 <h1><%= modo === "novo" ? "Nova empresa avaliada" : "Editar empresa avaliada" %></h1>
-                <p>Preencha os dados gerais e as notas de 1 a 10 por critério.</p>
+                <p>Preencha os dados gerais e as notas de 1 a 4 por critério — cada nota exige evidência documentada.</p>
             </div>
+
+            <% if(modo === "editar"){ %>
+                <a href="/dashboard/console/avaliacoes/<%= dados._id %>/evidencias" class="btn-secundario-dash">
+                    <i class="ri-attachment-2"></i> Gerenciar evidências
+                </a>
+            <% } %>
 
         </header>
 
@@ -73,11 +79,72 @@
                     </div>
 
                     <div class="campo">
+                        <label for="ordem">Ordem de exibição no console</label>
+                        <input type="number" id="ordem" name="ordem" step="1" value="<%= dados.ordem !== undefined ? dados.ordem : 999 %>">
+                    </div>
+
+                </div>
+
+                <div class="campo-linha">
+
+                    <div class="campo campo-checkbox">
                         <label style="display:flex;align-items:center;gap:8px;">
                             <input type="checkbox" name="ativo" <%= (dados.ativo === undefined || dados.ativo) ? "checked" : "" %>>
                             Visível na área pública
                         </label>
                     </div>
+
+                    <div class="campo campo-checkbox">
+                        <label style="display:flex;align-items:center;gap:8px;">
+                            <input type="checkbox" name="seloManual" <%= dados.seloManual ? "checked" : "" %>>
+                            Selo de qualidade Lyxus (manual)
+                        </label>
+                    </div>
+
+                    <div class="campo campo-checkbox">
+                        <label style="display:flex;align-items:center;gap:8px;">
+                            <input type="checkbox" name="emAlta" <%= dados.emAlta ? "checked" : "" %>>
+                            Em alta
+                        </label>
+                    </div>
+
+                    <div class="campo campo-checkbox">
+                        <label style="display:flex;align-items:center;gap:8px;">
+                            <input type="checkbox" name="destaqueManual" <%= dados.destaqueManual ? "checked" : "" %>>
+                            Destaque do mês
+                        </label>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="painel">
+
+                <div class="painel-titulo"><h2>Badges desta empresa</h2></div>
+
+                <p style="margin:-6px 0 14px;color:var(--texto-claro);font-size:.9rem;">
+                    Atribuição manual — cadastre badges novas em
+                    <a href="/dashboard/console/avaliacoes/badges">Badges Lyxus</a>.
+                </p>
+
+                <div class="avaliacao-badges-selecao">
+
+                    <% (badgesDisponiveis || []).forEach(function(b){ %>
+
+                        <% const marcada = (dados.badges || []).some(id => String(id) === String(b._id)); %>
+
+                        <label class="avaliacao-badge-opcao <%= b.tipo %> <%= marcada ? 'marcada' : '' %>" title="<%= b.descricao %>">
+                            <input type="checkbox" name="badges" value="<%= b._id %>" <%= marcada ? "checked" : "" %>>
+                            <i class="<%= b.tipo === 'alerta' ? 'ri-alert-line' : 'ri-shield-check-line' %>"></i>
+                            <%= b.rotulo %>
+                        </label>
+
+                    <% }) %>
+
+                    <% if(!(badgesDisponiveis || []).length){ %>
+                        <p style="color:var(--texto-claro);font-size:.9rem;">Nenhuma badge cadastrada ainda.</p>
+                    <% } %>
 
                 </div>
 
@@ -98,9 +165,9 @@
                                 <input
                                     type="number"
                                     name="notas[<%= criterio %>]"
-                                    min="1" max="10" step="1"
+                                    min="1" max="4" step="1"
                                     value="<%= (dados.notas && dados.notas[criterio]) || '' %>"
-                                    placeholder="1 a 10">
+                                    placeholder="1 a 4">
                             </div>
 
                         <% }) %>

@@ -17,6 +17,9 @@
             </div>
 
             <div class="dash-header-acoes">
+                <a href="/dashboard/console/avaliacoes/badges" class="btn-secundario-dash">
+                    <i class="ri-shield-star-line"></i> Badges Lyxus
+                </a>
                 <a href="/dashboard/console/avaliacoes/novo" class="btn">
                     <i class="ri-add-line"></i> Nova empresa
                 </a>
@@ -39,6 +42,7 @@
                             <th>Empresa</th>
                             <th>Categoria</th>
                             <th>Nota geral</th>
+                            <th>Sinais</th>
                             <th>Status</th>
                             <th></th>
                         </tr>
@@ -55,6 +59,12 @@
                                     <td><%= item.empresa.categoria %></td>
                                     <td><%= item.nota %>/10</td>
                                     <td>
+                                        <% if(item.empresa.seloManual){ %><span title="Selo manual"><i class="ri-award-fill"></i></span><% } %>
+                                        <% if(item.empresa.emAlta){ %><span title="Em alta"><i class="ri-sparkling-2-fill"></i></span><% } %>
+                                        <% if(item.empresa.destaqueManual){ %><span title="Destaque do mês"><i class="ri-trophy-fill"></i></span><% } %>
+                                        <% if((item.empresa.badges||[]).length){ %><span title="<%= item.empresa.badges.length %> badge(s)"><i class="ri-shield-check-line"></i> <%= item.empresa.badges.length %></span><% } %>
+                                    </td>
+                                    <td>
                                         <span class="status <%= item.empresa.ativo ? 'status-ativo' : 'status-inativo' %>">
                                             <%= item.empresa.ativo ? "visível" : "oculta" %>
                                         </span>
@@ -64,6 +74,10 @@
 
                                             <a href="/avaliacao/<%= item.empresa._id %>" target="_blank" title="Ver na área pública">
                                                 <i class="ri-external-link-line"></i>
+                                            </a>
+
+                                            <a href="/dashboard/console/avaliacoes/<%= item.empresa._id %>/evidencias" title="Evidências">
+                                                <i class="ri-attachment-2"></i>
                                             </a>
 
                                             <a href="/dashboard/console/avaliacoes/<%= item.empresa._id %>/editar" title="Editar">
@@ -84,7 +98,7 @@
 
                         <% } else { %>
 
-                            <tr><td colspan="5" class="vazio">Nenhuma empresa cadastrada ainda.</td></tr>
+                            <tr><td colspan="6" class="vazio">Nenhuma empresa cadastrada ainda.</td></tr>
 
                         <% } %>
 

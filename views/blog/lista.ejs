@@ -53,6 +53,7 @@
                                 <% if(post.categoria){ %>
 
                                     <span class="post-card-categoria" style="background:<%= post.categoria.cor %>">
+                                        <%- include("../partials/categoriaVisual", { categoria: post.categoria, tamanho: 14 }) %>
                                         <%= post.categoria.nome %>
                                     </span>
 
@@ -102,6 +103,7 @@
 
                                 <li>
                                     <a href="/blog/categoria/<%= cat.slug %>">
+                                        <%- include("../partials/categoriaVisual", { categoria: cat, tamanho: 14 }) %>
                                         <%= cat.nome %>
                                     </a>
                                 </li>

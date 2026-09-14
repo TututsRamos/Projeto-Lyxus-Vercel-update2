@@ -6,6 +6,24 @@
 
 }
 
+/* Link "Como Trabalhamos" dentro do texto de apoio do FAQ — leva de
+   volta pra seção "Nossas Áreas de Atuação" (#servicos), onde dá pra
+   trocar a área selecionada. */
+
+.faq-link-processo{
+
+    color:var(--acento);
+
+    font-weight:600;
+
+}
+
+.faq-link-processo:hover{
+
+    text-decoration:underline;
+
+}
+
 /* ===== Layout: balões à esquerda, painel visual à direita ===== */
 
 .faq-layout{

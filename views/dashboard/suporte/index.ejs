@@ -13,16 +13,37 @@
 
             <div>
                 <h1>Suporte</h1>
-                <p>Responda as conversas do chat por aqui.</p>
+                <p>Responda as conversas do chat do tawk.to.</p>
             </div>
-
-            <a href="<%= tawkDashboardUrl %>" target="_blank" rel="noopener" class="btn">
-                Abrir em nova aba
-            </a>
 
         </header>
 
-        <div class="painel" style="padding:0;overflow:hidden;">
+        <!-- O tawk.to normalmente bloqueia seu próprio painel de ser
+             embutido em iframe de outro site (proteção padrão contra
+             clickjacking). Por isso o acesso principal é esse botão,
+             que sempre funciona — o iframe abaixo é só uma tentativa
+             extra, que pode aparecer em branco dependendo do navegador. -->
+        <div class="painel" style="text-align:center;padding:40px 20px;margin-bottom:20px;">
+
+            <i class="ri-customer-service-2-line" style="font-size:2.2rem;color:var(--primaria);"></i>
+
+            <h2 style="margin:14px 0 6px;">Painel de atendimento</h2>
+
+            <p style="color:#7A7396;margin-bottom:20px;">
+                Abra o painel oficial do tawk.to em uma nova aba pra ver e responder as conversas.
+            </p>
+
+            <a href="<%= tawkDashboardUrl %>" target="_blank" rel="noopener" class="btn">
+                Abrir painel de atendimento
+            </a>
+
+        </div>
+
+        <details class="painel" style="padding:0;overflow:hidden;">
+
+            <summary style="cursor:pointer;padding:14px 16px;font-weight:600;">
+                Tentar exibir o painel aqui dentro (opcional)
+            </summary>
 
             <iframe
                 src="<%= tawkDashboardUrl %>"
@@ -31,12 +52,12 @@
             </iframe>
 
             <p style="padding:12px 16px;color:#7A7396;font-size:.8rem;">
-                Se a tela acima aparecer em branco, o tawk.to pode estar bloqueando a exibição
-                dentro do site — use o botão "Abrir em nova aba" acima para responder o chat
-                normalmente.
+                Se a tela acima aparecer em branco, é o tawk.to bloqueando a exibição dentro
+                do site — isso é esperado em vários navegadores. Use o botão "Abrir painel de
+                atendimento" acima pra responder normalmente.
             </p>
 
-        </div>
+        </details>
 
     </main>
 

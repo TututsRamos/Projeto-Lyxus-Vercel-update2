@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 import path from "path";
 import { fileURLToPath } from "url";
 import dns from "dns";
+import fs from "fs";
 
 import { conectarBanco } from "./config/bd.js";
 import { criarUsuarioMestre } from "./utils/seedMestre.js";
@@ -76,6 +77,37 @@ const __dirname = path.dirname(__filename);
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+
+// ======================================
+// BUNDLE DE CSS/JS (scripts/buildAssets.js)
+// ======================================
+//
+// Em produção (depois do "vercel-build" rodar — ver package.json)
+// existe public/dist/manifest.json apontando pro CSS e JS já
+// juntados num arquivo só (em vez de 19 arquivos CSS e 5 JS
+// separados). app.locals fica disponível em toda view automaticamente,
+// então head.ejs e scripts.ejs usam isso pra decidir o que carregar.
+//
+// Se o manifest não existir (ambiente local sem rodar "npm run
+// build" ainda), o site continua funcionando normalmente: head.ejs
+// e scripts.ejs caem de volta pros arquivos individuais, do jeito
+// que já funcionava antes — nada quebra pra quem só quer rodar o
+// projeto local sem esse passo extra.
+try{
+
+    const manifesto = JSON.parse(
+        fs.readFileSync(path.join(__dirname, "public", "dist", "manifest.json"), "utf8")
+    );
+
+    app.locals.assetsBundled = true;
+    app.locals.cssBundle = manifesto.css;
+    app.locals.jsBundle = manifesto.js;
+
+}catch{
+
+    app.locals.assetsBundled = false;
+
+}
 
 // Comprime (gzip/brotli) o HTML, CSS, JS e JSON de resposta antes de
 // enviar pro navegador. É a forma correta de "zipar" o conteúdo do
