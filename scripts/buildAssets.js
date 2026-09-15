@@ -24,7 +24,7 @@
 // bundle.
 // ==========================================================
 
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, unlinkSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, unlinkSync, existsSync, renameSync } from "fs";
 import { createHash } from "crypto";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -88,11 +88,15 @@ function juntarArquivos(lista){
 
 }
 
-function limparPastaAntiga(pasta){
+function limparPastaAntiga(pasta, manter){
 
     if(!existsSync(pasta)) return;
 
     for(const arquivo of readdirSync(pasta)){
+
+        // Nunca apaga o arquivo que acabamos de colocar no lugar —
+        // só o que sobrou de builds anteriores.
+        if(arquivo === manter) continue;
 
         unlinkSync(path.join(pasta, arquivo));
 
@@ -113,11 +117,24 @@ function gerarBundle(nome, lista, pastaDestino, extensao){
 
     mkdirSync(pastaDestino, { recursive:true });
 
-    limparPastaAntiga(pastaDestino);
-
     const nomeArquivo = `${nome}.${hash}.${extensao}`;
+    const destinoFinal = path.join(pastaDestino, nomeArquivo);
+    const destinoTemp = `${destinoFinal}.tmp`;
 
-    writeFileSync(path.join(pastaDestino, nomeArquivo), conteudo, "utf8");
+    // Escreve num arquivo temporário e só troca de nome (rename) no
+    // final. rename é atômico no mesmo filesystem: não existe
+    // instante em que o arquivo final foi apagado mas ainda não
+    // recriado — ou ele é o antigo, ou já é o novo, nunca "nenhum
+    // dos dois". Antes, a pasta era esvaziada e SÓ DEPOIS o arquivo
+    // novo era escrito, o que deixava uma janela em que o arquivo
+    // referenciado pelo manifest.json não existia no disco — e foi
+    // exatamente isso que bateu no ENOENT durante o build da Vercel.
+    writeFileSync(destinoTemp, conteudo, "utf8");
+    renameSync(destinoTemp, destinoFinal);
+
+    // Só agora, com o arquivo novo já garantido no lugar, limpa os
+    // arquivos de builds anteriores.
+    limparPastaAntiga(pastaDestino, nomeArquivo);
 
     return nomeArquivo;
 
