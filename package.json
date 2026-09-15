@@ -2,7 +2,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/buildAssets.js",
-    "vercel-build": "node scripts/buildAssets.js"
+    "vercel-build": "echo 'Bundle de assets nao roda no build da Vercel (ver scripts/buildAssets.js) — rode npm run build local e comite public/dist antes do deploy.'"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
